@@ -1,0 +1,7 @@
+include(CMakeFindDependencyMacro)
+find_dependency(HyphaUtils)
+find_dependency(PocoData)
+find_dependency(PocoDataMySQL)
+find_dependency(PocoFoundation)
+find_dependency(PocoMySQL)
+include("${CMAKE_CURRENT_LIST_DIR}/HyphaCoreTargets.cmake")

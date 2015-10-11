@@ -1,0 +1,29 @@
+set(LIBNAME "Handler")
+set(HYPHA_LIBNAME "Hypha${LIBNAME}")
+
+ADD_DEFINITIONS(-std=c++11)
+# Sources
+file(GLOB SRCS_G "src/*.cpp")
+HYPHA_SOURCES_AUTO( SRCS ${SRCS_G})
+# Headers
+file(GLOB_RECURSE HDRS_G "include/*.h" )
+HYPHA_HEADERS_AUTO( SRCS ${HDRS_G})
+HYPHA_SOURCES_AUTO_PLAT( SRCS WIN32 "")
+add_library( "${LIBNAME}" ${LIB_MODE} ${SRCS} )
+add_library( "${HYPHA_LIBNAME}" ALIAS "${LIBNAME}")
+add_dependencies( "${LIBNAME}" HyphaPlugin HyphaCore HyphaUtils)
+target_link_libraries("${LIBNAME}" HyphaUtils HyphaCore HyphaPlugin )
+set_target_properties( "${LIBNAME}"
+PROPERTIES
+VERSION ${SHARED_LIBRARY_VERSION} SOVERSION ${SHARED_LIBRARY_VERSION}
+OUTPUT_NAME ${HYPHA_LIBNAME}
+DEFINE_SYMBOL Handler_EXPORTS
+)
+target_include_directories( "${LIBNAME}"
+PUBLIC
+$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+$<INSTALL_INTERFACE:include>
+PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+HYPHA_INSTALL("${LIBNAME}")
+HYPHA_GENERATE_PACKAGE("${LIBNAME}")
