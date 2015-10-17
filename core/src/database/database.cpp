@@ -1,4 +1,5 @@
 #include <Poco/Data/MySQL/Connector.h>
+#include <Poco/Data/SQLite/Connector.h>
 #include <mutex>
 #include <hypha/utils/logger.h>
 #include "hypha/database/database.h"
@@ -73,8 +74,9 @@ Database *Database::instance() {
 
 bool Database::connect() {
 
-
     Poco::Data::MySQL::Connector::registerConnector();
+    Poco::Data::SQLite::Connector::registerConnector();
+
     DatabaseSettings *dbs = DatabaseSettings::instance();
     std::string connectStr = "host=" + dbs->getHost() + ";user=" + dbs->getUser() + ";password=" +dbs->getPassword() + ";db=" + dbs->getDatabase() + ";auto-reconnect=true";
     pool = new Poco::Data::SessionPool(dbs->getDriver(), connectStr);
