@@ -47,6 +47,7 @@ if(WIN32)
     find_library(POCO_FOUNDATION PocoFoundation)
     find_library(POCO_DATA PocoData)
     find_library(POCO_MYSQL PocoMySQL)
+    find_library(POCO_SQLITE PocoSQLite)
     find_package(Boost COMPONENTS signals thread system filesystem REQUIRED)
     include_directories( "utils/include" "core/include" "plugin/include" "handler/include" ${Boost_INCLUDE_DIRS} "C:/poco/Net/include" "C:/poco/Foundation/include"
         "C:/poco/Util/include" "C:/poco/Data/include" "C:/poco/Data/MySQL/include")

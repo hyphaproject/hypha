@@ -19,42 +19,38 @@ Database::~Database() {
 }
 
 void Database::createTables() {
-    Poco::Data::Statement statement = getStatement();
+    Poco::Data::Session session = getSession();
 
-    statement << "CREATE TABLE IF NOT EXISTS `deviceonline` ("
+    session << "CREATE TABLE IF NOT EXISTS `deviceonline` ("
               "`id` int(11) NOT NULL AUTO_INCREMENT, "
               "`deviceid` varchar(45) DEFAULT NULL, "
               "`type` ENUM('rfid', 'fingerprint', 'wifi', 'other') DEFAULT 'other', "
               "`time` datetime NOT NULL, "
               "PRIMARY KEY (`id`) "
-              ") DEFAULT CHARSET=utf8;";
-    statement.execute();
+              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 
-    statement << "CREATE TABLE IF NOT EXISTS handler ("
-              "id varchar(32) NOT NULL,"
-              "host varchar(128) NOT NULL DEFAULT 'localhost',"
-              "type varchar(32) NOT NULL,"
-              "config varchar(1024) NOT NULL,"
-              "PRIMARY KEY (id)"
-              ") DEFAULT CHARSET=utf8;";
-    statement.execute();
-
-    statement << "CREATE TABLE IF NOT EXISTS `plugins` ("
+    session << "CREATE TABLE IF NOT EXISTS `handler` ("
               "`id` varchar(32) NOT NULL,"
               "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
-              "type varchar(32) NOT NULL,"
+              "`type` varchar(32) NOT NULL,"
               "`config` varchar(1024) NOT NULL,"
               "PRIMARY KEY (`id`)"
-              ") DEFAULT CHARSET=utf8;";
-    statement.execute();
+              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 
-    statement << "CREATE TABLE IF NOT EXISTS connection ("
+    session << "CREATE TABLE IF NOT EXISTS `plugins` ("
+              "`id` varchar(32) NOT NULL,"
+              "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
+              "`type` varchar(32) NOT NULL,"
+              "`config` varchar(1024) NOT NULL,"
+              "PRIMARY KEY (`id`)"
+              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
+
+    session << "CREATE TABLE IF NOT EXISTS `connection` ("
               "`id` int(11) NOT NULL AUTO_INCREMENT,"
-              "handler_id varchar(32) NOT NULL,"
-              "plugin_id varchar(32) NOT NULL,"
-              "PRIMARY KEY (id)"
-              ") DEFAULT CHARSET=utf8;";
-    statement.execute();
+              "`handler_id` varchar(32) NOT NULL,"
+              "`plugin_id` varchar(32) NOT NULL,"
+              "PRIMARY KEY (`id`)"
+              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 }
 
 Database *Database::instance() {
@@ -88,6 +84,15 @@ bool Database::connect() {
 
 bool Database::reconnect() {
     return true;
+}
+
+Poco::Data::Session Database::getSession()
+{
+    try {
+        return Poco::Data::Session(pool->get());
+    } catch(Poco::Exception e) {
+        Logger::fatal(e.message());
+    }
 }
 
 Poco::Data::Statement Database::getStatement() {

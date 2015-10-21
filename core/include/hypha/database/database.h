@@ -2,6 +2,7 @@
 #define DATABASE_H
 
 #include "../core.h"
+#include <Poco/Data/Session.h>
 #include <Poco/Data/SessionPool.h>
 #include <Poco/Data/Statement.h>
 namespace hypha {
@@ -11,6 +12,7 @@ class Core_API Database {
     static Database * instance();
     bool connect();
     bool reconnect();
+    Poco::Data::Session getSession();
     Poco::Data::Statement getStatement();
 
   private:

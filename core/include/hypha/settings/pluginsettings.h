@@ -4,12 +4,17 @@
 #include "../core.h"
 #include <list>
 #include <string>
+#include "hypha/database/database.h"
 
 namespace hypha {
 namespace settings {
 class Core_API PluginSettings {
   public:
     static PluginSettings * instance();
+
+    explicit PluginSettings(hypha::database::Database *database);
+    ~PluginSettings();
+
     std::list<std::string> getAllPluginIds();
     std::list<std::string> getLocalPluginIds();
     std::string getName(std::string id);
@@ -18,10 +23,12 @@ class Core_API PluginSettings {
     bool exists(std::string id);
 
   private:
-    explicit PluginSettings();
-    ~PluginSettings();
+    PluginSettings();
+
 
     static PluginSettings *singleton;
+
+    hypha::database::Database *database;
 
 };
 }

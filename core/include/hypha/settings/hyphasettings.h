@@ -14,6 +14,9 @@ class Core_API HyphaSettings {
   public:
     static HyphaSettings * instance();
     static HyphaSettings *loadInstance(std::string configFile);
+
+    HyphaSettings(std::string configfile);
+
     void createNewFile();
     void load();
     void save();
@@ -25,7 +28,6 @@ class Core_API HyphaSettings {
     void setInt(const std::string &key, std::string &value);
 
   private:
-    HyphaSettings(std::string configfile);
     ~HyphaSettings();
 
     Poco::AutoPtr<Poco::Util::IniFileConfiguration> settings;
