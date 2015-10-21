@@ -1,11 +1,10 @@
 #ifndef HYPHASETTINGS_H
 #define HYPHASETTINGS_H
 
-#include "../core.h"
-
 #include <string>
 #include <Poco/AutoPtr.h>
 #include <Poco/Util/IniFileConfiguration.h>
+#include "../core.h"
 
 namespace hypha {
 namespace settings {
@@ -15,7 +14,8 @@ class Core_API HyphaSettings {
     static HyphaSettings * instance();
     static HyphaSettings *loadInstance(std::string configFile);
 
-    HyphaSettings(std::string configfile);
+    explicit HyphaSettings(std::string configfile);
+    ~HyphaSettings();
 
     void createNewFile();
     void load();
@@ -28,8 +28,6 @@ class Core_API HyphaSettings {
     void setInt(const std::string &key, std::string &value);
 
   private:
-    ~HyphaSettings();
-
     Poco::AutoPtr<Poco::Util::IniFileConfiguration> settings;
 
     std::string configfile;

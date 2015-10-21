@@ -1,16 +1,15 @@
 #include <mutex>
 #include "hypha/settings/hyphasettings.h"
-#include "hypha/settings/databasesettings.h"
 
 using namespace hypha::settings;
 
 DatabaseSettings *DatabaseSettings::singleton = 0;
 
-DatabaseSettings::DatabaseSettings() {
+DatabaseSettings::DatabaseSettings(hypha::settings::HyphaSettings *hyphaSettings) {
+    this->hyphaSettings = hyphaSettings;
 }
 
 DatabaseSettings::~DatabaseSettings() {
-
 }
 
 DatabaseSettings *DatabaseSettings::instance() {
@@ -18,7 +17,7 @@ DatabaseSettings *DatabaseSettings::instance() {
     if (!singleton) {
         mutex.lock();
         if (!singleton)
-            singleton = new DatabaseSettings();
+            singleton = new DatabaseSettings(HyphaSettings::instance());
         mutex.unlock();
     }
 
@@ -26,19 +25,19 @@ DatabaseSettings *DatabaseSettings::instance() {
 }
 
 void DatabaseSettings::save() {
-    HyphaSettings::instance()->save();
+    hyphaSettings->save();
 }
 
 std::string DatabaseSettings::getString(const std::string &key, const std::string &defaultValue) {
-    return HyphaSettings::instance()->getString("database." + key, defaultValue);
+    return hyphaSettings->getString("database." + key, defaultValue);
 }
 
 int DatabaseSettings::getInt(const std::string &key, const int &defaultValue) {
-    return HyphaSettings::instance()->getInt("database." + key, defaultValue);
+    return hyphaSettings->getInt("database." + key, defaultValue);
 }
 
 std::string DatabaseSettings::getDriver() {
-    return getString("driver", "QSQLITE");
+    return getString("driver", "SQLite");
 }
 
 std::string DatabaseSettings::getHost() {

@@ -90,7 +90,7 @@ Poco::Data::Session Database::getSession()
 {
     try {
         return Poco::Data::Session(pool->get());
-    } catch(Poco::Exception e) {
+    } catch(Poco::Exception &e) {
         Logger::fatal(e.message());
     }
 }
@@ -99,7 +99,7 @@ Poco::Data::Statement Database::getStatement() {
     try {
         Poco::Data::Session sess(pool->get());
         return Poco::Data::Statement(sess);
-    } catch(Poco::Exception e) {
+    } catch(Poco::Exception &e) {
         Logger::fatal(e.message());
     }
 }

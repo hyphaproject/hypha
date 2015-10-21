@@ -34,30 +34,6 @@ HyphaSettings *HyphaSettings::loadInstance(std::string configFile) {
 }
 
 void HyphaSettings::createNewFile() {
-    /*
-    settings = new QSettings(QString::fromStdString(configfile), QSettings::IniFormat );
-    settings->beginGroup("database");
-    settings->setValue("driver", "QSQLITE");
-    settings->setValue("host", "localhost");
-    settings->setValue("database", ":memory:");
-    settings->setValue("username", "user");
-    settings->setValue("password", "password");
-    settings->endGroup();
-    settings->beginGroup("userdatabase");
-    settings->setValue("driver", "LDAP");
-    settings->setValue("host", "localhost");
-    settings->setValue("database", "dc=blechuhr");
-    settings->setValue("username", "cn=admin");
-    settings->setValue("password", "password");
-    settings->setValue("table", "ou=people");
-    settings->setValue("attrUsername", "cn");
-    settings->setValue("attrFirstname", "givenname");
-    settings->setValue("attrLastname", "sn");
-    settings->setValue("attrMail", "mail");
-    settings->setValue("attrDevices", "registeredaddress");
-    settings->endGroup();
-    save();
-    */
 }
 
 void HyphaSettings::load() {
@@ -70,7 +46,6 @@ void HyphaSettings::load() {
 }
 
 void HyphaSettings::save() {
-    //settings->sync();
 }
 
 std::string HyphaSettings::getString(const std::string &key, const std::string &defaultValue) {

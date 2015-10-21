@@ -1,10 +1,11 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "../core.h"
 #include <Poco/Data/Session.h>
 #include <Poco/Data/SessionPool.h>
 #include <Poco/Data/Statement.h>
+#include "../core.h"
+
 namespace hypha {
 namespace database {
 class Core_API Database {
