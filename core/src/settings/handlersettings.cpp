@@ -16,7 +16,8 @@ using namespace Poco::Data;
 
 HandlerSettings *HandlerSettings::singleton = 0;
 
-HandlerSettings::HandlerSettings() {
+HandlerSettings::HandlerSettings(hypha::database::Database *database) {
+    this->database = database;
 }
 
 HandlerSettings::~HandlerSettings() {
@@ -28,7 +29,7 @@ HandlerSettings *HandlerSettings::instance() {
         mutex.lock();
 
         if (!singleton)
-            singleton = new HandlerSettings();
+            singleton = new HandlerSettings(Database::instance());
         mutex.unlock();
     }
     return singleton;
@@ -36,7 +37,7 @@ HandlerSettings *HandlerSettings::instance() {
 
 std::list<std::string> HandlerSettings::getAllHandlerIds() {
     std::list<std::string> plugins;
-    Poco::Data::Statement statement = Database::instance()->getStatement();
+    Poco::Data::Statement statement = database->getStatement();
     statement << "SELECT id FROM handler";
     statement.execute();
     Poco::Data::RecordSet rs(statement);
@@ -51,7 +52,7 @@ std::list<std::string> HandlerSettings::getAllHandlerIds() {
 
 std::list<std::string> HandlerSettings::getLocalHandlerIds() {
     std::list<std::string> plugins;
-    Poco::Data::Statement statement = Database::instance()->getStatement();
+    Poco::Data::Statement statement = database->getStatement();
     statement << "SELECT id FROM handler WHERE host='" + Poco::Net::DNS::hostName() + "' OR host='localhost';";
     statement.execute();
     Poco::Data::RecordSet rs(statement);
@@ -66,7 +67,7 @@ std::list<std::string> HandlerSettings::getLocalHandlerIds() {
 
 std::string HandlerSettings::getName(std::string id) {
     std::string retValue ="";
-    Poco::Data::Statement statement = Database::instance()->getStatement();
+    Poco::Data::Statement statement = database->getStatement();
     statement << "SELECT type FROM handler WHERE id='" + id + "'", into(retValue);
     statement.execute();
     return retValue;
@@ -74,7 +75,7 @@ std::string HandlerSettings::getName(std::string id) {
 
 std::string HandlerSettings::getHost(std::string id) {
     std::string retValue ="";
-    Poco::Data::Statement statement = Database::instance()->getStatement();
+    Poco::Data::Statement statement = database->getStatement();
     statement << "SELECT host FROM handler WHERE id='" + id + "'", into(retValue);
     statement.execute();
     return retValue;
@@ -82,7 +83,7 @@ std::string HandlerSettings::getHost(std::string id) {
 
 std::string HandlerSettings::getConfig(std::string id) {
     std::string retValue ="";
-    Poco::Data::Statement statement = Database::instance()->getStatement();
+    Poco::Data::Statement statement = database->getStatement();
     statement << "SELECT config FROM handler WHERE id='" + id + "'", into(retValue);
     statement.execute();
     return retValue;
@@ -90,7 +91,7 @@ std::string HandlerSettings::getConfig(std::string id) {
 
 std::list<std::string> HandlerSettings::getConnectedPlugins(std::string handlerId) {
     std::list<std::string> plugins;
-    Poco::Data::Statement statement = Database::instance()->getStatement();
+    Poco::Data::Statement statement = database->getStatement();
     statement << "SELECT id,handler_id,plugin_id  FROM connection WHERE handler_id = '" + handlerId + "';";
     statement.execute();
     Poco::Data::RecordSet rs(statement);

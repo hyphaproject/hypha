@@ -4,12 +4,17 @@
 #include "../core.h"
 #include <string>
 #include <list>
+#include <hypha/database/database.h>
 
 namespace hypha {
 namespace settings {
 class Core_API HandlerSettings {
   public:
     static HandlerSettings * instance();
+
+    explicit HandlerSettings(hypha::database::Database *database);
+    ~HandlerSettings();
+
     std::list<std::string> getAllHandlerIds();
     std::list<std::string> getLocalHandlerIds();
     std::string getName(std::string id);
@@ -19,10 +24,9 @@ class Core_API HandlerSettings {
     bool exists(std::string id);
 
   private:
-    explicit HandlerSettings();
-    ~HandlerSettings();
-
     static HandlerSettings *singleton;
+
+    hypha::database::Database *database;
 };
 }
 }

@@ -4,7 +4,7 @@
 #include "../core.h"
 #include <list>
 #include <string>
-#include "hypha/database/database.h"
+#include <hypha/database/database.h>
 
 namespace hypha {
 namespace settings {
@@ -23,9 +23,6 @@ class Core_API PluginSettings {
     bool exists(std::string id);
 
   private:
-    PluginSettings();
-
-
     static PluginSettings *singleton;
 
     hypha::database::Database *database;
