@@ -1,4 +1,5 @@
 #include <mutex>
+#include "hypha/settings/databasesettings.h"
 #include "hypha/settings/hyphasettings.h"
 
 using namespace hypha::settings;
