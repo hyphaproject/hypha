@@ -11,6 +11,7 @@ class Core_API UserDatabase {
   public:
     explicit UserDatabase(hypha::settings::UserDatabaseSettings *settings);
     ~UserDatabase();
+    static UserDatabase * factoreInstance(hypha::settings::UserDatabaseSettings *settings);
     static UserDatabase * instance();
     virtual bool connect() = 0;
     virtual std::list<std::string> getUsers() = 0;

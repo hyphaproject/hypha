@@ -8,8 +8,9 @@ using namespace hypha::settings;
 
 HandlerFactory *HandlerFactory::singleton = 0;
 
-HandlerFactory::HandlerFactory() {
-
+HandlerFactory::HandlerFactory(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerLoader *loader) {
+    this->settings = settings;
+    this->loader = loader;
 }
 
 HandlerFactory::~HandlerFactory() {
@@ -17,12 +18,11 @@ HandlerFactory::~HandlerFactory() {
 }
 
 HyphaHandler *HandlerFactory::create() {
-    HandlerSettings * handlerSettings = HandlerSettings::instance();
-    HyphaHandler * handler = HandlerLoader::instance()->getHandler(handlerSettings->getName(id));
+    HyphaHandler * handler = loader->getHandler(settings->getName(id));
     if(handler) {
         HyphaHandler *plugin = handler->getInstance(id);
-        plugin->setHost(HandlerSettings::instance()->getHost(id));
-        plugin->loadConfig(handlerSettings->getConfig(id));
+        plugin->setHost(settings->getHost(id));
+        plugin->loadConfig(settings->getConfig(id));
         return plugin;
     } else {
         return 0;
@@ -35,7 +35,7 @@ HandlerFactory *HandlerFactory::instance() {
         mutex.lock();
 
         if (!singleton)
-            singleton = new HandlerFactory();
+            singleton = new HandlerFactory(hypha::settings::HandlerSettings::instance(), hypha::handler::HandlerLoader::instance());
         mutex.unlock();
     }
 
@@ -43,14 +43,13 @@ HandlerFactory *HandlerFactory::instance() {
 }
 
 HyphaHandler *HandlerFactory::loadHandler(std::string id) {
-    HandlerSettings * handlerSettings = HandlerSettings::instance();
-    if(!handlerSettings->exists(id))
+    if(!settings->exists(id))
         return 0;
-    HandlerFactory factory;
-    factory.setId(id);
-    factory.setHost(handlerSettings->getHost(id));
-    factory.setConfig(handlerSettings->getConfig(id));
-    return factory.create();
+
+    setId(id);
+    setHost(settings->getHost(id));
+    setConfig(settings->getConfig(id));
+    return create();
 }
 
 void HandlerFactory::setId(std::string id) {

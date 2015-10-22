@@ -17,23 +17,29 @@ UserDatabase::UserDatabase(UserDatabaseSettings *settings) {
 UserDatabase::~UserDatabase() {
 }
 
+UserDatabase *UserDatabase::factoreInstance(UserDatabaseSettings *settings)
+{
+    UserDatabase *database = nullptr;
+    if(settings->getDriver() == "LDAP") {
+//#ifdef WITH_LDAP
+//                database = new UserDBLDAP(settings);
+//#else
+        throw "LDAP not supported";
+//#endif
+    } else {
+        database = new UserDBSql(settings);
+    }
+    database->connect();
+    return database;
+}
+
 UserDatabase *UserDatabase::instance() {
     static std::mutex mutex;
     if (!singleton) {
         mutex.lock();
 
         if (!singleton) {
-            if(UserDatabaseSettings::instance()->getDriver() == "LDAP") {
-//#ifdef WITH_LDAP
-//                singleton = new UserDBLDAP(UserDatabaseSettings::instance());
-//                singleton->connect();
-//#else
-                throw "LDAP not supported";
-//#endif
-            } else {
-                singleton = new UserDBSql(UserDatabaseSettings::instance());
-                singleton->connect();
-            }
+            singleton = factoreInstance(hypha::settings::UserDatabaseSettings::instance());
         }
 
         mutex.unlock();

@@ -5,14 +5,20 @@
 #include <list>
 #include <map>
 #include <string>
+#include <hypha/settings/handlersettings.h>
 #include "hypha/handler/hyphahandler.h"
+
 
 namespace hypha {
 namespace handler {
 
+class HandlerFactory;
+
 class Handler_API HandlerLoader {
   public:
     static HandlerLoader * instance();
+    explicit HandlerLoader(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerFactory *factory);
+    ~HandlerLoader();
 
     void loadLocalInstances();
 
@@ -25,14 +31,15 @@ class Handler_API HandlerLoader {
     std::list<std::string> getConnectedPlugins(std::string handlerId);
 
   private:
-    explicit HandlerLoader();
-    ~HandlerLoader();
+
 
     static HandlerLoader *singleton;
 
     std::list<HyphaHandler *> handlers;
     std::map<std::string, HyphaHandler *> handlerInstances;
     void loadHandlers(std::string dir);
+    hypha::settings::HandlerSettings *settings;
+    hypha::handler::HandlerFactory *factory;
 
 };
 }

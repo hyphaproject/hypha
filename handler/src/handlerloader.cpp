@@ -17,7 +17,9 @@ typedef Poco::Manifest<HyphaHandler> PManifest;
 
 HandlerLoader *HandlerLoader::singleton = 0;
 
-HandlerLoader::HandlerLoader() {
+HandlerLoader::HandlerLoader(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerFactory *factory) {
+    this->settings = settings;
+    this->factory = factory;
     loadHandlers(boost::filesystem::path( boost::filesystem::current_path()).generic_string());
 }
 
@@ -30,7 +32,7 @@ HandlerLoader *HandlerLoader::instance() {
     if (!singleton) {
         mutex.lock();
         if (!singleton)
-            singleton = new HandlerLoader();
+            singleton = new HandlerLoader(hypha::settings::HandlerSettings::instance(), hypha::handler::HandlerFactory::instance());
         mutex.unlock();
     }
 
@@ -38,9 +40,9 @@ HandlerLoader *HandlerLoader::instance() {
 }
 
 void HandlerLoader::loadLocalInstances() {
-    for(std::string id: HandlerSettings::instance()->getLocalHandlerIds()) {
+    for(std::string id: settings->getLocalHandlerIds()) {
         if(getHandlerInstance(id) == 0) {
-            HyphaHandler * handler = HandlerFactory::instance()->loadHandler(id);
+            HyphaHandler * handler = factory->loadHandler(id);
             if(handler)
                 handlerInstances[id] = handler;
         }
@@ -73,7 +75,7 @@ HyphaHandler *HandlerLoader::getHandlerInstance(std::string id) {
 }
 
 std::list<std::string> HandlerLoader::getConnectedPlugins(std::string handlerId) {
-    return HandlerSettings::instance()->getConnectedPlugins(handlerId);
+    return settings->getConnectedPlugins(handlerId);
 }
 
 void HandlerLoader::loadHandlers(std::string dir) {

@@ -5,22 +5,27 @@
 #include "hypha/handler/hyphahandler.h"
 
 namespace hypha {
+
+namespace settings {
+class HandlerSettings;
+}
+
 namespace handler {
+class HandlerLoader;
 
 class Handler_API HandlerFactory {
   public:
     static HandlerFactory * instance();
+    HandlerFactory(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerLoader *loader);
+    ~HandlerFactory();
 
-  public:
-    static HyphaHandler *loadHandler(std::string id);
+    HyphaHandler *loadHandler(std::string id);
 
     void setId(std::string id);
     void setHost(std::string host);
     void setConfig(std::string config);
 
   private:
-    HandlerFactory();
-    ~HandlerFactory();
 
     static HandlerFactory *singleton;
 
@@ -28,6 +33,8 @@ class Handler_API HandlerFactory {
     std::string host;
     std::string config;
     HyphaHandler *create();
+    hypha::settings::HandlerSettings *settings;
+    hypha::handler::HandlerLoader *loader;
 
 };
 }
