@@ -3,7 +3,6 @@
 #include <mutex>
 #include <hypha/utils/logger.h>
 #include "hypha/database/database.h"
-#include <hypha/settings/databasesettings.h>
 
 using namespace hypha::utils;
 using namespace hypha::settings;
@@ -11,8 +10,8 @@ using namespace hypha::database;
 
 Database *Database::singleton = 0;
 
-Database::Database() {
-
+Database::Database(hypha::settings::DatabaseSettings * databaseSettings) {
+    this->databaseSettings = databaseSettings;
 }
 
 Database::~Database() {
@@ -59,7 +58,7 @@ Database *Database::instance() {
         mutex.lock();
 
         if (!singleton) {
-            singleton = new Database();
+            singleton = new Database(DatabaseSettings::instance());
             singleton->connect();
         }
 
@@ -73,7 +72,7 @@ bool Database::connect() {
     Poco::Data::MySQL::Connector::registerConnector();
     Poco::Data::SQLite::Connector::registerConnector();
 
-    DatabaseSettings *dbs = DatabaseSettings::instance();
+    DatabaseSettings *dbs = databaseSettings;
     std::string connectStr = "host=" + dbs->getHost() + ";user=" + dbs->getUser() + ";password=" +dbs->getPassword() + ";db=" + dbs->getDatabase() + ";auto-reconnect=true";
     pool = new Poco::Data::SessionPool(dbs->getDriver(), connectStr);
 

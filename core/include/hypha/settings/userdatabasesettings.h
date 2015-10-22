@@ -3,12 +3,15 @@
 
 #include "../core.h"
 #include <string>
+#include "hypha/settings/hyphasettings.h"
 
 namespace hypha {
 namespace settings {
 class Core_API UserDatabaseSettings {
   public:
     static UserDatabaseSettings * instance();
+    UserDatabaseSettings(hypha::settings::HyphaSettings *hyphaSettings);
+    ~UserDatabaseSettings();
     void save();
     std::string getString(const std::string &key, const std::string &defaultValue);
     int getInt(const std::string &key, const int &defaultValue);
@@ -26,9 +29,8 @@ class Core_API UserDatabaseSettings {
     std::string getAttributeDevices();
 
   private:
-    UserDatabaseSettings();
-    ~UserDatabaseSettings();
 
+    hypha::settings::HyphaSettings *hyphaSettings;
     static UserDatabaseSettings *singleton;
 };
 }

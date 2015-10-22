@@ -6,7 +6,8 @@ using namespace hypha::settings;
 
 UserDatabaseSettings *UserDatabaseSettings::singleton = 0;
 
-UserDatabaseSettings::UserDatabaseSettings() {
+UserDatabaseSettings::UserDatabaseSettings(hypha::settings::HyphaSettings *hyphaSettings) {
+    this->hyphaSettings = hyphaSettings;
 }
 
 UserDatabaseSettings::~UserDatabaseSettings() {
@@ -19,7 +20,7 @@ UserDatabaseSettings *UserDatabaseSettings::instance() {
         mutex.lock();
 
         if (!singleton)
-            singleton = new UserDatabaseSettings();
+            singleton = new UserDatabaseSettings(hypha::settings::HyphaSettings::instance());
         mutex.unlock();
     }
 
@@ -27,15 +28,15 @@ UserDatabaseSettings *UserDatabaseSettings::instance() {
 }
 
 void UserDatabaseSettings::save() {
-    HyphaSettings::instance()->save();
+    hyphaSettings->save();
 }
 
 std::string UserDatabaseSettings::getString(const std::string &key, const std::string &defaultValue) {
-    return HyphaSettings::instance()->getString("userdatabase." + key, defaultValue);
+    return hyphaSettings->getString("userdatabase." + key, defaultValue);
 }
 
 int UserDatabaseSettings::getInt(const std::string &key, const int &defaultValue) {
-    return HyphaSettings::instance()->getInt("userdatabase." + key, defaultValue);
+    return hyphaSettings->getInt("userdatabase." + key, defaultValue);
 }
 
 std::string UserDatabaseSettings::getDriver() {
