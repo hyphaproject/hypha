@@ -17,9 +17,9 @@ typedef Poco::Manifest<HyphaHandler> PManifest;
 
 HandlerLoader *HandlerLoader::singleton = 0;
 
-HandlerLoader::HandlerLoader(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerFactory *factory) {
+HandlerLoader::HandlerLoader(hypha::settings::HandlerSettings *settings) {
     this->settings = settings;
-    this->factory = factory;
+    this->factory = new hypha::handler::HandlerFactory(settings, this);
     loadHandlers(boost::filesystem::path( boost::filesystem::current_path()).generic_string());
 }
 
@@ -32,7 +32,7 @@ HandlerLoader *HandlerLoader::instance() {
     if (!singleton) {
         mutex.lock();
         if (!singleton)
-            singleton = new HandlerLoader(hypha::settings::HandlerSettings::instance(), hypha::handler::HandlerFactory::instance());
+            singleton = new HandlerLoader(hypha::settings::HandlerSettings::instance());
         mutex.unlock();
     }
 
@@ -41,6 +41,17 @@ HandlerLoader *HandlerLoader::instance() {
 
 void HandlerLoader::loadLocalInstances() {
     for(std::string id: settings->getLocalHandlerIds()) {
+        if(getHandlerInstance(id) == 0) {
+            HyphaHandler * handler = factory->loadHandler(id);
+            if(handler)
+                handlerInstances[id] = handler;
+        }
+    }
+}
+
+void HandlerLoader::loadAllInstances()
+{
+    for(std::string id: settings->getAllHandlerIds()) {
         if(getHandlerInstance(id) == 0) {
             HyphaHandler * handler = factory->loadHandler(id);
             if(handler)

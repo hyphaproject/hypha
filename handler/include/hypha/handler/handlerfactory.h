@@ -16,7 +16,8 @@ class HandlerLoader;
 class Handler_API HandlerFactory {
   public:
     static HandlerFactory * instance();
-    HandlerFactory(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerLoader *loader);
+    explicit HandlerFactory(hypha::settings::HandlerSettings *settings,
+                            hypha::handler::HandlerLoader *loader);
     ~HandlerFactory();
 
     HyphaHandler *loadHandler(std::string id);

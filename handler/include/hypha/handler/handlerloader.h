@@ -17,10 +17,11 @@ class HandlerFactory;
 class Handler_API HandlerLoader {
   public:
     static HandlerLoader * instance();
-    explicit HandlerLoader(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerFactory *factory);
+    explicit HandlerLoader(hypha::settings::HandlerSettings *settings);
     ~HandlerLoader();
 
     void loadLocalInstances();
+    void loadAllInstances();
 
     HyphaHandler* getHandler(std::string name);
     std::list<HyphaHandler *> getHandlers();
@@ -31,8 +32,6 @@ class Handler_API HandlerLoader {
     std::list<std::string> getConnectedPlugins(std::string handlerId);
 
   private:
-
-
     static HandlerLoader *singleton;
 
     std::list<HyphaHandler *> handlers;

@@ -9,7 +9,10 @@ using namespace hypha::settings;
 
 PluginFactory *PluginFactory::singleton = 0;
 
-PluginFactory::PluginFactory() {
+PluginFactory::PluginFactory(hypha::settings::PluginSettings *settings,
+                             hypha::plugin::PluginLoader *loader) {
+    this->settings = settings;
+    this->loader = loader;
 }
 
 PluginFactory::~PluginFactory() {
@@ -17,11 +20,10 @@ PluginFactory::~PluginFactory() {
 }
 
 HyphaPlugin *PluginFactory::create() {
-    PluginSettings * pluginSettings = PluginSettings::instance();
-    HyphaPlugin *p = PluginLoader::instance()->getPlugin(pluginSettings->getName(id));
+    HyphaPlugin *p = loader->getPlugin(settings->getName(id));
     if(p) {
         HyphaPlugin *plugin = p->getInstance(id);
-        plugin->setHost(PluginSettings::instance()->getHost(id));
+        plugin->setHost(host);
         plugin->loadConfig(config);
         return plugin;
     } else {
@@ -35,7 +37,8 @@ PluginFactory *PluginFactory::instance() {
         mutex.lock();
 
         if (!singleton)
-            singleton = new PluginFactory();
+            singleton = new PluginFactory(hypha::settings::PluginSettings::instance(),
+                                          hypha::plugin::PluginLoader::instance());
         mutex.unlock();
     }
 
@@ -43,14 +46,12 @@ PluginFactory *PluginFactory::instance() {
 }
 
 HyphaPlugin *PluginFactory::loadPlugin(std::string id) {
-    PluginSettings * pluginSettings = PluginSettings::instance();
-    if(!pluginSettings->exists(id))
+    if(!settings->exists(id))
         return 0;
-    PluginFactory factory;
-    factory.setId(id);
-    factory.setHost(pluginSettings->getHost(id));
-    factory.setConfig(pluginSettings->getConfig(id));
-    return factory.create();
+    setId(id);
+    setHost(settings->getHost(id));
+    setConfig(settings->getConfig(id));
+    return create();
 }
 
 void PluginFactory::setId(std::string id) {

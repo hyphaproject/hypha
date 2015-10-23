@@ -8,7 +8,8 @@ using namespace hypha::settings;
 
 HandlerFactory *HandlerFactory::singleton = 0;
 
-HandlerFactory::HandlerFactory(hypha::settings::HandlerSettings *settings, hypha::handler::HandlerLoader *loader) {
+HandlerFactory::HandlerFactory(hypha::settings::HandlerSettings *settings,
+                               hypha::handler::HandlerLoader *loader) {
     this->settings = settings;
     this->loader = loader;
 }
@@ -21,8 +22,8 @@ HyphaHandler *HandlerFactory::create() {
     HyphaHandler * handler = loader->getHandler(settings->getName(id));
     if(handler) {
         HyphaHandler *plugin = handler->getInstance(id);
-        plugin->setHost(settings->getHost(id));
-        plugin->loadConfig(settings->getConfig(id));
+        plugin->setHost(host);
+        plugin->loadConfig(config);
         return plugin;
     } else {
         return 0;
@@ -35,7 +36,8 @@ HandlerFactory *HandlerFactory::instance() {
         mutex.lock();
 
         if (!singleton)
-            singleton = new HandlerFactory(hypha::settings::HandlerSettings::instance(), hypha::handler::HandlerLoader::instance());
+            singleton = new HandlerFactory(hypha::settings::HandlerSettings::instance(),
+                                           hypha::handler::HandlerLoader::instance());
         mutex.unlock();
     }
 

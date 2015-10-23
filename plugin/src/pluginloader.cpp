@@ -17,7 +17,9 @@ typedef Poco::Manifest<HyphaPlugin> PManifest;
 
 PluginLoader *PluginLoader::singleton = 0;
 
-PluginLoader::PluginLoader() {
+PluginLoader::PluginLoader(hypha::settings::PluginSettings *settings) {
+    this->settings = settings;
+    this->factory = new hypha::plugin::PluginFactory(settings, this);
     loadPlugins(boost::filesystem::path( boost::filesystem::current_path()).generic_string());
 }
 
@@ -31,7 +33,7 @@ PluginLoader *PluginLoader::instance() {
         mutex.lock();
 
         if (!singleton)
-            singleton = new PluginLoader();
+            singleton = new PluginLoader(hypha::settings::PluginSettings::instance());
         mutex.unlock();
     }
 
@@ -39,9 +41,20 @@ PluginLoader *PluginLoader::instance() {
 }
 
 void PluginLoader::loadLocalInstances() {
-    for(std::string id: PluginSettings::instance()->getLocalPluginIds()) {
+    for(std::string id: settings->getLocalPluginIds()) {
         if(getPluginInstance(id) == 0) {
-            HyphaPlugin * plugin = PluginFactory::instance()->loadPlugin(id);
+            HyphaPlugin * plugin = factory->loadPlugin(id);
+            if(plugin)
+                pluginInstances[id]=plugin;
+        }
+    }
+}
+
+void PluginLoader::loadAllInstances()
+{
+    for(std::string id: settings->getAllPluginIds()) {
+        if(getPluginInstance(id) == 0) {
+            HyphaPlugin * plugin = factory->loadPlugin(id);
             if(plugin)
                 pluginInstances[id]=plugin;
         }
