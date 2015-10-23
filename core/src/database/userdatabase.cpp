@@ -27,7 +27,7 @@ UserDatabase *UserDatabase::factoreInstance(UserDatabaseSettings *settings)
         throw "LDAP not supported";
 //#endif
     } else {
-        database = new UserDBSql(settings);
+        database = new hypha::database::UserDBSql(settings);
     }
     database->connect();
     return database;

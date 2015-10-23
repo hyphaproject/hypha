@@ -20,6 +20,8 @@ class Core_API UserDatabase {
     virtual std::string getMail(std::string username) = 0;
     virtual std::list<std::string> getDevices(std::string username) = 0;
     virtual std::string getOwnerOfDevice(std::string device) = 0;
+    virtual bool createUser(std::string username, std::string firstname, std::string lastname, std::string mail) = 0;
+    virtual bool updateUser(std::string username, std::string firstname, std::string lastname, std::string mail, std::string devices) = 0;
 
   protected:
     static UserDatabase *singleton;

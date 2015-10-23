@@ -24,6 +24,9 @@ class Core_API UserDBSql : public UserDatabase {
     std::string getMail(std::string username);
     std::list<std::string> getDevices(std::string username);
     std::string getOwnerOfDevice(std::string device);
+    bool createUser(std::string username, std::string firstname, std::string lastname, std::string mail);
+    bool updateUser(std::string username, std::string firstname, std::string lastname, std::string mail, std::string devices);
+
     void createTables();
 
   protected:

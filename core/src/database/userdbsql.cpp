@@ -117,16 +117,35 @@ std::string UserDBSql::getOwnerOfDevice(std::string device) {
     return retValue;
 }
 
-void UserDBSql::createTables() {
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
+bool UserDBSql::createUser(std::string username, std::string firstname, std::string lastname, std::string mail)
+{
     Poco::Data::Statement statement = getStatement();
-    statement <<"CREATE TABLE IF NOT EXISTS `"+dbs->getTable()+"` ("
-              + "`"+dbs->getAttributeUsername()+"` varchar(128) NOT NULL, "
-              + "`"+dbs->getAttributeLastname()+"` varchar(128) DEFAULT NULL, "
-              + "`"+dbs->getAttributeFirstname()+"` varchar(128) DEFAULT NULL, "
-              + "`"+dbs->getAttributeMail()+"` varchar(128) DEFAULT NULL, "
-              + "`"+dbs->getAttributeDevices()+"` varchar(1024) DEFAULT NULL, "
-              + "PRIMARY KEY (`"+dbs->getAttributeUsername()+"`)"
+    statement << "INSERT INTO " + settings->getTable() + "(" + settings->getAttributeUsername() + ", "
+                + settings->getAttributeFirstname() + ", " + settings->getAttributeLastname() + ", "
+                + settings->getAttributeMail() + ") VALUES(?, ?, ?, ?);",
+            use(username), use(firstname), use(lastname), use(mail);
+    statement.execute();
+}
+
+bool UserDBSql::updateUser(std::string username, std::string firstname, std::string lastname, std::string mail, std::string devices)
+{
+    Poco::Data::Statement statement = getStatement();
+    statement <<"UPDATE " + settings->getTable() + " SET " + settings->getAttributeFirstname() + "=?, "
+                + settings->getAttributeLastname() + "=?, " + settings->getAttributeMail() + "=?, "
+                + settings->getAttributeDevices() + "=? WHERE " + settings->getAttributeUsername() + " = ?;",
+            use(firstname), use(lastname), use(mail), use(devices), use(username);
+    statement.execute();
+}
+
+void UserDBSql::createTables() {
+    Poco::Data::Statement statement = getStatement();
+    statement <<"CREATE TABLE IF NOT EXISTS `"+settings->getTable()+"` ("
+              + "`"+settings->getAttributeUsername()+"` varchar(128) NOT NULL, "
+              + "`"+settings->getAttributeLastname()+"` varchar(128) DEFAULT NULL, "
+              + "`"+settings->getAttributeFirstname()+"` varchar(128) DEFAULT NULL, "
+              + "`"+settings->getAttributeMail()+"` varchar(128) DEFAULT NULL, "
+              + "`"+settings->getAttributeDevices()+"` varchar(1024) DEFAULT NULL, "
+              + "PRIMARY KEY (`"+settings->getAttributeUsername()+"`)"
               + ") DEFAULT CHARSET=utf8;";
     statement.execute();
 }
