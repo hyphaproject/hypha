@@ -31,9 +31,9 @@ UserDBSql::~UserDBSql() {
 
 bool UserDBSql::connect() {
     Poco::Data::MySQL::Connector::registerConnector();
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
-    std::string connectStr = "host=" + dbs->getHost() + ";user=" + dbs->getUser() + ";password=" +dbs->getPassword() + ";db="+dbs->getDatabase()+";auto-reconnect=true";
-    pool = new Poco::Data::SessionPool(dbs->getDriver(), connectStr);
+    std::string connectStr = "host=" + settings->getHost() + ";user=" + settings->getUser()
+            + ";password=" + settings->getPassword() + ";db="+settings->getDatabase()+";auto-reconnect=true";
+    pool = new Poco::Data::SessionPool(settings->getDriver(), connectStr);
     return true;
 }
 
@@ -47,10 +47,9 @@ Poco::Data::Statement UserDBSql::getStatement() {
 }
 
 std::list<std::string> UserDBSql::getUsers() {
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
     std::list<std::string> userlist;
     Poco::Data::Statement statement = getStatement();
-    statement << "select " + dbs->getAttributeUsername() + " from "+dbs->getTable();
+    statement << "select " + settings->getAttributeUsername() + " from "+settings->getTable();
     statement.execute();
     Poco::Data::RecordSet rs(statement);
     bool more = rs.moveFirst();
@@ -62,36 +61,35 @@ std::list<std::string> UserDBSql::getUsers() {
 }
 
 std::string UserDBSql::getFirstname(std::string username) {
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
-    statement << "select " + dbs->getAttributeFirstname() + " from "+dbs->getTable() + " where " + dbs->getAttributeUsername() + " = '" + username + "'", into(retValue);
+    statement << "select " + settings->getAttributeFirstname() + " from "+settings->getTable() + " where "
+                 + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
     statement.execute();
     return retValue;
 }
 
 std::string UserDBSql::getLastname(std::string username) {
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
-    statement << "select " + dbs->getAttributeLastname() + " from "+dbs->getTable() + " where " + dbs->getAttributeUsername() + " = '" + username + "'", into(retValue);
+    statement << "select " + settings->getAttributeLastname() + " from "+settings->getTable() + " where "
+                 + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
     statement.execute();
     return retValue;
 }
 
 std::string UserDBSql::getMail(std::string username) {
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
-    statement << "select " + dbs->getAttributeMail() + " from "+dbs->getTable() + " where " + dbs->getAttributeUsername() + " = '" + username + "'", into(retValue);
+    statement << "select " + settings->getAttributeMail() + " from "+settings->getTable() + " where "
+                 + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
     statement.execute();
     return retValue;
 }
 
 std::list<std::string> UserDBSql::getDevices(std::string username) {
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
     Poco::Data::Statement statement = getStatement();
-    statement << "select " + dbs->getAttributeDevices() + " from "+dbs->getTable() +" where "+ dbs->getAttributeUsername() + " = '" + username + "'";
+    statement << "select " + settings->getAttributeDevices() + " from "+settings->getTable() +" where "+ settings->getAttributeUsername() + " = '" + username + "'";
     statement.execute();
     Poco::Data::RecordSet rs(statement);
     bool more = rs.moveFirst();
@@ -109,10 +107,10 @@ std::list<std::string> UserDBSql::getDevices(std::string username) {
 }
 
 std::string UserDBSql::getOwnerOfDevice(std::string device) {
-    UserDatabaseSettings *dbs = UserDatabaseSettings::instance();
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
-    statement << "select " + dbs->getAttributeUsername() + " from "+dbs->getTable() + " where " + dbs->getAttributeDevices() + " like '%" + device + "%'", into(retValue);
+    statement << "select " + settings->getAttributeUsername() + " from "+ settings->getTable() + " where "
+                 + settings->getAttributeDevices() + " like '%" + device + "%'", into(retValue);
     statement.execute();
     return retValue;
 }
