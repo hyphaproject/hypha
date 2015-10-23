@@ -4,6 +4,7 @@
 #include <string>
 #include <Poco/AutoPtr.h>
 #include <Poco/Util/IniFileConfiguration.h>
+#include <Poco/Util/XMLConfiguration.h>
 #include "../core.h"
 
 namespace hypha {
@@ -28,7 +29,7 @@ class Core_API HyphaSettings {
     void setInt(const std::string &key, std::string &value);
 
   private:
-    Poco::AutoPtr<Poco::Util::IniFileConfiguration> settings;
+    Poco::AutoPtr<Poco::Util::XMLConfiguration> settings;
 
     std::string configfile;
 

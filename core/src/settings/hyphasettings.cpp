@@ -3,7 +3,7 @@
 #include "hypha/settings/hyphasettings.h"
 
 using Poco::AutoPtr;
-using Poco::Util::IniFileConfiguration;
+using Poco::Util::XMLConfiguration;
 using namespace hypha::settings;
 
 HyphaSettings *HyphaSettings::singleton = 0;
@@ -18,7 +18,7 @@ HyphaSettings::~HyphaSettings() {
 
 HyphaSettings *HyphaSettings::instance() {
     if (!singleton) {
-        return loadInstance("hypha.ini");
+        return loadInstance("hypha.xml");
     }
 
     return singleton;
@@ -39,7 +39,7 @@ void HyphaSettings::createNewFile() {
 void HyphaSettings::load() {
 
     if(boost::filesystem::exists( configfile )) {
-        settings = AutoPtr<IniFileConfiguration>(new IniFileConfiguration(configfile));
+        settings = AutoPtr<XMLConfiguration>(new XMLConfiguration(configfile));
     } else {
         createNewFile();
     }
@@ -57,9 +57,9 @@ int HyphaSettings::getInt(const std::string &key, const int &defaultValue) {
 }
 
 void HyphaSettings::setString(const std::string &key, std::string &value) {
-
+    settings->setString(key, value);
 }
 
 void HyphaSettings::setInt(const std::string &key, std::string &value) {
-
+    settings->setString(key, value);
 }
