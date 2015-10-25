@@ -38,7 +38,7 @@ HandlerSettings *HandlerSettings::instance() {
 std::list<std::string> HandlerSettings::getAllHandlerIds() {
     std::list<std::string> plugins;
     Poco::Data::Statement statement = database->getStatement();
-    statement << "SELECT id FROM handler";
+    statement << "SELECT id FROM handler;";
     statement.execute();
     Poco::Data::RecordSet rs(statement);
     bool more = rs.moveFirst();

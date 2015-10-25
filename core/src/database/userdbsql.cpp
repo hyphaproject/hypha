@@ -124,6 +124,7 @@ bool UserDBSql::createUser(std::string username, std::string firstname, std::str
                 + settings->getAttributeMail() + ") VALUES(?, ?, ?, ?);",
             use(username), use(firstname), use(lastname), use(mail);
     statement.execute();
+    return true;
 }
 
 bool UserDBSql::updateUser(std::string username, std::string firstname, std::string lastname, std::string mail, std::string devices)
@@ -134,6 +135,7 @@ bool UserDBSql::updateUser(std::string username, std::string firstname, std::str
                 + settings->getAttributeDevices() + "=? WHERE " + settings->getAttributeUsername() + " = ?;",
             use(firstname), use(lastname), use(mail), use(devices), use(username);
     statement.execute();
+    return true;
 }
 
 void UserDBSql::createTables() {
