@@ -50,6 +50,13 @@ void Database::createTables() {
               "`plugin_id` varchar(32) NOT NULL,"
               "PRIMARY KEY (`id`)"
               ") DEFAULT CHARSET=utf8;", Poco::Data::now;
+
+    session << "CREATE TABLE IF NOT EXISTS `designerpositions` ("
+               "`id` varchar(32) NOT NULL, "
+               "`x` int(11) DEFAULT 0, "
+               "`y` int(11) DEFAULT 0, "
+               "PRIMARY KEY (`id`) "
+               ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 }
 
 Database *Database::instance() {
