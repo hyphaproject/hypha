@@ -18,83 +18,83 @@ namespace hypha {
 namespace plugin {
 
 class Plugin_API HyphaBasePlugin: public Poco::Runnable {
-  public:
-    typedef boost::signals2::signal<void (std::string)> SendMessage;
-    typedef SendMessage::slot_type SendMessageSlotType;
+ public:
+  typedef boost::signals2::signal<void (std::string)> SendMessage;
+  typedef SendMessage::slot_type SendMessageSlotType;
 
-    virtual ~HyphaBasePlugin() {}
+  virtual ~HyphaBasePlugin() {}
 
-    void run() {
+  void run() {
 #ifdef __linux__
-        const char* name = id.substr(0,16).c_str();
-        prctl(PR_SET_NAME, (unsigned long) name, 0, 0, 0);
+    const char *name = id.substr(0, 16).c_str();
+    prctl(PR_SET_NAME, (unsigned long) name, 0, 0, 0);
 #endif
-        while(running) {
-            doWork();
-        }
+    while (running) {
+      doWork();
     }
+  }
 
-    virtual void doWork() = 0;
-    virtual std::string name() const {
-        return "hyphabaseplugin";
-    }
-    virtual std::string getTitle() {
-        return "Hypha Base Plugin";
-    }
-    virtual std::string getVersion() {
-        return "1.0";
-    }
-    virtual std::string getDescription() {
-        return "hypha base plugin";
-    }
-    virtual std::string getStatusMessage() {
-        return "";
-    }
-    virtual HyphaBasePlugin * getInstance(std::string id) = 0;
-    virtual void loadConfig(std::string json) = 0;
-    virtual std::string getConfig() = 0;
-    std::string getId() {
-        return id;
-    }
-    void setId(std::string id) {
-        this->id = id;
-    }
-    std::string getHost() {
-        return host;
-    }
-    void setHost(std::string host) {
-        this->host = host;
-    }
-    void setCallMessageFunction(std::function<std::string(std::string, std::string)> f) {
-        callMessageFunction = f;
-    }
-    boost::signals2::connection connect(const SendMessageSlotType &slot) {
-        return sendMessage.connect(slot);
-    }
+  virtual void doWork() = 0;
+  virtual std::string name() const {
+    return "hyphabaseplugin";
+  }
+  virtual std::string getTitle() {
+    return "Hypha Base Plugin";
+  }
+  virtual std::string getVersion() {
+    return "1.0";
+  }
+  virtual std::string getDescription() {
+    return "hypha base plugin";
+  }
+  virtual std::string getStatusMessage() {
+    return "";
+  }
+  virtual HyphaBasePlugin *getInstance(std::string id) = 0;
+  virtual void loadConfig(std::string json) = 0;
+  virtual std::string getConfig() = 0;
+  std::string getId() {
+    return id;
+  }
+  void setId(std::string id) {
+    this->id = id;
+  }
+  std::string getHost() {
+    return host;
+  }
+  void setHost(std::string host) {
+    this->host = host;
+  }
+  void setCallMessageFunction(std::function<std::string(std::string, std::string)> f) {
+    callMessageFunction = f;
+  }
+  boost::signals2::connection connect(const SendMessageSlotType &slot) {
+    return sendMessage.connect(slot);
+  }
 
-    virtual void receiveMessage(std::string message) = 0;
-    virtual std::string communicate(std::string message) = 0;
-    std::string callMessage(std::string id, std::string message) {
-        return callMessageFunction(id, message);
-    }
+  virtual void receiveMessage(std::string message) = 0;
+  virtual std::string communicate(std::string message) = 0;
+  std::string callMessage(std::string id, std::string message) {
+    return callMessageFunction(id, message);
+  }
 
-    void start() {
-        running = true;
-        thread.setName(id);
-        thread.start(*this);
-    }
+  void start() {
+    running = true;
+    thread.setName(id);
+    thread.start(*this);
+  }
 
-    void stop() {
-        running = false;
-    }
+  void stop() {
+    running = false;
+  }
 
-  protected:
-    std::string id;
-    std::string host;
-    SendMessage sendMessage;
-    bool running = true;
-    Poco::Thread thread;
-    std::function<std::string(std::string, std::string)> callMessageFunction;
+ protected:
+  std::string id;
+  std::string host;
+  SendMessage sendMessage;
+  bool running = true;
+  Poco::Thread thread;
+  std::function<std::string(std::string, std::string)> callMessageFunction;
 
 };
 }

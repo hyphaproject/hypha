@@ -15,30 +15,30 @@ namespace handler {
 class HandlerFactory;
 
 class Handler_API HandlerLoader {
-  public:
-    static HandlerLoader * instance();
-    explicit HandlerLoader(hypha::settings::HandlerSettings *settings);
-    ~HandlerLoader();
+ public:
+  static HandlerLoader *instance();
+  explicit HandlerLoader(hypha::settings::HandlerSettings *settings);
+  ~HandlerLoader();
 
-    void loadLocalInstances();
-    void loadAllInstances();
+  void loadLocalInstances();
+  void loadAllInstances();
 
-    HyphaHandler* getHandler(std::string name);
-    std::list<HyphaHandler *> getHandlers();
+  HyphaHandler *getHandler(std::string name);
+  std::list<HyphaHandler *> getHandlers();
 
-    std::list<HyphaHandler *> getInstances();
-    HyphaHandler *getHandlerInstance(std::string id);
+  std::list<HyphaHandler *> getInstances();
+  HyphaHandler *getHandlerInstance(std::string id);
 
-    std::list<std::string> getConnectedPlugins(std::string handlerId);
+  std::list<std::string> getConnectedPlugins(std::string handlerId);
 
-  private:
-    static HandlerLoader *singleton;
+ private:
+  static HandlerLoader *singleton;
 
-    std::list<HyphaHandler *> handlers;
-    std::map<std::string, HyphaHandler *> handlerInstances;
-    void loadHandlers(std::string dir);
-    hypha::settings::HandlerSettings *settings;
-    hypha::handler::HandlerFactory *factory;
+  std::list<HyphaHandler *> handlers;
+  std::map<std::string, HyphaHandler *> handlerInstances;
+  void loadHandlers(std::string dir);
+  hypha::settings::HandlerSettings *settings;
+  hypha::handler::HandlerFactory *factory;
 
 };
 }

@@ -15,27 +15,27 @@ namespace plugin {
 class PluginLoader;
 
 class Plugin_API PluginFactory {
-  public:
-    static PluginFactory * instance();
-    explicit PluginFactory(hypha::settings::PluginSettings *settings,
-                           hypha::plugin::PluginLoader *loader);
-    ~PluginFactory();
+ public:
+  static PluginFactory *instance();
+  explicit PluginFactory(hypha::settings::PluginSettings *settings,
+                         hypha::plugin::PluginLoader *loader);
+  ~PluginFactory();
 
-    HyphaPlugin *loadPlugin(std::string id);
+  HyphaPlugin *loadPlugin(std::string id);
 
-    void setId(std::string id);
-    void setHost(std::string host);
-    void setConfig(std::string config);
+  void setId(std::string id);
+  void setHost(std::string host);
+  void setConfig(std::string config);
 
-  private:
-    static PluginFactory *singleton;
+ private:
+  static PluginFactory *singleton;
 
-    std::string id;
-    std::string host;
-    std::string config;
-    HyphaPlugin *create();
-    hypha::settings::PluginSettings *settings;
-    hypha::plugin::PluginLoader *loader;
+  std::string id;
+  std::string host;
+  std::string config;
+  HyphaPlugin *create();
+  hypha::settings::PluginSettings *settings;
+  hypha::plugin::PluginLoader *loader;
 
 };
 }
