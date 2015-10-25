@@ -34,6 +34,7 @@ bool UserDBSql::connect() {
     std::string connectStr = "host=" + settings->getHost() + ";user=" + settings->getUser()
             + ";password=" + settings->getPassword() + ";db="+settings->getDatabase()+";auto-reconnect=true";
     pool = new Poco::Data::SessionPool(settings->getDriver(), connectStr);
+    createTables();
     return true;
 }
 
@@ -49,7 +50,7 @@ Poco::Data::Statement UserDBSql::getStatement() {
 std::list<std::string> UserDBSql::getUsers() {
     std::list<std::string> userlist;
     Poco::Data::Statement statement = getStatement();
-    statement << "select " + settings->getAttributeUsername() + " from "+settings->getTable();
+    statement << "select " + settings->getAttributeUsername() + " from " + settings->getTable();
     statement.execute();
     Poco::Data::RecordSet rs(statement);
     bool more = rs.moveFirst();
