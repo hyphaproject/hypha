@@ -49,8 +49,7 @@ void HandlerLoader::loadLocalInstances() {
     }
 }
 
-void HandlerLoader::loadAllInstances()
-{
+void HandlerLoader::loadAllInstances() {
     for(std::string id: settings->getAllHandlerIds()) {
         if(getHandlerInstance(id) == 0) {
             HyphaHandler * handler = factory->loadHandler(id);

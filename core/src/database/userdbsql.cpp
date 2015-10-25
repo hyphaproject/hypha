@@ -32,7 +32,7 @@ UserDBSql::~UserDBSql() {
 bool UserDBSql::connect() {
     Poco::Data::MySQL::Connector::registerConnector();
     std::string connectStr = "host=" + settings->getHost() + ";user=" + settings->getUser()
-            + ";password=" + settings->getPassword() + ";db="+settings->getDatabase()+";auto-reconnect=true";
+                             + ";password=" + settings->getPassword() + ";db="+settings->getDatabase()+";auto-reconnect=true";
     pool = new Poco::Data::SessionPool(settings->getDriver(), connectStr);
     createTables();
     return true;
@@ -65,7 +65,7 @@ std::string UserDBSql::getFirstname(std::string username) {
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
     statement << "select " + settings->getAttributeFirstname() + " from "+settings->getTable() + " where "
-                 + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
+              + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
     statement.execute();
     return retValue;
 }
@@ -74,7 +74,7 @@ std::string UserDBSql::getLastname(std::string username) {
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
     statement << "select " + settings->getAttributeLastname() + " from "+settings->getTable() + " where "
-                 + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
+              + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
     statement.execute();
     return retValue;
 }
@@ -83,7 +83,7 @@ std::string UserDBSql::getMail(std::string username) {
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
     statement << "select " + settings->getAttributeMail() + " from "+settings->getTable() + " where "
-                 + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
+              + settings->getAttributeUsername() + " = '" + username + "'", into(retValue);
     statement.execute();
     return retValue;
 }
@@ -111,29 +111,27 @@ std::string UserDBSql::getOwnerOfDevice(std::string device) {
     std::string retValue ="";
     Poco::Data::Statement statement = getStatement();
     statement << "select " + settings->getAttributeUsername() + " from "+ settings->getTable() + " where "
-                 + settings->getAttributeDevices() + " like '%" + device + "%'", into(retValue);
+              + settings->getAttributeDevices() + " like '%" + device + "%'", into(retValue);
     statement.execute();
     return retValue;
 }
 
-bool UserDBSql::createUser(std::string username, std::string firstname, std::string lastname, std::string mail)
-{
+bool UserDBSql::createUser(std::string username, std::string firstname, std::string lastname, std::string mail) {
     Poco::Data::Statement statement = getStatement();
     statement << "INSERT INTO " + settings->getTable() + "(" + settings->getAttributeUsername() + ", "
-                + settings->getAttributeFirstname() + ", " + settings->getAttributeLastname() + ", "
-                + settings->getAttributeMail() + ") VALUES(?, ?, ?, ?);",
-            use(username), use(firstname), use(lastname), use(mail);
+              + settings->getAttributeFirstname() + ", " + settings->getAttributeLastname() + ", "
+              + settings->getAttributeMail() + ") VALUES(?, ?, ?, ?);",
+              use(username), use(firstname), use(lastname), use(mail);
     statement.execute();
     return true;
 }
 
-bool UserDBSql::updateUser(std::string username, std::string firstname, std::string lastname, std::string mail, std::string devices)
-{
+bool UserDBSql::updateUser(std::string username, std::string firstname, std::string lastname, std::string mail, std::string devices) {
     Poco::Data::Statement statement = getStatement();
     statement <<"UPDATE " + settings->getTable() + " SET " + settings->getAttributeFirstname() + "=?, "
-                + settings->getAttributeLastname() + "=?, " + settings->getAttributeMail() + "=?, "
-                + settings->getAttributeDevices() + "=? WHERE " + settings->getAttributeUsername() + " = ?;",
-            use(firstname), use(lastname), use(mail), use(devices), use(username);
+              + settings->getAttributeLastname() + "=?, " + settings->getAttributeMail() + "=?, "
+              + settings->getAttributeDevices() + "=? WHERE " + settings->getAttributeUsername() + " = ?;",
+              use(firstname), use(lastname), use(mail), use(devices), use(username);
     statement.execute();
     return true;
 }

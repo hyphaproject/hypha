@@ -50,8 +50,7 @@ void PluginLoader::loadLocalInstances() {
     }
 }
 
-void PluginLoader::loadAllInstances()
-{
+void PluginLoader::loadAllInstances() {
     for(std::string id: settings->getAllPluginIds()) {
         if(getPluginInstance(id) == 0) {
             HyphaPlugin * plugin = factory->loadPlugin(id);

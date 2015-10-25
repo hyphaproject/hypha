@@ -16,7 +16,7 @@ using namespace Poco::Data;
 
 PluginSettings *PluginSettings::singleton = 0;
 
-PluginSettings::PluginSettings(hypha::database::Database *database){
+PluginSettings::PluginSettings(hypha::database::Database *database) {
     this->database = database;
 }
 

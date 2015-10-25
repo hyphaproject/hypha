@@ -17,8 +17,7 @@ UserDatabase::UserDatabase(UserDatabaseSettings *settings) {
 UserDatabase::~UserDatabase() {
 }
 
-UserDatabase *UserDatabase::factoreInstance(UserDatabaseSettings *settings)
-{
+UserDatabase *UserDatabase::factoreInstance(UserDatabaseSettings *settings) {
     UserDatabase *database = nullptr;
     if(settings->getDriver() == "LDAP") {
 //#ifdef WITH_LDAP

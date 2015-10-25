@@ -21,42 +21,42 @@ void Database::createTables() {
     Poco::Data::Session session = getSession();
 
     session << "CREATE TABLE IF NOT EXISTS `deviceonline` ("
-              "`id` int(11) NOT NULL AUTO_INCREMENT, "
-              "`deviceid` varchar(45) DEFAULT NULL, "
-              "`type` ENUM('rfid', 'fingerprint', 'wifi', 'other') DEFAULT 'other', "
-              "`time` datetime NOT NULL, "
-              "PRIMARY KEY (`id`) "
-              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
+            "`id` int(11) NOT NULL AUTO_INCREMENT, "
+            "`deviceid` varchar(45) DEFAULT NULL, "
+            "`type` ENUM('rfid', 'fingerprint', 'wifi', 'other') DEFAULT 'other', "
+            "`time` datetime NOT NULL, "
+            "PRIMARY KEY (`id`) "
+            ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 
     session << "CREATE TABLE IF NOT EXISTS `handler` ("
-              "`id` varchar(32) NOT NULL,"
-              "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
-              "`type` varchar(32) NOT NULL,"
-              "`config` varchar(1024) NOT NULL,"
-              "PRIMARY KEY (`id`)"
-              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
+            "`id` varchar(32) NOT NULL,"
+            "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
+            "`type` varchar(32) NOT NULL,"
+            "`config` varchar(1024) NOT NULL,"
+            "PRIMARY KEY (`id`)"
+            ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 
     session << "CREATE TABLE IF NOT EXISTS `plugins` ("
-              "`id` varchar(32) NOT NULL,"
-              "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
-              "`type` varchar(32) NOT NULL,"
-              "`config` varchar(1024) NOT NULL,"
-              "PRIMARY KEY (`id`)"
-              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
+            "`id` varchar(32) NOT NULL,"
+            "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
+            "`type` varchar(32) NOT NULL,"
+            "`config` varchar(1024) NOT NULL,"
+            "PRIMARY KEY (`id`)"
+            ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 
     session << "CREATE TABLE IF NOT EXISTS `connection` ("
-              "`id` int(11) NOT NULL AUTO_INCREMENT,"
-              "`handler_id` varchar(32) NOT NULL,"
-              "`plugin_id` varchar(32) NOT NULL,"
-              "PRIMARY KEY (`id`)"
-              ") DEFAULT CHARSET=utf8;", Poco::Data::now;
+            "`id` int(11) NOT NULL AUTO_INCREMENT,"
+            "`handler_id` varchar(32) NOT NULL,"
+            "`plugin_id` varchar(32) NOT NULL,"
+            "PRIMARY KEY (`id`)"
+            ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 
     session << "CREATE TABLE IF NOT EXISTS `designerpositions` ("
-               "`id` varchar(32) NOT NULL, "
-               "`x` int(11) DEFAULT 0, "
-               "`y` int(11) DEFAULT 0, "
-               "PRIMARY KEY (`id`) "
-               ") DEFAULT CHARSET=utf8;", Poco::Data::now;
+            "`id` varchar(32) NOT NULL, "
+            "`x` int(11) DEFAULT 0, "
+            "`y` int(11) DEFAULT 0, "
+            "PRIMARY KEY (`id`) "
+            ") DEFAULT CHARSET=utf8;", Poco::Data::now;
 }
 
 Database *Database::instance() {
@@ -92,8 +92,7 @@ bool Database::reconnect() {
     return true;
 }
 
-Poco::Data::Session Database::getSession()
-{
+Poco::Data::Session Database::getSession() {
     try {
         return Poco::Data::Session(pool->get());
     } catch(Poco::Exception &e) {
