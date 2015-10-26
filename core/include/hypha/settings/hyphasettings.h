@@ -11,29 +11,29 @@ namespace hypha {
 namespace settings {
 
 class Core_API HyphaSettings {
- public:
-  static HyphaSettings *instance();
-  static HyphaSettings *loadInstance(std::string configFile);
+  public:
+    static HyphaSettings *instance();
+    static HyphaSettings *loadInstance(std::string configFile);
 
-  explicit HyphaSettings(std::string configfile);
-  ~HyphaSettings();
+    explicit HyphaSettings(std::string configfile);
+    ~HyphaSettings();
 
-  void createNewFile();
-  void load();
-  void save();
+    void createNewFile();
+    void load();
+    void save();
 
-  std::string getString(const std::string &key, const std::string &defaultValue);
-  int getInt(const std::string &key, const int &defaultValue);
+    std::string getString(const std::string &key, const std::string &defaultValue);
+    int getInt(const std::string &key, const int &defaultValue);
 
-  void setString(const std::string &key, std::string &value);
-  void setInt(const std::string &key, std::string &value);
+    void setString(const std::string &key, std::string &value);
+    void setInt(const std::string &key, std::string &value);
 
- private:
-  Poco::AutoPtr<Poco::Util::XMLConfiguration> settings;
+  private:
+    Poco::AutoPtr<Poco::Util::XMLConfiguration> settings;
 
-  std::string configfile;
+    std::string configfile;
 
-  static HyphaSettings *singleton;
+    static HyphaSettings *singleton;
 
 };
 }

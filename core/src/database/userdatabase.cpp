@@ -11,38 +11,38 @@ using namespace hypha::database;
 UserDatabase *UserDatabase::singleton = 0;
 
 UserDatabase::UserDatabase(UserDatabaseSettings *settings) {
-  this->settings = settings;
+    this->settings = settings;
 }
 
 UserDatabase::~UserDatabase() {
 }
 
 UserDatabase *UserDatabase::factoreInstance(UserDatabaseSettings *settings) {
-  UserDatabase *database = nullptr;
-  if (settings->getDriver() == "LDAP") {
+    UserDatabase *database = nullptr;
+    if (settings->getDriver() == "LDAP") {
 //#ifdef WITH_LDAP
 //                database = new UserDBLDAP(settings);
 //#else
-    throw "LDAP not supported";
+        throw "LDAP not supported";
 //#endif
-  } else {
-    database = new hypha::database::UserDBSql(settings);
-  }
-  database->connect();
-  return database;
+    } else {
+        database = new hypha::database::UserDBSql(settings);
+    }
+    database->connect();
+    return database;
 }
 
 UserDatabase *UserDatabase::instance() {
-  static std::mutex mutex;
-  if (!singleton) {
-    mutex.lock();
-
+    static std::mutex mutex;
     if (!singleton) {
-      singleton = factoreInstance(hypha::settings::UserDatabaseSettings::instance());
-    }
+        mutex.lock();
 
-    mutex.unlock();
-  }
-  return singleton;
+        if (!singleton) {
+            singleton = factoreInstance(hypha::settings::UserDatabaseSettings::instance());
+        }
+
+        mutex.unlock();
+    }
+    return singleton;
 }
 

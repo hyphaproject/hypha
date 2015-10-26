@@ -14,28 +14,28 @@ namespace plugin {
 class PluginFactory;
 
 class Plugin_API PluginLoader {
- public:
-  static PluginLoader *instance();
-  explicit PluginLoader(hypha::settings::PluginSettings *settings);
-  ~PluginLoader();
+  public:
+    static PluginLoader *instance();
+    explicit PluginLoader(hypha::settings::PluginSettings *settings);
+    ~PluginLoader();
 
-  void loadLocalInstances();
-  void loadAllInstances();
+    void loadLocalInstances();
+    void loadAllInstances();
 
-  HyphaPlugin *getPlugin(std::string name);
-  std::list<HyphaPlugin *> getPlugins();
+    HyphaPlugin *getPlugin(std::string name);
+    std::list<HyphaPlugin *> getPlugins();
 
-  std::list<HyphaPlugin *> getInstances();
-  HyphaPlugin *getPluginInstance(std::string id);
+    std::list<HyphaPlugin *> getInstances();
+    HyphaPlugin *getPluginInstance(std::string id);
 
- private:
-  static PluginLoader *singleton;
+  private:
+    static PluginLoader *singleton;
 
-  std::list<HyphaPlugin *> plugins;
-  std::map<std::string, HyphaPlugin *> pluginInstances;
-  void loadPlugins(std::string dir);
-  hypha::settings::PluginSettings *settings;
-  hypha::plugin::PluginFactory *factory;
+    std::list<HyphaPlugin *> plugins;
+    std::map<std::string, HyphaPlugin *> pluginInstances;
+    void loadPlugins(std::string dir);
+    hypha::settings::PluginSettings *settings;
+    hypha::plugin::PluginFactory *factory;
 
 };
 }

@@ -14,28 +14,28 @@ namespace handler {
 class HandlerLoader;
 
 class Handler_API HandlerFactory {
- public:
-  static HandlerFactory *instance();
-  explicit HandlerFactory(hypha::settings::HandlerSettings *settings,
-                          hypha::handler::HandlerLoader *loader);
-  ~HandlerFactory();
+  public:
+    static HandlerFactory *instance();
+    explicit HandlerFactory(hypha::settings::HandlerSettings *settings,
+                            hypha::handler::HandlerLoader *loader);
+    ~HandlerFactory();
 
-  HyphaHandler *loadHandler(std::string id);
+    HyphaHandler *loadHandler(std::string id);
 
-  void setId(std::string id);
-  void setHost(std::string host);
-  void setConfig(std::string config);
+    void setId(std::string id);
+    void setHost(std::string host);
+    void setConfig(std::string config);
 
- private:
+  private:
 
-  static HandlerFactory *singleton;
+    static HandlerFactory *singleton;
 
-  std::string id;
-  std::string host;
-  std::string config;
-  HyphaHandler *create();
-  hypha::settings::HandlerSettings *settings;
-  hypha::handler::HandlerLoader *loader;
+    std::string id;
+    std::string host;
+    std::string config;
+    HyphaHandler *create();
+    hypha::settings::HandlerSettings *settings;
+    hypha::handler::HandlerLoader *loader;
 
 };
 }

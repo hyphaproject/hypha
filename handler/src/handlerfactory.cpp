@@ -10,8 +10,8 @@ HandlerFactory *HandlerFactory::singleton = 0;
 
 HandlerFactory::HandlerFactory(hypha::settings::HandlerSettings *settings,
                                hypha::handler::HandlerLoader *loader) {
-  this->settings = settings;
-  this->loader = loader;
+    this->settings = settings;
+    this->loader = loader;
 }
 
 HandlerFactory::~HandlerFactory() {
@@ -19,50 +19,50 @@ HandlerFactory::~HandlerFactory() {
 }
 
 HyphaHandler *HandlerFactory::create() {
-  HyphaHandler *handler = loader->getHandler(settings->getName(id));
-  if (handler) {
-    HyphaHandler *plugin = handler->getInstance(id);
-    plugin->setHost(host);
-    plugin->loadConfig(config);
-    return plugin;
-  } else {
-    return 0;
-  }
+    HyphaHandler *handler = loader->getHandler(settings->getName(id));
+    if (handler) {
+        HyphaHandler *plugin = handler->getInstance(id);
+        plugin->setHost(host);
+        plugin->loadConfig(config);
+        return plugin;
+    } else {
+        return 0;
+    }
 }
 
 HandlerFactory *HandlerFactory::instance() {
-  static std::mutex mutex;
-  if (!singleton) {
-    mutex.lock();
+    static std::mutex mutex;
+    if (!singleton) {
+        mutex.lock();
 
-    if (!singleton)
-      singleton = new HandlerFactory(hypha::settings::HandlerSettings::instance(),
-                                     hypha::handler::HandlerLoader::instance());
-    mutex.unlock();
-  }
+        if (!singleton)
+            singleton = new HandlerFactory(hypha::settings::HandlerSettings::instance(),
+                                           hypha::handler::HandlerLoader::instance());
+        mutex.unlock();
+    }
 
-  return singleton;
+    return singleton;
 }
 
 HyphaHandler *HandlerFactory::loadHandler(std::string id) {
-  if (!settings->exists(id))
-    return 0;
+    if (!settings->exists(id))
+        return 0;
 
-  setId(id);
-  setHost(settings->getHost(id));
-  setConfig(settings->getConfig(id));
-  return create();
+    setId(id);
+    setHost(settings->getHost(id));
+    setConfig(settings->getConfig(id));
+    return create();
 }
 
 void HandlerFactory::setId(std::string id) {
-  this->id = id;
+    this->id = id;
 }
 
 void HandlerFactory::setHost(std::string host) {
-  this->host = host;
+    this->host = host;
 }
 
 void HandlerFactory::setConfig(std::string config) {
-  this->config = config;
+    this->config = config;
 }
 
