@@ -16,7 +16,7 @@ class PluginFactory;
 class Plugin_API PluginLoader {
   public:
     static PluginLoader *instance();
-    explicit PluginLoader(hypha::settings::PluginSettings *settings);
+    PluginLoader(hypha::settings::PluginSettings *settings);
     ~PluginLoader();
 
     void loadLocalInstances();
@@ -28,7 +28,7 @@ class Plugin_API PluginLoader {
     std::list<HyphaPlugin *> getInstances();
     HyphaPlugin *getPluginInstance(std::string id);
 
-  private:
+  protected:
     static PluginLoader *singleton;
 
     std::list<HyphaPlugin *> plugins;
