@@ -31,7 +31,7 @@ class Handler_API HandlerLoader {
 
     std::list<std::string> getConnectedPlugins(std::string handlerId);
 
-  private:
+  protected:
     static HandlerLoader *singleton;
 
     std::list<HyphaHandler *> handlers;
