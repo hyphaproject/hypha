@@ -10,8 +10,14 @@
 namespace hypha {
 namespace settings {
 
+/** HyphaSettings gives access to the config xml file.
+ * The Class must given the path to the config file.
+ * Then there could be read values from it or set values.
+ * If no config file exists a new one can be created.
+ */
 class Core_API HyphaSettings {
   public:
+
     static HyphaSettings *instance();
     static HyphaSettings *loadInstance(std::string configFile);
 
@@ -28,7 +34,7 @@ class Core_API HyphaSettings {
     void setString(const std::string &key, std::string &value);
     void setInt(const std::string &key, std::string &value);
 
-  private:
+  protected:
     Poco::AutoPtr<Poco::Util::XMLConfiguration> settings;
 
     std::string configfile;

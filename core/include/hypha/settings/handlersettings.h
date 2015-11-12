@@ -8,6 +8,10 @@
 
 namespace hypha {
 namespace settings {
+
+/** HandlerSettings loads settings of handlers from Database and represents them.
+ * You can get access to name, host or config for given handler id.
+ */
 class Core_API HandlerSettings {
   public:
     static HandlerSettings *instance();
@@ -23,7 +27,7 @@ class Core_API HandlerSettings {
     std::list<std::string> getConnectedPlugins(std::string handlerId);
     bool exists(std::string id);
 
-  private:
+  protected:
     static HandlerSettings *singleton;
 
     hypha::database::Database *database;

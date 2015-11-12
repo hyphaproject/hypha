@@ -75,6 +75,13 @@ add_subdirectory(handler)
 list(APPEND Hypha_COMPONENTS "Handler")
 
 
+foreach(component ${Hypha_COMPONENTS})
+message(STATUS "Building: ${component}")
+endforeach()
+
+add_subdirectory( doc )
+
+
 #############################################################
 # Enable packaging
 include(InstallRequiredSystemLibraries)
@@ -92,9 +99,3 @@ set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
 set (CPACK_PACKAGE_FILE_NAME   "${CPACK_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_ARCHITECTURE}")
 include(CPack)
 #############################################################
-
-foreach(component ${Hypha_COMPONENTS})
-message(STATUS "Building: ${component}")
-endforeach()
-
-add_subdirectory( doc )

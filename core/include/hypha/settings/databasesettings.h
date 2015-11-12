@@ -7,6 +7,11 @@
 
 namespace hypha {
 namespace settings {
+
+/** UserDatabaseSettings gives information which Database should be used.
+ * Information about the Database contain driver, host, accessing user and password
+ * and also the 'Database'.
+ */
 class Core_API DatabaseSettings {
   public:
     static DatabaseSettings *instance();
@@ -23,7 +28,7 @@ class Core_API DatabaseSettings {
     std::string getUser();
     std::string getPassword();
 
-  private:
+  protected:
     static DatabaseSettings *singleton;
 
     hypha::settings::HyphaSettings *hyphaSettings;

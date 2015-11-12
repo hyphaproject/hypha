@@ -19,7 +19,7 @@ using Poco::PatternFormatter;
 
 using namespace hypha::utils;
 
-Logger *Logger::singleton = 0;
+Logger *Logger::singleton = nullptr;
 
 Logger *Logger::instance() {
     static std::mutex mutex;

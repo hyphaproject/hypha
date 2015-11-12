@@ -8,6 +8,10 @@
 
 namespace hypha {
 namespace settings {
+
+/** PluginSettings loads settings of plugins from Database and represents them.
+ * You can get access to name, host or config for given plugin id.
+ */
 class Core_API PluginSettings {
   public:
     static PluginSettings *instance();
@@ -22,7 +26,7 @@ class Core_API PluginSettings {
     std::string getConfig(std::string id);
     bool exists(std::string id);
 
-  private:
+  protected:
     static PluginSettings *singleton;
 
     hypha::database::Database *database;

@@ -5,6 +5,10 @@
 #include <string>
 namespace hypha {
 namespace utils {
+/** EMail Class supports sending emails with file attachment.
+ * The EMail must given a serverhost, the port, username and password.
+ * Then there can be send a message with or without attachment.
+ */
 class Utils_API EMail {
   public:
     EMail();

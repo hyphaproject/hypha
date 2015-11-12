@@ -7,6 +7,9 @@
 
 namespace hypha {
 namespace settings {
+
+/** UserDatabaseSettings gives information which Database should be used for Users.
+ */
 class Core_API UserDatabaseSettings {
   public:
     static UserDatabaseSettings *instance();
@@ -28,8 +31,7 @@ class Core_API UserDatabaseSettings {
     std::string getAttributeMail();
     std::string getAttributeDevices();
 
-  private:
-
+  protected:
     hypha::settings::HyphaSettings *hyphaSettings;
     static UserDatabaseSettings *singleton;
 };
