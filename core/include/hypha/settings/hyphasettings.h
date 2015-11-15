@@ -14,6 +14,7 @@ namespace settings {
  * The Class must given the path to the config file.
  * Then there could be read values from it or set values.
  * If no config file exists a new one can be created.
+ * \image html HyphaSettingsContext.PNG
  */
 class Core_API HyphaSettings {
   public:
