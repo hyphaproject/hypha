@@ -14,7 +14,7 @@ message(STATUS "Test ${target}")
 
 set(sources
     main.cpp
-    fibonacci_test.cpp
+    core_test.cpp
 )
 
 
@@ -60,7 +60,7 @@ target_include_directories(${target}
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
-    ${META_PROJECT_NAME}::fiblib
+    ${META_PROJECT_NAME}::core
     gmock-dev
 )
 
