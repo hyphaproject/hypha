@@ -1,101 +1,175 @@
-cmake_minimum_required(VERSION 3.0.0)
-project(Hypha)
-file(STRINGS "${PROJECT_SOURCE_DIR}/libversion" SHARED_LIBRARY_VERSION)
-file (STRINGS "${PROJECT_SOURCE_DIR}/VERSION" PACKAGE_VERSION )
-message(STATUS "Hypha package version: ${PACKAGE_VERSION}")
-string(REGEX REPLACE "([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" CPACK_PACKAGE_VERSION_MAJOR ${PACKAGE_VERSION})
-string(REGEX REPLACE "[0-9]+\\.([0-9])+\\.[0-9]+.*" "\\1" CPACK_PACKAGE_VERSION_MINOR ${PACKAGE_VERSION})
-string(REGEX REPLACE "[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" CPACK_PACKAGE_VERSION_PATCH ${PACKAGE_VERSION})
-set(COMPLETE_VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
-set(RELEASE_NAME "Unstable-trunk")
-set(PROJECT_VERSION ${COMPLETE_VERSION})
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-# Windows DLLs are "runtime" for CMake. Output them to "bin" like the Visual Studio projects do.
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# 
+# CMake options
+# 
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+# CMake version
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-#################################################################################
-# Setup C/C++ compiler options
-#################################################################################
-if(NOT MSVC_IDE)
-    if(NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
-        "Choose the type of build, options are: None Debug Release" FORCE)
+# Include cmake modules
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(WriterCompilerDetectionHeaderFound NOTFOUND)
+
+include(GenerateExportHeader)
+include(ExternalProject)
+
+# This module is only available with CMake >=3.1, so check whether it could be found
+include(WriteCompilerDetectionHeader OPTIONAL RESULT_VARIABLE WriterCompilerDetectionHeaderFound)
+
+include(cmake/GetGitRevisionDescription.cmake)
+include(cmake/Custom.cmake)
+
+# Set policies
+set_policy(CMP0028 NEW) # ENABLE CMP0028: Double colon in target name means ALIAS or IMPORTED target.
+set_policy(CMP0054 NEW) # ENABLE CMP0054: Only interpret if() arguments as variables or keywords when unquoted.
+set_policy(CMP0042 NEW) # ENABLE CMP0042: MACOSX_RPATH is enabled by default.
+set_policy(CMP0063 NEW) # ENABLE CMP0063: Honor visibility properties for all target types.
+
+
+# 
+# Project description and (meta) information
+# 
+
+# Get git revision
+get_git_head_revision(GIT_REFSPEC GIT_SHA1)
+string(SUBSTRING "${GIT_SHA1}" 0 12 GIT_REV)
+
+# Meta information about the project
+set(META_PROJECT_NAME        "hypha")
+set(META_PROJECT_DESCRIPTION "Hypha Libraries")
+set(META_AUTHOR_ORGANIZATION "hypha team")
+set(META_AUTHOR_DOMAIN       "https://hypha.chriamue.de")
+set(META_AUTHOR_MAINTAINER   "chriamue@gmail.com")
+set(META_VERSION_MAJOR       "0")
+set(META_VERSION_MINOR       "1")
+set(META_VERSION_PATCH       "0")
+set(META_VERSION_REVISION    "${GIT_REV}")
+set(META_VERSION             "${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH}")
+set(META_NAME_VERSION        "${META_PROJECT_NAME} v${META_VERSION} (${META_VERSION_REVISION})")
+
+
+# 
+# Project configuration options
+# 
+
+# Project options
+option(BUILD_SHARED_LIBS     "Build shared instead of static libraries."              ON)
+option(OPTION_SELF_CONTAINED "Create a self-contained install with all dependencies." OFF)
+option(OPTION_BUILD_TESTS    "Build tests."                                           ON)
+option(OPTION_BUILD_DOCS     "Build documentation."                                   OFF)
+option(OPTION_BUILD_EXAMPLES "Build examples."                                        OFF)
+
+
+# 
+# Declare project
+# 
+
+# Generate folders for IDE targets (e.g., VisualStudio solutions)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(IDE_FOLDER "")  
+
+# Declare project
+project(${META_PROJECT_NAME} C CXX)
+
+# Set output directories
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+
+# Create version file
+file(WRITE "${PROJECT_BINARY_DIR}/VERSION" "${META_NAME_VERSION}")
+
+
+# 
+# Compiler settings and options
+# 
+
+include(cmake/CompileOptions.cmake)
+
+
+# 
+# Deployment/installation setup
+# 
+
+# Get project name
+set(project ${META_PROJECT_NAME})
+
+# Check for system dir install
+set(SYSTEM_DIR_INSTALL FALSE)
+if("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr" OR "${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local")
+    set(SYSTEM_DIR_INSTALL TRUE)
+endif()
+
+# Installation paths
+if(UNIX AND SYSTEM_DIR_INSTALL)
+    # Install into the system (/usr/bin or /usr/local/bin)
+    set(INSTALL_ROOT      "share/${project}")       # /usr/[local]/share/<project>
+    set(INSTALL_CMAKE     "share/${project}/cmake") # /usr/[local]/share/<project>/cmake
+    set(INSTALL_EXAMPLES  "share/${project}")       # /usr/[local]/share/<project>
+    set(INSTALL_DATA      "share/${project}")       # /usr/[local]/share/<project>
+    set(INSTALL_BIN       "bin")                    # /usr/[local]/bin
+    set(INSTALL_SHARED    "lib/${project}/")                    # /usr/[local]/lib
+    set(INSTALL_LIB       "lib/${project}/")                    # /usr/[local]/lib
+    set(INSTALL_INCLUDE   "include/${project}/")                # /usr/[local]/include
+    set(INSTALL_DOC       "share/doc/${project}")   # /usr/[local]/share/doc/<project>
+    set(INSTALL_SHORTCUTS "share/applications")     # /usr/[local]/share/applications
+    set(INSTALL_ICONS     "share/pixmaps")          # /usr/[local]/share/pixmaps
+    set(INSTALL_INIT      "/etc/init")              # /etc/init (upstart init scripts)
+else()
+    # Install into local directory
+    set(INSTALL_ROOT      ".")                      # ./
+    set(INSTALL_CMAKE     "cmake")                  # ./cmake
+    set(INSTALL_EXAMPLES  ".")                      # ./
+    set(INSTALL_DATA      ".")                      # ./
+    set(INSTALL_BIN       ".")                      # ./
+    set(INSTALL_SHARED    "lib/${project}")                    # ./lib
+    set(INSTALL_LIB       "lib/${project}")                    # ./lib
+    set(INSTALL_INCLUDE   "include/${project}")                # ./include
+    set(INSTALL_DOC       "doc")                    # ./doc
+    set(INSTALL_SHORTCUTS "misc")                   # ./misc
+    set(INSTALL_ICONS     "misc")                   # ./misc
+    set(INSTALL_INIT      "misc")                   # ./misc
+endif()
+
+# Set runtime path
+set(CMAKE_SKIP_BUILD_RPATH            FALSE) # Add absolute path to all dependencies for BUILD
+set(CMAKE_BUILD_WITH_INSTALL_RPATH    FALSE) # Use CMAKE_INSTALL_RPATH for INSTALL
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE) # Do NOT add path to dependencies for INSTALL
+
+if(NOT SYSTEM_DIR_INSTALL)
+    # Find libraries relative to binary
+    if(APPLE)
+        set(CMAKE_INSTALL_RPATH "@loader_path/../../../${INSTALL_LIB}")
+    else()
+        set(CMAKE_INSTALL_RPATH "$ORIGIN/${INSTALL_LIB}")       
     endif()
-    message(STATUS "Setting Poco build type - ${CMAKE_BUILD_TYPE}")
-endif()
-if (CMAKE_BUILD_TYPE STREQUAL "")
-    set( CMAKE_BUILD_TYPE "RelWithDebInfo" )
 endif()
 
 
-ADD_DEFINITIONS(
-    -std=c++11 # Or -std=c++0x
-    # Other flags
-)
+# 
+# Project modules
+# 
 
-include(HyphaMacros)
-
-include_directories( "utils/include" "core/include" "plugin/include" "handler/include" ${Boost_INCLUDE_DIRS} )
-
-if(WIN32)
-    find_library(POCO_NET PocoNet)
-    find_library(POCO_UTIL PocoUtil)
-    find_library(POCO_FOUNDATION PocoFoundation)
-    find_library(POCO_DATA PocoData)
-    find_library(POCO_MYSQL PocoMySQL)
-    find_library(POCO_SQLITE PocoSQLite)
-    find_package(Boost COMPONENTS signals thread system filesystem REQUIRED)
-    include_directories( "utils/include" "core/include" "plugin/include" "handler/include" ${Boost_INCLUDE_DIRS} "C:/poco/Net/include" "C:/poco/Foundation/include"
-        "C:/poco/Util/include" "C:/poco/Data/include" "C:/poco/Data/MySQL/include")
-    link_directories( "C:/poco/lib" $ENV{BOOST_LIBRARYDIR} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-endif()
-
-if(HYPHA_STATIC)
-add_definitions( -DHYPHA_STATIC -DHYPHA_NO_AUTOMATIC_LIBS)
-set( LIB_MODE STATIC )
-message(STATUS "Building static libraries")
-else(HYPHA_STATIC)
-set( LIB_MODE SHARED )
-message(STATUS "Building dynamic libraries")
-endif(HYPHA_STATIC)
-
-set(Hypha_COMPONENTS "")
-
-add_subdirectory(utils)
-list(APPEND Hypha_COMPONENTS "Utils")
-add_subdirectory(core)
-list(APPEND Hypha_COMPONENTS "Core")
-add_subdirectory(plugin)
-list(APPEND Hypha_COMPONENTS "Plugin")
-add_subdirectory(handler)
-list(APPEND Hypha_COMPONENTS "Handler")
+add_subdirectory(source)
+add_subdirectory(docs)
+add_subdirectory(deploy)
 
 
-foreach(component ${Hypha_COMPONENTS})
-message(STATUS "Building: ${component}")
-endforeach()
+# 
+# Deployment (global project files)
+# 
 
-add_subdirectory( doc )
+# Install version file
+install(FILES "${PROJECT_BINARY_DIR}/VERSION" DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
 
+# Install cmake find script for the project
+install(FILES ${META_PROJECT_NAME}-config.cmake DESTINATION ${INSTALL_ROOT} COMPONENT dev)
 
-#############################################################
-# Enable packaging
-include(InstallRequiredSystemLibraries)
-set(CPACK_GENERATOR "DEB")
-set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Hypha Libraries")
-set(CPACK_PACKAGE_VENDOR "chriamue")
-set(CPACK_PACKAGE_CONTACT "chriamue")
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "/usr/local")
-set(CPACK_PACKAGE_VERSION ${COMPLETE_VERSION})
-set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
-#set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${CPACK_PACKAGE_ARCHITECTURE})
-set (CPACK_PACKAGE_FILE_NAME   "${CPACK_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_ARCHITECTURE}")
-include(CPack)
-#############################################################
+# Install the project meta files
+install(FILES AUTHORS   DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
+install(FILES LICENSE   DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
+install(FILES README.md DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
+
+# Install runtime data
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION ${INSTALL_DATA} COMPONENT runtime)

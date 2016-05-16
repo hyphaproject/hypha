@@ -1,5 +1,0 @@
-include(CMakeFindDependencyMacro)
-find_dependency(PocoFoundation)
-find_dependency(HyphaCore)
-find_dependency(HyphaUtils)
-include("${CMAKE_CURRENT_LIST_DIR}/HyphaPluginTargets.cmake")
