@@ -743,10 +743,10 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = @PROJECT_SOURCE_DIR@/source/hyphacore/include \
-			 @PROJECT_SOURCE_DIR@/source/hyphahandler/include \
-			 @PROJECT_SOURCE_DIR@/source/hyphaplugin/include \
-                         @PROJECT_SOURCE_DIR@/source/hyphautils/include
+INPUT                  = @PROJECT_SOURCE_DIR@/source/core/include \
+			 @PROJECT_SOURCE_DIR@/source/handler/include \
+			 @PROJECT_SOURCE_DIR@/source/plugin/include \
+                         @PROJECT_SOURCE_DIR@/source/utils/include
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
