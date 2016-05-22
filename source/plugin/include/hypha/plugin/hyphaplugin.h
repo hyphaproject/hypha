@@ -1,3 +1,5 @@
+// Copyright (c) 2015-2016 Hypha
+
 #ifndef HYPHAPLUGIN_H
 #define HYPHAPLUGIN_H
 
