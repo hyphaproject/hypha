@@ -1,5 +1,5 @@
-#ifndef USERDATABASESETTINGS_H
-#define USERDATABASESETTINGS_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <string>
 #include <hypha/core/core_api.h>
@@ -37,5 +37,3 @@ class CORE_API UserDatabaseSettings {
 };
 }
 }
-
-#endif // USERDATABASESETTINGS_H

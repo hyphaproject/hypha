@@ -1,7 +1,5 @@
 // Copyright (c) 2015-2016 Hypha
-
-#ifndef HANDLERLOADER_H
-#define HANDLERLOADER_H
+#pragma once
 
 #include <hypha/core/settings/handlersettings.h>
 #include <hypha/handler/handler_api.h>
@@ -44,5 +42,3 @@ class HANDLER_API HandlerLoader {
 };
 }
 }
-
-#endif  // HANDLERLOADER_H

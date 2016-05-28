@@ -1,7 +1,5 @@
 // Copyright (c) 2015-2016 Hypha
-
-#ifndef HYPHAPLUGIN_H
-#define HYPHAPLUGIN_H
+#pragma once
 
 #include <boost/signals2.hpp>
 
@@ -19,5 +17,3 @@ class PLUGIN_API HyphaPlugin : public HyphaBasePlugin {
 };
 }
 }
-
-#endif  // HYPHAPLUGIN_H

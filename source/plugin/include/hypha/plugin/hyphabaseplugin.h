@@ -1,7 +1,5 @@
 // Copyright (c) 2015-2016 Hypha
-
-#ifndef HYPHABASEPLUGIN_H
-#define HYPHABASEPLUGIN_H
+#pragma once
 
 #include <chrono>
 #include <functional>
@@ -130,5 +128,3 @@ class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
 };
 }
 }
-
-#endif  // HYPHABASEPLUGIN_H

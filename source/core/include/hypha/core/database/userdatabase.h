@@ -1,5 +1,5 @@
-#ifndef USERDATABASE_H
-#define USERDATABASE_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <list>
 #include <hypha/core/core_api.h>
@@ -29,5 +29,3 @@ class CORE_API UserDatabase {
 };
 }
 }
-
-#endif // USERDATABASE_H

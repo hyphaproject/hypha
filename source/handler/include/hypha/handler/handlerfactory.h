@@ -1,7 +1,5 @@
 // Copyright (c) 2015-2016 Hypha
-
-#ifndef HANDLERFACTORY_H
-#define HANDLERFACTORY_H
+#pragma once
 
 #include <hypha/handler/handler_api.h>
 #include <hypha/handler/hyphahandler.h>
@@ -40,5 +38,3 @@ class HANDLER_API HandlerFactory {
 };
 }
 }
-
-#endif  // HANDLERFACTORY_H

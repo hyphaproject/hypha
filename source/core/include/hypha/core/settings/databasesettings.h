@@ -1,5 +1,5 @@
-#ifndef DATABASESETTINGS_H
-#define DATABASESETTINGS_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <string>
 #include <hypha/core/settings/hyphasettings.h>
@@ -37,4 +37,3 @@ class CORE_API DatabaseSettings {
 }
 }
 
-#endif // DATABASESETTINGS_H

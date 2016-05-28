@@ -1,7 +1,5 @@
 // Copyright (c) 2015-2016 Hypha
-
-#ifndef HYPHAHANDLER_H
-#define HYPHAHANDLER_H
+#pragma once
 
 #include <hypha/handler/handler_api.h>
 #include <hypha/plugin/hyphabaseplugin.h>
@@ -15,5 +13,3 @@ class HANDLER_API HyphaHandler : public hypha::plugin::HyphaBasePlugin {
 };
 }
 }
-
-#endif  // HYPHAHANDLER_H

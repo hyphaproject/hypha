@@ -1,7 +1,5 @@
 // Copyright (c) 2015-2016 Hypha
-
-#ifndef PLUGINLOADER_H
-#define PLUGINLOADER_H
+#pragma once
 
 #include <hypha/core/settings/pluginsettings.h>
 #include <hypha/plugin/hyphaplugin.h>
@@ -42,5 +40,3 @@ class PLUGIN_API PluginLoader {
 };
 }
 }
-
-#endif  // PLUGINLOADER_H

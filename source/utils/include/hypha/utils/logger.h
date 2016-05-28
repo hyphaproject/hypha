@@ -1,8 +1,9 @@
-#ifndef LOGGER_H
-#define LOGGER_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
-#include <hypha/utils/utils_api.h>
 #include <string>
+#include <hypha/utils/utils_api.h>
+
 namespace hypha {
 namespace utils {
 /** Logger Singleton Class.
@@ -30,5 +31,3 @@ class UTILS_API Logger {
 };
 }
 }
-
-#endif // LOGGER_H

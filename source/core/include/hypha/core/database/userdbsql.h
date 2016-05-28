@@ -1,5 +1,5 @@
-#ifndef USERDBSQL_H
-#define USERDBSQL_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <Poco/Data/SessionPool.h>
 #include <Poco/Data/Statement.h>
@@ -36,4 +36,3 @@ class CORE_API UserDBSql : public UserDatabase {
 }
 }
 
-#endif // USERDBSQL_H

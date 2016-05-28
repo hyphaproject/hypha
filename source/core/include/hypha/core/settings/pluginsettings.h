@@ -1,5 +1,5 @@
-#ifndef PLUGINSETTINGS_H
-#define PLUGINSETTINGS_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <list>
 #include <string>
@@ -35,5 +35,3 @@ class CORE_API PluginSettings {
 };
 }
 }
-
-#endif // PLUGINSETTINGS_H

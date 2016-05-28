@@ -1,7 +1,5 @@
 // Copyright (c) 2015-2016 Hypha
-
-#ifndef PLUGINFACTORY_H
-#define PLUGINFACTORY_H
+#pragma once
 
 #include <string>
 #include <hypha/plugin/hyphaplugin.h>
@@ -41,5 +39,3 @@ class PLUGIN_API PluginFactory {
 };
 }
 }
-
-#endif  // PLUGINFACTORY_H

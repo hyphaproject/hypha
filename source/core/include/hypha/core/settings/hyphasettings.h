@@ -1,5 +1,5 @@
-#ifndef HYPHASETTINGS_H
-#define HYPHASETTINGS_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <string>
 #include <Poco/AutoPtr.h>
@@ -46,4 +46,3 @@ class CORE_API HyphaSettings {
 }
 }
 
-#endif // HYPHASETTINGS_H

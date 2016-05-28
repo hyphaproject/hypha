@@ -1,5 +1,5 @@
-#ifndef HANDLERSETTINGS_H
-#define HANDLERSETTINGS_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <string>
 #include <list>
@@ -35,4 +35,3 @@ class CORE_API HandlerSettings {
 }
 }
 
-#endif // HANDLERSETTINGS_H

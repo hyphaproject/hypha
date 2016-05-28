@@ -1,15 +1,18 @@
-#ifndef USERDBLDAP_H
-#define USERDBLDAP_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 #ifdef WITH_LDAP
-#include "../core.h"
-#include <ldap.h>
+
 #include <string>
 #include <list>
 
-#include "../userdatabase.h"
+#include <ldap.h>
+
+#include <hypha/core/core_api.h>
+#include <hypha/core/settings//userdatabase.h>
+
 namespace hypha {
 namespace database {
-class Core_API UserDBLDAP : public UserDatabase {
+class CORE_API UserDBLDAP : public UserDatabase {
   public:
     UserDBLDAP(hypha::settings::UserDatabaseSettings *settings);
     ~UserDBLDAP();
@@ -27,4 +30,4 @@ class Core_API UserDBLDAP : public UserDatabase {
 }
 }
 #endif
-#endif // USERDBLDAP_H
+

@@ -1,8 +1,9 @@
-#ifndef EMAIL_H
-#define EMAIL_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
-#include <hypha/utils/utils_api.h>
 #include <string>
+#include <hypha/utils/utils_api.h>
+
 namespace hypha {
 namespace utils {
 /** EMail Class supports sending emails with file attachment.
@@ -28,4 +29,3 @@ class UTILS_API EMail {
 };
 }
 }
-#endif // EMAIL_H

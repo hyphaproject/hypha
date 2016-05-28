@@ -1,5 +1,5 @@
-#ifndef DATABASE_H
-#define DATABASE_H
+// Copyright (c) 2015-2016 Hypha
+#pragma once
 
 #include <Poco/Data/Session.h>
 #include <Poco/Data/SessionPool.h>
@@ -29,5 +29,3 @@ class CORE_API Database {
 };
 }
 }
-
-#endif // DATABASE_H
