@@ -23,6 +23,7 @@ class HANDLER_API HandlerLoader {
 
   void loadLocalInstances();
   void loadAllInstances();
+  void loadHandlers(std::string dir);
 
   HyphaHandler *getHandler(std::string name);
   std::list<HyphaHandler *> getHandlers();
@@ -37,7 +38,7 @@ class HANDLER_API HandlerLoader {
 
   std::list<HyphaHandler *> handlers;
   std::map<std::string, HyphaHandler *> handlerInstances;
-  void loadHandlers(std::string dir);
+
   hypha::settings::HandlerSettings *settings;
   hypha::handler::HandlerFactory *factory;
 };

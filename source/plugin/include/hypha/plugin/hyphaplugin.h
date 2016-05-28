@@ -3,9 +3,10 @@
 #ifndef HYPHAPLUGIN_H
 #define HYPHAPLUGIN_H
 
+#include <boost/signals2.hpp>
+
 #include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/plugin/plugin_api.h>
-#include <boost/signals2.hpp>
 
 namespace hypha {
 namespace plugin {

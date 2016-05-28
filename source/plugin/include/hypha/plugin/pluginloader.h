@@ -23,6 +23,7 @@ class PLUGIN_API PluginLoader {
 
   void loadLocalInstances();
   void loadAllInstances();
+  void loadPlugins(std::string dir);
 
   HyphaPlugin *getPlugin(std::string name);
   std::list<HyphaPlugin *> getPlugins();
@@ -35,7 +36,7 @@ class PLUGIN_API PluginLoader {
 
   std::list<HyphaPlugin *> plugins;
   std::map<std::string, HyphaPlugin *> pluginInstances;
-  void loadPlugins(std::string dir);
+
   hypha::settings::PluginSettings *settings;
   hypha::plugin::PluginFactory *factory;
 };
