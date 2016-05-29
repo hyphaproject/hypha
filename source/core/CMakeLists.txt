@@ -45,6 +45,7 @@ ${include_path}/settings/handlersettings.h
 ${include_path}/settings/hyphasettings.h
 ${include_path}/settings/pluginsettings.h
 ${include_path}/settings/userdatabasesettings.h
+${include_path}/settings/configgenerator.h
 )
 
 set(sources
@@ -57,6 +58,7 @@ ${source_path}/settings/handlersettings.cpp
 ${source_path}/settings/hyphasettings.cpp
 ${source_path}/settings/pluginsettings.cpp
 ${source_path}/settings/userdatabasesettings.cpp
+${source_path}/settings/configgenerator.cpp
 )
 
 # Group source files
