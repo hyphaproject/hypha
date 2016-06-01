@@ -5,6 +5,7 @@
 
 #include <hypha/core/settings/pluginsettings.h>
 #include <hypha/plugin/pluginloader.h>
+#include <hypha/utils/logger.h>
 
 using namespace hypha::plugin;
 using namespace hypha::settings;
@@ -24,7 +25,12 @@ HyphaPlugin *PluginFactory::create() {
   if (p) {
     HyphaPlugin *plugin = p->getInstance(id);
     plugin->setHost(host);
-    plugin->loadConfig(config);
+    try {
+      plugin->loadConfig(config);
+    } catch (std::exception &e) {
+      hypha::utils::Logger::warning("Exception while loading config for " + plugin->getId() + " : ");
+      hypha::utils::Logger::warning(e.what());
+    }
     return plugin;
   } else {
     return 0;

@@ -137,6 +137,7 @@ target_link_libraries(${target}
     PRIVATE
     ${META_PROJECT_NAME}::core
     ${META_PROJECT_NAME}::plugin
+    ${META_PROJECT_NAME}::utils
     PUBLIC
     ${DEFAULT_LIBRARIES}
     ${Boost_LIBRARIES}
