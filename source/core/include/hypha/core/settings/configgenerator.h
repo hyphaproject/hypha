@@ -11,7 +11,7 @@ class CORE_API ConfigGenerator {
   ConfigGenerator();
 
   // Database
-  std::string dbDatabase = "hypha";
+  std::string dbDatabase = "hypha.db";
   std::string dbDriver = "SQLite";
   std::string dbHost = "localhost";
   std::string dbPassword = "password";
@@ -23,7 +23,7 @@ class CORE_API ConfigGenerator {
   std::string udbAttributeLastname = "lastname";
   std::string udbAttributeMail = "mail";
   std::string udbAttributeUsername = "username";
-  std::string udbDatabase = "hypha";
+  std::string udbDatabase = "hypha.db";
   std::string udbDriver = "SQLite";
   std::string udbHost = "localhost";
   std::string udbPassword = "password";
