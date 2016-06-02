@@ -37,6 +37,7 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
 ${include_path}/database/database.h
+${include_path}/database/databasegenerator.h
 ${include_path}/database/userdatabase.h
 ${include_path}/database/userdbsql.h
 ${include_path}/database/ldap/userdbldap.h
@@ -50,6 +51,7 @@ ${include_path}/settings/configgenerator.h
 
 set(sources
 ${source_path}/database/database.cpp
+${source_path}/database/databasegenerator.cpp
 ${source_path}/database/userdatabase.cpp
 ${source_path}/database/userdbsql.cpp
 ${source_path}/database/ldap/userdbldap.cpp

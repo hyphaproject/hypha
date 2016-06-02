@@ -24,7 +24,7 @@ class CORE_API Database {
     void createTables();
     void createMySQLTables();
     void createSQLiteTables();
-    Poco::Data::SessionPool *pool;
+    Poco::Data::SessionPool *pool = nullptr;
     hypha::settings::DatabaseSettings *databaseSettings;
 };
 }

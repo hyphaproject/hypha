@@ -30,7 +30,7 @@ class CORE_API UserDBSql : public UserDatabase {
     void createTables();
 
   protected:
-    Poco::Data::SessionPool *pool;
+    Poco::Data::SessionPool *pool = nullptr;
     std::string host;
 };
 }
