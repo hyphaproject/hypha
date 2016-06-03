@@ -21,7 +21,8 @@ class CONTROLLER_API Connection {
 public:
     Connection(hypha::database::Database *database);
 
-    std::list<std::tuple<std::string, std::string>> getConnections();
+    void create(std::string handlerId, std::string pluginId);
+    std::list<std::tuple<std::string, std::string, std::string>> getConnections();
 
 protected:
     hypha::database::Database *database = nullptr;
