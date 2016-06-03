@@ -743,7 +743,8 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = @PROJECT_SOURCE_DIR@/source/core/include \
+INPUT                  = @PROJECT_SOURCE_DIR@/source/controller/include \
+			 @PROJECT_SOURCE_DIR@/source/core/include \
 			 @PROJECT_SOURCE_DIR@/source/handler/include \
 			 @PROJECT_SOURCE_DIR@/source/plugin/include \
                          @PROJECT_SOURCE_DIR@/source/utils/include
