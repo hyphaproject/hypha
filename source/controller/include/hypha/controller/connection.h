@@ -22,6 +22,12 @@ public:
     Connection(hypha::database::Database *database);
 
     void create(std::string handlerId, std::string pluginId);
+
+    /**
+     * @brief remove removes connection from database
+     * @param id The ID of the connection
+     */
+    void remove(std::string id);
     std::list<std::tuple<std::string, std::string, std::string>> getConnections();
 
 protected:
