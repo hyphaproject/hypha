@@ -34,10 +34,14 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
 ${include_path}/connection.h
+${include_path}/handler.h
+${include_path}/plugin.h
 )
 
 set(sources
 ${source_path}/connection.cpp
+${source_path}/handler.cpp
+${source_path}/plugin.cpp
 )
 
 # Group source files
