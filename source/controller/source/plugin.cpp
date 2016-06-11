@@ -21,3 +21,14 @@ void Plugin::add(std::string id, std::string host, std::string type,
              "','" + host + "','" + type + "','" + config + "');",
       Poco::Data::Keywords::now;
 }
+
+void Plugin::remove(std::string id) {
+  database->getSession() << "DELETE FROM `plugins` WHERE id='" + id + "';",
+      Poco::Data::Keywords::now;
+}
+
+void Plugin::updateConfig(std::string id, std::string config) {
+  database->getSession() << "UPDATE `plugins` SET `config`=? WHERE `id`=?",
+      Poco::Data::Keywords::use(config), Poco::Data::Keywords::use(id),
+      Poco::Data::Keywords::now;
+}

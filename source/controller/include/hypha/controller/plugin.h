@@ -5,30 +5,32 @@
 
 #include <hypha/controller/controller_api.h>
 
-
 namespace hypha {
 namespace database {
-    class Database;
+class Database;
 }
 
 namespace controller {
 
 class CONTROLLER_API Plugin {
+ public:
+  Plugin(hypha::database::Database *database);
 
-public:
-    Plugin(hypha::database::Database *database);
+  /**
+   * @brief add Adds a new plugin to the database
+   * @param id The unique ID of the plugin
+   * @param host The host where the plugin should run
+   * @param type The type of plugin
+   * @param config The Configuration the plugin should load
+   */
+  void add(std::string id, std::string host, std::string type,
+           std::string config);
 
-    /**
-     * @brief add Adds a new plugin to the database
-     * @param id The unique ID of the plugin
-     * @param host The host where the plugin should run
-     * @param type The type of plugin
-     * @param config The Configuration the plugin should load
-     */
-    void add(std::string id, std::string host, std::string type, std::string config);
+  void remove(std::string id);
+  void updateConfig(std::string id, std::string config);
 
-protected:
-    hypha::database::Database *database = nullptr;
+ protected:
+  hypha::database::Database *database = nullptr;
 };
 }
 }

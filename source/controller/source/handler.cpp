@@ -21,3 +21,14 @@ void Handler::add(std::string id, std::string host, std::string type,
              "','" + host + "','" + type + "','" + config + "');",
       Poco::Data::Keywords::now;
 }
+
+void Handler::remove(std::string id) {
+  database->getSession() << "DELETE FROM `handler` WHERE id='" + id + "';",
+      Poco::Data::Keywords::now;
+}
+
+void Handler::updateConfig(std::string id, std::string config) {
+  database->getSession() << "UPDATE `handler` SET `config`=? WHERE `id`=?",
+      Poco::Data::Keywords::use(config), Poco::Data::Keywords::use(id),
+      Poco::Data::Keywords::now;
+}
