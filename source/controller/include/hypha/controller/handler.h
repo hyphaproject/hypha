@@ -1,9 +1,14 @@
 // Copyright (c) 2015-2016 Hypha
 #pragma once
 
+#include <sstream>
 #include <string>
 
+#include <Poco/Data/Statement.h>
 #include <hypha/controller/controller_api.h>
+#include <hypha/core/database/database.h>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 
 namespace hypha {
 namespace database {
@@ -29,6 +34,25 @@ class CONTROLLER_API Handler {
   void remove(std::string id);
 
   void updateConfig(std::string id, std::string config);
+
+  template <typename Type>
+  Type getConfigValue(std::string id, std::string key) {
+    std::string config = "{}";
+    Poco::Data::Statement statement = database->getStatement();
+    statement << "SELECT config FROM handler WHERE id='" + id + "'",
+        Poco::Data::Keywords::into(config);
+    statement.execute();
+
+    boost::property_tree::ptree ptconfig;
+    std::stringstream ssconfig(config);
+    boost::property_tree::read_json(ssconfig, ptconfig);
+
+    if (ptconfig.get_optional<Type>(key)) {
+      return ptconfig.get<Type>(key);
+    } else {
+      throw std::runtime_error("does not contain value");
+    }
+  }
 
  protected:
   hypha::database::Database *database = nullptr;

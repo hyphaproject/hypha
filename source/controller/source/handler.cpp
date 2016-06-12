@@ -1,11 +1,8 @@
 // Copyright (c) 2015-2016 Hypha
 
-#include <hypha/controller/handler.h>
-#include <hypha/core/database/database.h>
-#include <hypha/utils/logger.h>
-
 #include <Poco/Data/RecordSet.h>
-#include <Poco/Data/Statement.h>
+#include <hypha/controller/handler.h>
+#include <hypha/utils/logger.h>
 
 using namespace hypha::controller;
 using namespace hypha::utils;
