@@ -1,27 +1,16 @@
 # Hypha libraries
 
-1) Development
+### Quick start
 
-The project is contained in a source directory for active development.
+First install CMake, Poco, Boost
 
-binaries: ./build
-rpath:    absolute paths to all dependencies
-datapath: ..
+Then build and run.
 
-
-2) Installation (default)
-
-The project is installed in a self-contained directory, ready for being moved or copied to another location or computer.
-
-binaries: ./bin
-rpath:    $ORIGIN/../lib
-datapath: ..
-
-
-3) Installation (unix system install)
-
-The project is installed globally on a system.
-
-binaries: /usr/[local/]bin
-rpath:    empty
-datapath: /usr/[local/]share/<projectname>
+```sh
+git clone {hypha}
+cd hypha
+mkdir build
+cd build
+cmake ..
+make
+```

@@ -5,9 +5,6 @@
 
 # find_package(THIRDPARTY REQUIRED)
 
-find_package(Boost COMPONENTS signals thread system filesystem REQUIRED)
-find_package(Poco COMPONENTS Foundation Util REQUIRED)
-
 # 
 # Library name and options
 # 
@@ -119,8 +116,6 @@ target_include_directories(${target}
 
     PUBLIC
     ${DEFAULT_INCLUDE_DIRECTORIES}
-    ${Boost_INCLUDE_DIR}
-    ${Poco_INCLUDE_DIR}
 
     INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -140,8 +135,6 @@ target_link_libraries(${target}
     ${META_PROJECT_NAME}::utils
     PUBLIC
     ${DEFAULT_LIBRARIES}
-    ${Boost_LIBRARIES}
-    ${Poco_LIBRARIES}
     INTERFACE
 )
 

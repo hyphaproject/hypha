@@ -5,7 +5,6 @@
 
 # find_package(THIRDPARTY REQUIRED)
 
-find_package(Boost COMPONENTS signals thread system filesystem REQUIRED)
 find_package(Poco COMPONENTS Foundation Util Net REQUIRED)
 
 # 
@@ -118,7 +117,6 @@ target_include_directories(${target}
 
     PUBLIC
     ${DEFAULT_INCLUDE_DIRECTORIES}
-    ${Boost_INCLUDE_DIR}
     ${Poco_INCLUDE_DIR}
 
     INTERFACE
@@ -137,7 +135,6 @@ target_link_libraries(${target}
 
     PUBLIC
     ${DEFAULT_LIBRARIES}
-    ${Boost_LIBRARIES}
     ${Poco_LIBRARIES}
     INTERFACE
 )

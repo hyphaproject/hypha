@@ -25,19 +25,21 @@ set(DEFAULT_PROJECT_OPTIONS
     CXX_VISIBILITY_PRESET     "hidden"
 )
 
+find_package(Boost COMPONENTS signals thread system filesystem REQUIRED)
+find_package(Poco COMPONENTS Foundation Util REQUIRED)
 
 # 
 # Include directories
 # 
 
-set(DEFAULT_INCLUDE_DIRECTORIES)
+set(DEFAULT_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR} ${Poco_INCLUDE_DIR})
 
 
 # 
 # Libraries
 # 
 
-set(DEFAULT_LIBRARIES)
+set(DEFAULT_LIBRARIES ${Boost_LIBRARIES} ${Poco_LIBRARIES})
 
 
 # 
