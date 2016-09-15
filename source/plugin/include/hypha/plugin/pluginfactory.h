@@ -1,9 +1,9 @@
 // Copyright (c) 2015-2016 Hypha
 #pragma once
 
-#include <string>
 #include <hypha/plugin/hyphaplugin.h>
 #include <hypha/plugin/plugin_api.h>
+#include <string>
 
 namespace hypha {
 

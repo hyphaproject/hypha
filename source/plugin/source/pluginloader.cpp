@@ -2,11 +2,11 @@
 
 #include <hypha/plugin/pluginloader.h>
 
-#include <mutex>
-#include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <Poco/ClassLoader.h>
 #include <Poco/Manifest.h>
+#include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
+#include <mutex>
 
 #include <hypha/core/settings/pluginsettings.h>
 #include <hypha/plugin/pluginfactory.h>
@@ -24,7 +24,7 @@ PluginLoader *PluginLoader::singleton = 0;
 PluginLoader::PluginLoader(hypha::settings::PluginSettings *settings) {
   this->settings = settings;
   this->factory = new hypha::plugin::PluginFactory(settings, this);
-  //loadPlugins(boost::filesystem::path(boost::filesystem::current_path())
+  // loadPlugins(boost::filesystem::path(boost::filesystem::current_path())
   //                .generic_string() + "/../plugins");
 }
 
@@ -109,16 +109,15 @@ void PluginLoader::loadPlugins(std::string dir) {
     PManifest::Iterator itMan(it->second->begin());
     PManifest::Iterator endMan(it->second->end());
     for (; itMan != endMan; ++itMan) {
-        HyphaPlugin * plugin = itMan->create();
-        bool pluginNameExists = false;
-        for (HyphaPlugin *plugin_ : plugins) {
-          if (plugin_->name() == plugin->name()){
-              pluginNameExists = true;
-              break;
-          }
+      HyphaPlugin *plugin = itMan->create();
+      bool pluginNameExists = false;
+      for (HyphaPlugin *plugin_ : plugins) {
+        if (plugin_->name() == plugin->name()) {
+          pluginNameExists = true;
+          break;
         }
-        if(!pluginNameExists)
-            this->plugins.insert(this->plugins.end(), plugin);
+      }
+      if (!pluginNameExists) this->plugins.insert(this->plugins.end(), plugin);
     }
   }
 }

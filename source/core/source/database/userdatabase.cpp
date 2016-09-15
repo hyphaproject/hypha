@@ -1,5 +1,5 @@
-#include <mutex>
 #include <hypha/core/database/userdbsql.h>
+#include <mutex>
 #ifdef WITH_LDAP
 #include <hypha/core/database/ldap/userdbldap.h>
 #endif
@@ -11,38 +11,37 @@ using namespace hypha::database;
 UserDatabase *UserDatabase::singleton = 0;
 
 UserDatabase::UserDatabase(UserDatabaseSettings *settings) {
-    this->settings = settings;
+  this->settings = settings;
 }
 
-UserDatabase::~UserDatabase() {
-}
+UserDatabase::~UserDatabase() {}
 
 UserDatabase *UserDatabase::factoreInstance(UserDatabaseSettings *settings) {
-    UserDatabase *database = nullptr;
-    if (settings->getDriver() == "LDAP") {
-//#ifdef WITH_LDAP
-//                database = new UserDBLDAP(settings);
-//#else
-        throw "LDAP not supported";
-//#endif
-    } else {
-        database = new hypha::database::UserDBSql(settings);
-    }
-    database->connect();
-    return database;
+  UserDatabase *database = nullptr;
+  if (settings->getDriver() == "LDAP") {
+    //#ifdef WITH_LDAP
+    //                database = new UserDBLDAP(settings);
+    //#else
+    throw "LDAP not supported";
+    //#endif
+  } else {
+    database = new hypha::database::UserDBSql(settings);
+  }
+  database->connect();
+  return database;
 }
 
 UserDatabase *UserDatabase::instance() {
-    static std::mutex mutex;
+  static std::mutex mutex;
+  if (!singleton) {
+    mutex.lock();
+
     if (!singleton) {
-        mutex.lock();
-
-        if (!singleton) {
-            singleton = factoreInstance(hypha::settings::UserDatabaseSettings::instance());
-        }
-
-        mutex.unlock();
+      singleton =
+          factoreInstance(hypha::settings::UserDatabaseSettings::instance());
     }
-    return singleton;
-}
 
+    mutex.unlock();
+  }
+  return singleton;
+}

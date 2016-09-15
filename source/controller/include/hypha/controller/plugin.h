@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2016 Hypha
 #pragma once
 
-#include <string>
 #include <sstream>
+#include <string>
 
 #include <Poco/Data/Statement.h>
 #include <hypha/controller/controller_api.h>

@@ -28,7 +28,8 @@ HyphaPlugin *PluginFactory::create() {
     try {
       plugin->loadConfig(config);
     } catch (std::exception &e) {
-      hypha::utils::Logger::warning("Exception while loading config for " + plugin->getId() + " : ");
+      hypha::utils::Logger::warning("Exception while loading config for " +
+                                    plugin->getId() + " : ");
       hypha::utils::Logger::warning(e.what());
     }
     return plugin;

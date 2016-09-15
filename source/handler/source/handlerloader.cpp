@@ -20,7 +20,7 @@ HandlerLoader *HandlerLoader::singleton = 0;
 HandlerLoader::HandlerLoader(hypha::settings::HandlerSettings *settings) {
   this->settings = settings;
   this->factory = new hypha::handler::HandlerFactory(settings, this);
-  //loadHandlers(boost::filesystem::path(boost::filesystem::current_path())
+  // loadHandlers(boost::filesystem::path(boost::filesystem::current_path())
   //                 .generic_string() + "/../plugins");
 }
 
@@ -112,16 +112,16 @@ void HandlerLoader::loadHandlers(std::string dir) {
     PManifest::Iterator itMan(it->second->begin());
     PManifest::Iterator endMan(it->second->end());
     for (; itMan != endMan; ++itMan) {
-        HyphaHandler * handler = itMan->create();
-        bool handlerNameExists = false;
-        for (HyphaHandler *plugin : handlers) {
-          if (plugin->name() == handler->name()){
-              handlerNameExists = true;
-              break;
-          }
+      HyphaHandler *handler = itMan->create();
+      bool handlerNameExists = false;
+      for (HyphaHandler *plugin : handlers) {
+        if (plugin->name() == handler->name()) {
+          handlerNameExists = true;
+          break;
         }
-        if(!handlerNameExists)
-            this->handlers.insert(this->handlers.end(), handler);
+      }
+      if (!handlerNameExists)
+        this->handlers.insert(this->handlers.end(), handler);
     }
   }
 }

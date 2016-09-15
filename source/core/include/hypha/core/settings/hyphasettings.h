@@ -1,11 +1,11 @@
 // Copyright (c) 2015-2016 Hypha
 #pragma once
 
-#include <string>
 #include <Poco/AutoPtr.h>
 #include <Poco/Util/IniFileConfiguration.h>
 #include <Poco/Util/XMLConfiguration.h>
 #include <hypha/core/core_api.h>
+#include <string>
 
 namespace hypha {
 namespace settings {
@@ -17,32 +17,30 @@ namespace settings {
  * \image html HyphaSettingsContext.PNG
  */
 class CORE_API HyphaSettings {
-  public:
+ public:
+  static HyphaSettings *instance();
+  static HyphaSettings *loadInstance(std::string configFile);
 
-    static HyphaSettings *instance();
-    static HyphaSettings *loadInstance(std::string configFile);
+  explicit HyphaSettings(std::string configfile);
+  ~HyphaSettings();
 
-    explicit HyphaSettings(std::string configfile);
-    ~HyphaSettings();
+  void createNewFile();
+  void load();
+  void save();
 
-    void createNewFile();
-    void load();
-    void save();
+  std::string getString(const std::string &key,
+                        const std::string &defaultValue);
+  int getInt(const std::string &key, const int &defaultValue);
 
-    std::string getString(const std::string &key, const std::string &defaultValue);
-    int getInt(const std::string &key, const int &defaultValue);
+  void setString(const std::string &key, std::string &value);
+  void setInt(const std::string &key, std::string &value);
 
-    void setString(const std::string &key, std::string &value);
-    void setInt(const std::string &key, std::string &value);
+ protected:
+  Poco::AutoPtr<Poco::Util::XMLConfiguration> settings;
 
-  protected:
-    Poco::AutoPtr<Poco::Util::XMLConfiguration> settings;
+  std::string configfile;
 
-    std::string configfile;
-
-    static HyphaSettings *singleton;
-
+  static HyphaSettings *singleton;
 };
 }
 }
-

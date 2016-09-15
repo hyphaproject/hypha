@@ -18,15 +18,14 @@ void Connection::create(std::string handlerId, std::string pluginId) {
   database->getSession()
       << "INSERT INTO `connection`(`handler_id`,`plugin_id`) VALUES('" +
              handlerId + "','" + pluginId + "');",
-          Poco::Data::Keywords::now;
+      Poco::Data::Keywords::now;
 }
 
-void Connection::remove(std::string id)
-{
-    Poco::Data::Statement statement = database->getStatement();
-    statement << "delete from connection where id = ?;",
-              Poco::Data::Keywords::use(id);
-    statement.execute();
+void Connection::remove(std::string id) {
+  Poco::Data::Statement statement = database->getStatement();
+  statement << "delete from connection where id = ?;",
+      Poco::Data::Keywords::use(id);
+  statement.execute();
 }
 
 std::list<std::tuple<std::string, std::string, std::string> >
