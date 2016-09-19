@@ -1,3 +1,4 @@
+// Copyright (c) 2015-2016 Hypha
 #include <Poco/Data/RecordSet.h>
 #include <Poco/Data/Statement.h>
 #include <Poco/Net/DNS.h>

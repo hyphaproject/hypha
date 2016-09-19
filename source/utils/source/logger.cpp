@@ -1,3 +1,4 @@
+// Copyright (c) 2015-2016 Hypha
 #include <Poco/AutoPtr.h>
 #include <Poco/ConsoleChannel.h>
 #include <Poco/FileChannel.h>

@@ -1,3 +1,4 @@
+// Copyright (c) 2015-2016 Hypha
 #include <Poco/Net/FilePartSource.h>
 #include <Poco/Net/MailMessage.h>
 #include <Poco/Net/MailRecipient.h>

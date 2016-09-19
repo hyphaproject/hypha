@@ -1,3 +1,4 @@
+// Copyright (c) 2015-2016 Hypha
 #include <Poco/Data/MySQL/Connector.h>
 #include <Poco/Data/SQLite/Connector.h>
 #include <hypha/core/database/database.h>
@@ -165,6 +166,7 @@ Poco::Data::Session Database::getSession() {
   } catch (Poco::Exception &e) {
     Logger::fatal(e.message());
   }
+    return Poco::Data::Session();
 }
 
 Poco::Data::Statement Database::getStatement() {
@@ -174,4 +176,5 @@ Poco::Data::Statement Database::getStatement() {
   } catch (Poco::Exception &e) {
     Logger::fatal(e.message());
   }
+    return Poco::Data::Session();
 }

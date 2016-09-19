@@ -1,3 +1,4 @@
+// Copyright (c) 2015-2016 Hypha
 #include <Poco/Data/MySQL/Connector.h>
 #include <Poco/Data/RecordSet.h>
 #include <Poco/Data/SQLite/Connector.h>

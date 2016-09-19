@@ -1,4 +1,4 @@
-
+// Copyright (c) 2015-2016 Hypha
 #include "hypha/core/settings/configgenerator.h"
 #include <Poco/AutoPtr.h>
 #include <Poco/Util/IniFileConfiguration.h>

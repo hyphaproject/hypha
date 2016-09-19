@@ -1,3 +1,4 @@
+// Copyright (c) 2015-2016 Hypha
 #include <Poco/ClassLoader.h>
 #include <Poco/Manifest.h>
 #include <hypha/core/settings/handlersettings.h>

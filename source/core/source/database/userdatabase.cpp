@@ -1,3 +1,4 @@
+// Copyright (c) 2015-2016 Hypha
 #include <hypha/core/database/userdbsql.h>
 #include <mutex>
 #ifdef WITH_LDAP
