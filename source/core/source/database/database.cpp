@@ -166,7 +166,6 @@ Poco::Data::Session Database::getSession() {
   } catch (Poco::Exception &e) {
     Logger::fatal(e.message());
   }
-    return Poco::Data::Session();
 }
 
 Poco::Data::Statement Database::getStatement() {
@@ -176,5 +175,4 @@ Poco::Data::Statement Database::getStatement() {
   } catch (Poco::Exception &e) {
     Logger::fatal(e.message());
   }
-    return Poco::Data::Session();
 }
