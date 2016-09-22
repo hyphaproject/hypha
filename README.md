@@ -14,3 +14,6 @@ cd build
 cmake ..
 make
 ```
+
+-------------------------------
+![Logo](/deploy/images/logo.png) Icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com)
