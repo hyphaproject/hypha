@@ -31,6 +31,8 @@ add_executable(${target}
 add_executable(${META_PROJECT_NAME}::${target} ALIAS ${target})
 
 
+setup_target_for_coverage(${META_PROJECT_NAME}_coverage ${target} coverage)
+
 # 
 # Project options
 # 
@@ -62,6 +64,7 @@ target_link_libraries(${target}
     ${DEFAULT_LIBRARIES}
     ${META_PROJECT_NAME}::core
     libgmock
+    gcov
 )
 
 
