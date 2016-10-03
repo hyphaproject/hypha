@@ -56,7 +56,7 @@ set(META_NAME_VERSION        "${META_PROJECT_NAME} v${META_VERSION} (${META_VERS
 # Project options
 option(BUILD_SHARED_LIBS     "Build shared instead of static libraries."              ON)
 option(OPTION_SELF_CONTAINED "Create a self-contained install with all dependencies." OFF)
-option(OPTION_BUILD_TESTS    "Build tests."                                           ON)
+option(OPTION_BUILD_TESTS    "Build tests."                                           OFF)
 option(OPTION_BUILD_DOCS     "Build documentation."                                   OFF)
 option(OPTION_BUILD_EXAMPLES "Build examples."                                        OFF)
 
@@ -174,4 +174,4 @@ install(FILES LICENSE   DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
 install(FILES README.md DESTINATION ${INSTALL_ROOT} COMPONENT runtime)
 
 # Install runtime data
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION ${INSTALL_DATA} COMPONENT runtime)
+#install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION ${INSTALL_DATA} COMPONENT runtime)
