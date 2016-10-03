@@ -27,6 +27,7 @@ addons:
    - lcov
    - libboost-all-dev
    - libpoco-dev
+   - libmysqlclient-dev
 
 install:
  - sudo pip install cpp-coveralls
@@ -46,6 +47,14 @@ before_script:
  - make
  - sudo make install
  - cd ..
+
+ - git clone https://github.com/pocoproject/poco
+ - sed -i 's#mysqlclient_r#mysqlclient mysqlclient_r#g' poco/cmake/FindMySQL.cmake
+ - cd poco
+ - mkdir -p build
+ - cd build
+ - cmake -DCMAKE_BUILD_TYPE=Release .. && make -j3 && sudo make install && sudo ldconfig
+ - cd ../..
 
  - mkdir build
  - cd build
