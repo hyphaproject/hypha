@@ -79,11 +79,11 @@ if (WriterCompilerDetectionHeaderFound)
         VERSION 3.2
     )
 else()
-    file(
-        COPY ${PROJECT_SOURCE_DIR}/codegeneration/${target}_features.h
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/${target}
-        USE_SOURCE_PERMISSIONS
-    )
+    #file(
+    #    COPY ${PROJECT_SOURCE_DIR}/codegeneration/${target}_features.h
+    #    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/${target}
+    #    USE_SOURCE_PERMISSIONS
+    #)
 endif()
 
 # Create API export header
