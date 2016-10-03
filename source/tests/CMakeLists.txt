@@ -8,8 +8,6 @@ if(NOT OPTION_BUILD_TESTS)
     return()
 endif()
 
-include(CodeCoverage)
-
 # DISABLE CMP0037: Target names should not be reserved and should match a validity pattern.
 set_policy(CMP0037 OLD)
 

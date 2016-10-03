@@ -30,9 +30,6 @@ add_executable(${target}
 # Create namespaced alias
 add_executable(${META_PROJECT_NAME}::${target} ALIAS ${target})
 
-
-setup_target_for_coverage(${META_PROJECT_NAME}_coverage ${target} coverage)
-
 # 
 # Project options
 # 
@@ -59,12 +56,19 @@ target_include_directories(${target}
 # Libraries
 # 
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Coverage")
+include(CodeCoverage)
+set(libgcov "gcov")
+
+setup_target_for_coverage(${META_PROJECT_NAME}_coverage ${target} coverage)
+endif()
+
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
     ${META_PROJECT_NAME}::core
     libgmock
-    gcov
+    ${libgcov}
 )
 
 
