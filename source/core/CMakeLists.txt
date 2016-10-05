@@ -121,7 +121,7 @@ generate_export_header(${target}
 #
 
 set_target_properties(${target}
-    PROPERTIES
+    PROPERTIES PREFIX lib${META_PROJECT_NAME}
     ${DEFAULT_PROJECT_OPTIONS}
     FOLDER "${IDE_FOLDER}"
 )

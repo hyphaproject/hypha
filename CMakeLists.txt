@@ -111,8 +111,8 @@ if(UNIX AND SYSTEM_DIR_INSTALL)
     set(INSTALL_EXAMPLES  "share/${project}")       # /usr/[local]/share/<project>
     set(INSTALL_DATA      "share/${project}")       # /usr/[local]/share/<project>
     set(INSTALL_BIN       "bin")                    # /usr/[local]/bin
-    set(INSTALL_SHARED    "lib/${project}/")                    # /usr/[local]/lib
-    set(INSTALL_LIB       "lib/${project}/")                    # /usr/[local]/lib
+    set(INSTALL_SHARED    "lib/")                    # /usr/[local]/lib
+    set(INSTALL_LIB       "lib/")                    # /usr/[local]/lib
     set(INSTALL_INCLUDE   "include/${project}/")                # /usr/[local]/include
     set(INSTALL_DOC       "share/doc/${project}")   # /usr/[local]/share/doc/<project>
     set(INSTALL_SHORTCUTS "share/applications")     # /usr/[local]/share/applications
@@ -125,8 +125,8 @@ else()
     set(INSTALL_EXAMPLES  ".")                      # ./
     set(INSTALL_DATA      ".")                      # ./
     set(INSTALL_BIN       ".")                      # ./
-    set(INSTALL_SHARED    "lib/${project}")                    # ./lib
-    set(INSTALL_LIB       "lib/${project}")                    # ./lib
+    set(INSTALL_SHARED    "lib/")                    # ./lib
+    set(INSTALL_LIB       "lib/")                    # ./lib
     set(INSTALL_INCLUDE   "include/${project}")                # ./include
     set(INSTALL_DOC       "doc")                    # ./doc
     set(INSTALL_SHORTCUTS "misc")                   # ./misc
