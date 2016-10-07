@@ -9,7 +9,7 @@ using namespace hypha::utils;
 using namespace hypha::settings;
 using namespace hypha::database;
 
-Database *Database::singleton = 0;
+Database *Database::singleton = nullptr;
 
 Database::Database(hypha::settings::DatabaseSettings *databaseSettings) {
   this->databaseSettings = databaseSettings;

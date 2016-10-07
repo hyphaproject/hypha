@@ -14,6 +14,7 @@ message(STATUS "Test ${target}")
 
 set(sources
     main.cpp
+    cache_test.cpp
     core_test.cpp
 )
 

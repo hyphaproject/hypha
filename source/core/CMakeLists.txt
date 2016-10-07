@@ -6,7 +6,7 @@
 # find_package(THIRDPARTY REQUIRED)
 
 find_package(Boost COMPONENTS signals thread system filesystem REQUIRED)
-find_package(Poco COMPONENTS Foundation Util Net Data DataMySQL DataSQLite REQUIRED)
+find_package(Poco COMPONENTS Foundation Util Net Data DataMySQL DataSQLite Redis REQUIRED)
 
 
 #
@@ -36,6 +36,7 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${META_PROJECT_NAME}/${tar
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
+${include_path}/cache/cache.h
 ${include_path}/database/database.h
 ${include_path}/database/databasegenerator.h
 ${include_path}/database/userdatabase.h
@@ -50,6 +51,7 @@ ${include_path}/settings/configgenerator.h
 )
 
 set(sources
+${source_path}/cache/cache.cpp
 ${source_path}/database/database.cpp
 ${source_path}/database/databasegenerator.cpp
 ${source_path}/database/userdatabase.cpp
