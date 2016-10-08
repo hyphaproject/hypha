@@ -28,6 +28,12 @@ addons:
    - libboost-all-dev
    - libpoco-dev
    - libmysqlclient-dev
+   - texlive-fonts-recommended
+   - texlive-latex-extra
+   - texlive-fonts-extra
+   - dvipng
+   - texlive-latex-recommended
+   - texlive-full
 
 install:
  - sudo pip install cpp-coveralls
@@ -58,12 +64,14 @@ before_script:
 
  - mkdir build
  - cd build
- - cmake -DCMAKE_CXX_COMPILER=$CXX -DOPTION_BUILD_TESTS=1 -DCMAKE_BUILD_TYPE=Coverage ..
+ - cmake -DCMAKE_CXX_COMPILER=$CXX -DOPTION_BUILD_TESTS=1 -DOPTION_BUILD_DOCS=1 -DCMAKE_BUILD_TYPE=Coverage ..
 script:
  - make -j4
+ - make pack
+
+after_success:
  - make hypha_coverage
  - cd ..
-after_success:
-  - coveralls --root "." -E ".*/cmake-3.6.0/.*" -E ".*/build/gtest/.*" -E ".*CMakeFiles.*" -E ".*tests/.*.cpp.*"
+ - coveralls --root "." -E ".*/cmake-3.6.0/.*" -E ".*/build/gtest/.*" -E ".*CMakeFiles.*" -E ".*tests/.*.cpp.*"
 
 notifications:
