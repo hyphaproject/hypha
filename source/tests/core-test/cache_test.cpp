@@ -13,5 +13,14 @@ TEST_F(cache_test, CheckSomeResults) {
     std::string testkey = "testkey";
     std::string testvalue = "testvalue";
     cache.put(testkey, testvalue);
-    ASSERT_TRUE(cache.get(testkey) == testvalue);
+    ASSERT_TRUE(cache.getRaw(testkey) == testvalue);
+
+    std::string testdata = "testdata";
+    testkey = cache.put(testdata);
+    ASSERT_TRUE(testdata == cache.get(testkey));
+    std::cout << testkey << "  " << testdata << std::endl;
+
+    testkey = "localhost:1234";
+    ASSERT_TRUE("localhost" == hypha::cache::Cache::getHostname(testkey));
+    ASSERT_TRUE("1234" == hypha::cache::Cache::getUUID(testkey));
 }

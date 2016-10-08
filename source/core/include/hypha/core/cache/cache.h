@@ -45,7 +45,25 @@ class CORE_API Cache {
    * @param key
    * @return
    */
+  std::string getRaw(std::string &key);
+
+  /**
+   * @brief put
+   * stores data by newly generated key. Key starts with hostname and ':'
+   * followed by UUID.
+   * @param data to put
+   * @return the generated key
+   */
+  std::string put(std::string data);
+  /**
+   * @brief get
+   * @param key
+   * @return
+   */
   std::string get(std::string &key);
+
+  static std::string getHostname(std::string &key);
+  static std::string getUUID(std::string &key);
 
  private:
   std::string host;
