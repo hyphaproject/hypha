@@ -74,4 +74,16 @@ after_success:
  - cd ..
  - coveralls --root "." -E ".*/cmake-3.6.0/.*" -E ".*/build/gtest/.*" -E ".*CMakeFiles.*" -E ".*tests/.*.cpp.*"
 
+deploy:
+  provider: releases
+  api_key: "$GH_TOKEN"
+  file_glob: true
+  file:
+   - $TRAVIS_BUILD_DIR/build/docs/manual/*.pdf
+   - $TRAVIS_BUILD_DIR/build/*.deb
+   - $TRAVIS_BUILD_DIR/build/*.rpm
+  skip_cleanup: true
+  on:
+    tags: true
+
 notifications:
