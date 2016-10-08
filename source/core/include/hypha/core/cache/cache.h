@@ -1,28 +1,57 @@
 // Copyright (c) 2015-2016 Hypha
 #pragma once
 
-#include <hypha/core/core_api.h>
 #include <Poco/Redis/Client.h>
+#include <hypha/core/core_api.h>
 
 namespace hypha {
 namespace cache {
-class CORE_API Cache
-{
-public:
-    Cache();
-    ~Cache();
-    static Cache *instance();
-    bool connect();
-    bool reconnect();
 
-    void put(std::string &key, std::string data);
-    std::string get(std::string &key);
+/**
+ * @brief The Cache class
+ * Stores key value pairs. In background data are cached with Redis.
+ */
+class CORE_API Cache {
+ public:
+  Cache();
+  ~Cache();
 
-private:
- std::string host;
- unsigned int port;
- static Cache *singleton;
- Poco::Redis::Client redis;
+  /**
+   * @brief instance
+   * @return the singleton
+   */
+  static Cache *instance();
+  /**
+   * @brief connect
+   * Connects to the Redis database.
+   * @return
+   */
+  bool connect();
+  /**
+   * @brief reconnect
+   * Disconnects from and reconnects to the Redis database.
+   * @return
+   */
+  bool reconnect();
+
+  /**
+   * @brief put
+   * @param key
+   * @param data
+   */
+  void put(std::string &key, std::string data);
+  /**
+   * @brief get
+   * @param key
+   * @return
+   */
+  std::string get(std::string &key);
+
+ private:
+  std::string host;
+  unsigned int port;
+  static Cache *singleton;
+  Poco::Redis::Client redis;
 };
-} // namespace cache
-} // namespace hypha
+}  // namespace cache
+}  // namespace hypha

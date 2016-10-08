@@ -1,7 +1,7 @@
 // Copyright (c) 2016 Hypha
 #include "hypha/core/cache/cache.h"
-#include <mutex>
 #include <Poco/Redis/Command.h>
+#include <mutex>
 
 using namespace hypha::cache;
 
@@ -38,13 +38,13 @@ bool Cache::reconnect() {
 }
 
 void Cache::put(std::string &key, std::string data) {
-    Poco::Redis::Command setCommand = Poco::Redis::Command::set(key, data);
-    redis.execute<std::string>(setCommand);
+  Poco::Redis::Command setCommand = Poco::Redis::Command::set(key, data);
+  redis.execute<std::string>(setCommand);
 }
 
-std::string Cache::get(std::string &key)
-{
-    Poco::Redis::Command getCommand = Poco::Redis::Command::get(key);
-    Poco::Redis::BulkString result = redis.execute<Poco::Redis::BulkString>(getCommand);
-    return result.value();
+std::string Cache::get(std::string &key) {
+  Poco::Redis::Command getCommand = Poco::Redis::Command::get(key);
+  Poco::Redis::BulkString result =
+      redis.execute<Poco::Redis::BulkString>(getCommand);
+  return result.value();
 }

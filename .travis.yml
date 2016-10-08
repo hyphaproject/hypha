@@ -20,6 +20,7 @@ addons:
    - build-essential
    - cmake
    - git
+   - rpm
    - libgtk2.0-dev
    - pkg-config
    - python-dev
