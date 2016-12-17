@@ -1,7 +1,9 @@
 // Copyright (c) 2015-2016 Hypha
 
 #include <hypha/core/exceptions/configfilenotfound.h>
+#include <hypha/core/settings/configgenerator.h>
 #include <hypha/core/settings/hyphasettings.h>
+
 #include <boost/filesystem.hpp>
 #include <mutex>
 
@@ -35,16 +37,21 @@ HyphaSettings *HyphaSettings::loadInstance(std::string configFile) {
   return singleton;
 }
 
-void HyphaSettings::createNewFile() {}
+void HyphaSettings::createNewFile() {
+  hypha::settings::ConfigGenerator cg;
+  cg.generateConfigFile(configfile);
+}
 
-void HyphaSettings::load() {
-  if (boost::filesystem::exists(configfile)) {
-    settings = AutoPtr<XMLConfiguration>(new XMLConfiguration(configfile));
-
-  } else {
-    // createNewFile();
-    throw ConfigFileNotFound();
+void HyphaSettings::load(bool create_if_not_exist) {
+  if (!boost::filesystem::exists(configfile)) {
+    if (create_if_not_exist) {
+      createNewFile();
+    } else {
+      throw ConfigFileNotFound();
+    }
   }
+
+  settings = AutoPtr<XMLConfiguration>(new XMLConfiguration(configfile));
 }
 
 void HyphaSettings::save() { settings->save(configfile); }

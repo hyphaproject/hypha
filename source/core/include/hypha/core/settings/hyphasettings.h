@@ -25,7 +25,7 @@ class CORE_API HyphaSettings {
   ~HyphaSettings();
 
   void createNewFile();
-  void load();
+  void load(bool create_if_not_exist = false);
   void save();
 
   std::string getString(const std::string &key,

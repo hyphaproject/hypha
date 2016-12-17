@@ -16,6 +16,7 @@ set(sources
     main.cpp
     cache_test.cpp
     core_test.cpp
+    database_test.cpp
     settings_test.cpp
 )
 
