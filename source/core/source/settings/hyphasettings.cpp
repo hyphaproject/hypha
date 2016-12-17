@@ -1,4 +1,6 @@
 // Copyright (c) 2015-2016 Hypha
+
+#include <hypha/core/exceptions/configfilenotfound.h>
 #include <hypha/core/settings/hyphasettings.h>
 #include <boost/filesystem.hpp>
 #include <mutex>
@@ -6,6 +8,7 @@
 using Poco::AutoPtr;
 using Poco::Util::XMLConfiguration;
 using namespace hypha::settings;
+using namespace hypha::exceptions;
 
 HyphaSettings *HyphaSettings::singleton = 0;
 
@@ -39,7 +42,8 @@ void HyphaSettings::load() {
     settings = AutoPtr<XMLConfiguration>(new XMLConfiguration(configfile));
 
   } else {
-    createNewFile();
+    // createNewFile();
+    throw ConfigFileNotFound();
   }
 }
 

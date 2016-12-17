@@ -37,11 +37,16 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
 ${include_path}/cache/cache.h
+
 ${include_path}/database/database.h
 ${include_path}/database/databasegenerator.h
 ${include_path}/database/userdatabase.h
 ${include_path}/database/userdbsql.h
 ${include_path}/database/ldap/userdbldap.h
+
+${include_path}/exceptions/hyphaexception.h
+${include_path}/exceptions/configfilenotfound.h
+
 ${include_path}/settings/databasesettings.h
 ${include_path}/settings/handlersettings.h
 ${include_path}/settings/hyphasettings.h
