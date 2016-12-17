@@ -27,5 +27,32 @@ cmake ..
 make
 ```
 
+## For Developer
+
+run tests:
+```sh
+cmake -DOPTION_BUILD_TESTS=1 ..
+make
+./hyphacore-test
+```
+
+run clang-format:
+```sh
+make clang-format
+```
+
+run clang-tidy:
+```sh
+make clang-tidy
+```
+
+run coverage:
+```sh
+cmake -DOPTION_BUILD_TESTS=1 -DCMAKE_BUILD_TYPE=Coverage ..
+make hypha_coverage
+```
+
+open coverate/index.html
+
 -------------------------------
 ![Logo](/deploy/images/logo.png) Icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com)
