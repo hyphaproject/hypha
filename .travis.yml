@@ -73,7 +73,7 @@ script:
 after_success:
  - make hypha_coverage
  - cd ..
- - coveralls --root "." -E ".*/cmake-3.6.0/.*" -E ".*/build/gtest/.*" -E ".*CMakeFiles.*" -E ".*tests/.*.cpp.*"
+ - coveralls --root "." -E ".*/cmake-3.6.0/.*" -E ".*/poco/.*" -E ".*/build/gtest/.*" -E ".*CMakeFiles.*" -E ".*tests/.*.cpp.*"
 
 deploy:
   provider: releases
