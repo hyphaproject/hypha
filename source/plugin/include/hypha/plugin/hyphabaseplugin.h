@@ -34,9 +34,6 @@ namespace plugin {
  */
 class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
  public:
-  typedef boost::signals2::signal<void(std::string)> SendMessage;
-  typedef SendMessage::slot_type SendMessageSlotType;
-
   virtual ~HyphaBasePlugin() {}
 
   void run() {
@@ -88,19 +85,8 @@ class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
   void setId(std::string id) { this->id = id; }
   std::string getHost() { return host; }
   void setHost(std::string host) { this->host = host; }
-  void setCallMessageFunction(
-      std::function<std::string(std::string, std::string)> f) {
-    callMessageFunction = f;
-  }
-  boost::signals2::connection connect(const SendMessageSlotType &slot) {
-    return sendMessage.connect(slot);
-  }
 
-  virtual void receiveMessage(std::string message) = 0;
   virtual std::string communicate(std::string message) = 0;
-  std::string callMessage(std::string id, std::string message) {
-    return callMessageFunction(id, message);
-  }
 
   void start() {
     running = true;
@@ -121,10 +107,9 @@ class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
    *    The host where the plugin will run on.
    */
   std::string host;
-  SendMessage sendMessage;
+
   bool running = true;
   Poco::Thread thread;
-  std::function<std::string(std::string, std::string)> callMessageFunction;
 };
 }
 }

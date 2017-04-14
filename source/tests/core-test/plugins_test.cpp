@@ -6,17 +6,17 @@
 #include <iostream>
 
 class plugins_test : public testing::Test {
-public:
+ public:
 };
 
 TEST_F(plugins_test, printPluginsFolder) {
-    boost::filesystem::path p("plugins");
-    if(boost::filesystem::is_directory(p)) {
-        std::cout << p << " is a directory containing:\n";
+  boost::filesystem::path p("plugins");
+  if (boost::filesystem::is_directory(p)) {
+    std::cout << p << " is a directory containing:\n";
 
-        for(auto& entry : boost::make_iterator_range(boost::filesystem::directory_iterator(p), {})){
-
-            std::cout << entry << "\n";
-        }
+    for (auto& entry : boost::make_iterator_range(
+             boost::filesystem::directory_iterator(p), {})) {
+      std::cout << entry << "\n";
     }
+  }
 }

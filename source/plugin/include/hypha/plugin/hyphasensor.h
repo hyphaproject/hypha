@@ -11,7 +11,7 @@ class PLUGIN_API HyphaSensor : public HyphaBasePlugin {
  public:
   virtual void setup() = 0;
   virtual std::string communicate(std::string message) = 0;
-  virtual HyphaSensor *getInstance(std::string id) = 0;
+  virtual HyphaBasePlugin *getInstance(std::string id) = 0;
 };
 }
 }

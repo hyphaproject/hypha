@@ -1,62 +1,56 @@
 
-# 
+#
 # External dependencies
-# 
+#
 
 # find_package(THIRDPARTY REQUIRED)
 
-# 
+#
 # Library name and options
-# 
+#
 
 # Target name
-set(target plugin)
+set(target helloworld)
 
 # Exit here if required dependencies are not met
 message(STATUS "Lib ${target}")
 
+
 # Set API export file and macro
 string(TOUPPER ${target} target_upper)
-set(feature_file "include/${META_PROJECT_NAME}/${target}/${target}_features.h")
-set(export_file  "include/${META_PROJECT_NAME}/${target}/${target}_api.h")
+set(feature_file "include/${META_PROJECT_NAME}/plugins/${target}/${target}_features.h")
+set(export_file  "include/${META_PROJECT_NAME}/plugins/${target}/${target}_api.h")
 set(export_macro "${target_upper}_API")
 
 
-# 
-# Sources
-# 
 
-set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${META_PROJECT_NAME}/${target}")
+#
+# Sources
+#
+
+set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${META_PROJECT_NAME}/plugins/${target}")
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-${include_path}/hyphabaseplugin.h
-${include_path}/hyphaactor.h
-${include_path}/hyphahandler.h
-${include_path}/hyphasensor.h
-${include_path}/pluginfactory.h
-${include_path}/pluginloader.h
-${include_path}/receiverinterface.h
-${include_path}/senderinterface.h
+${include_path}/${target}.h
 )
 
 set(sources
-${source_path}/pluginfactory.cpp
-${source_path}/pluginloader.cpp
+${source_path}/${target}.cpp
 )
 
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$"
     ${header_group} ${headers})
-source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
     ${source_group} ${sources})
 
 
-# 
+#
 # Create library
-# 
+#
 
 # Build library
 add_library(${target}
@@ -84,11 +78,11 @@ if (WriterCompilerDetectionHeaderFound)
         VERSION 3.2
     )
 else()
-    #file(
-    #    COPY ${PROJECT_SOURCE_DIR}/codegeneration/${target}_features.h
-    #    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/${target}
-    #    USE_SOURCE_PERMISSIONS
-    #)
+    file(
+        COPY ${PROJECT_SOURCE_DIR}/codegeneration/${target}_features.h
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/${target}
+        USE_SOURCE_PERMISSIONS
+    )
 endif()
 
 # Create API export header
@@ -98,26 +92,27 @@ generate_export_header(${target}
 )
 
 
-# 
+#
 # Project options
-# 
+#
 
 set_target_properties(${target}
-    PROPERTIES PREFIX lib${META_PROJECT_NAME}
+    PROPERTIES
     ${DEFAULT_PROJECT_OPTIONS}
     FOLDER "${IDE_FOLDER}"
 )
 
 
-# 
+#
 # Include directories
-# 
+#
 
 target_include_directories(${target}
     PRIVATE
     ${PROJECT_BINARY_DIR}/source/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_BINARY_DIR}/include
+    ${CMAKE_CURRENT_BINARY_DIR}
 
     PUBLIC
     ${DEFAULT_INCLUDE_DIRECTORIES}
@@ -129,23 +124,24 @@ target_include_directories(${target}
 )
 
 
-# 
+#
 # Libraries
-# 
+#
 
 target_link_libraries(${target}
     PRIVATE
     ${META_PROJECT_NAME}::core
     ${META_PROJECT_NAME}::utils
+    ${META_PROJECT_NAME}::plugin
     PUBLIC
     ${DEFAULT_LIBRARIES}
     INTERFACE
 )
 
 
-# 
+#
 # Compile definitions
-# 
+#
 
 target_compile_definitions(${target}
     PRIVATE
@@ -158,9 +154,9 @@ target_compile_definitions(${target}
 )
 
 
-# 
+#
 # Compile options
-# 
+#
 
 target_compile_options(${target}
     PRIVATE
@@ -172,9 +168,9 @@ target_compile_options(${target}
 )
 
 
-# 
+#
 # Linker options
-# 
+#
 
 target_link_libraries(${target}
     PRIVATE
@@ -186,27 +182,27 @@ target_link_libraries(${target}
 )
 
 
-# 
+#
 # Deployment
-# 
+#
 
 # Library
 install(TARGETS ${target}
     EXPORT  "${target}-export"            COMPONENT dev
-    RUNTIME DESTINATION ${INSTALL_BIN}    COMPONENT runtime
-    LIBRARY DESTINATION ${INSTALL_SHARED} COMPONENT runtime
+    RUNTIME DESTINATION ${INSTALL_DATA}/plugins    COMPONENT runtime
+    LIBRARY DESTINATION ${INSTALL_DATA}/plugins COMPONENT runtime
     ARCHIVE DESTINATION ${INSTALL_LIB}    COMPONENT dev
 )
 
 # Header files
 install(DIRECTORY
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/${META_PROJECT_NAME}/${target} DESTINATION ${INSTALL_INCLUDE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/${META_PROJECT_NAME}/plugins/${target} DESTINATION ${INSTALL_INCLUDE}
     COMPONENT dev
 )
 
 # Generated header files
 install(DIRECTORY
-    ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT_NAME}/${target} DESTINATION ${INSTALL_INCLUDE}
+    ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT_NAME}/plugins/${target} DESTINATION ${INSTALL_INCLUDE}
     COMPONENT dev
 )
 
