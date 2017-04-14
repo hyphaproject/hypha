@@ -29,6 +29,7 @@ endfunction()
 # 
 
 add_custom_target(test)
+
 set_target_properties(test PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 
 

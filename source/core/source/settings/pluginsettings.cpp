@@ -87,4 +87,21 @@ std::string PluginSettings::getConfig(std::string id) {
   return retValue;
 }
 
+std::list<std::string> PluginSettings::getConnectedPlugins(
+    std::string pluginId) {
+  std::list<std::string> plugins;
+  /*Poco::Data::Statement statement = database->getStatement();
+  statement << "SELECT id,handler_id,plugin_id  FROM connection WHERE "
+               "handler_id = '" +
+                   handlerId + "';";
+  statement.execute();
+  Poco::Data::RecordSet rs(statement);
+  bool more = rs.moveFirst();
+  while (more) {
+    plugins.insert(plugins.end(), rs[2].convert<std::string>());
+    more = rs.moveNext();
+  }*/
+  return plugins;
+}
+
 bool PluginSettings::exists(std::string id) { return getName(id) != ""; }

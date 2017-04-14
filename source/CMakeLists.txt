@@ -20,6 +20,9 @@ add_subdirectory(handler)
 add_subdirectory(plugin)
 add_subdirectory(utils)
 
+# Plugins
+add_subdirectory(plugins)
+
 # Examples
 set(IDE_FOLDER "Examples")
 add_subdirectory(examples)

@@ -16,8 +16,8 @@ using namespace hypha::plugin;
 using namespace hypha::settings;
 using namespace hypha::utils;
 
-typedef Poco::ClassLoader<HyphaPlugin> PLoader;
-typedef Poco::Manifest<HyphaPlugin> PManifest;
+typedef Poco::ClassLoader<HyphaBasePlugin> PLoader;
+typedef Poco::Manifest<HyphaBasePlugin> PManifest;
 
 PluginLoader *PluginLoader::singleton = 0;
 
@@ -34,7 +34,6 @@ PluginLoader *PluginLoader::instance() {
   static std::mutex mutex;
   if (!singleton) {
     mutex.lock();
-
     if (!singleton)
       singleton = new PluginLoader(hypha::settings::PluginSettings::instance());
     mutex.unlock();
@@ -46,7 +45,7 @@ PluginLoader *PluginLoader::instance() {
 void PluginLoader::loadLocalInstances() {
   for (std::string id : settings->getLocalPluginIds()) {
     if (getPluginInstance(id) == 0) {
-      HyphaPlugin *plugin = factory->loadPlugin(id);
+      HyphaBasePlugin *plugin = factory->loadPlugin(id);
       if (plugin) pluginInstances[id] = plugin;
     }
   }
@@ -55,25 +54,24 @@ void PluginLoader::loadLocalInstances() {
 void PluginLoader::loadAllInstances() {
   for (std::string id : settings->getAllPluginIds()) {
     if (getPluginInstance(id) == 0) {
-      HyphaPlugin *plugin = factory->loadPlugin(id);
+      HyphaBasePlugin *plugin = factory->loadPlugin(id);
       if (plugin) pluginInstances[id] = plugin;
     }
   }
 }
 
-HyphaPlugin *PluginLoader::getPlugin(std::string name) {
-  for (HyphaPlugin *plugin : plugins) {
+HyphaBasePlugin *PluginLoader::getPlugin(std::string name) {
+  for (HyphaBasePlugin *plugin : plugins) {
     if (plugin->name() == name) return plugin;
   }
-
-  return 0;
+  return nullptr;
 }
 
-std::list<HyphaPlugin *> PluginLoader::getPlugins() { return plugins; }
+std::list<HyphaBasePlugin *> PluginLoader::getPlugins() { return plugins; }
 
-std::list<HyphaPlugin *> PluginLoader::getInstances() {
-  std::list<HyphaPlugin *> retList;
-  for (std::map<std::string, HyphaPlugin *>::const_iterator it =
+std::list<HyphaBasePlugin *> PluginLoader::getInstances() {
+  std::list<HyphaBasePlugin *> retList;
+  for (std::map<std::string, HyphaBasePlugin *>::const_iterator it =
            pluginInstances.begin();
        it != pluginInstances.end(); ++it) {
     retList.push_back(it->second);
@@ -81,7 +79,7 @@ std::list<HyphaPlugin *> PluginLoader::getInstances() {
   return retList;
 }
 
-HyphaPlugin *PluginLoader::getPluginInstance(std::string id) {
+HyphaBasePlugin *PluginLoader::getPluginInstance(std::string id) {
   return this->pluginInstances[id];
 }
 
@@ -109,9 +107,9 @@ void PluginLoader::loadPlugins(std::string dir) {
     PManifest::Iterator itMan(it->second->begin());
     PManifest::Iterator endMan(it->second->end());
     for (; itMan != endMan; ++itMan) {
-      HyphaPlugin *plugin = itMan->create();
+      HyphaBasePlugin *plugin = itMan->create();
       bool pluginNameExists = false;
-      for (HyphaPlugin *plugin_ : plugins) {
+      for (HyphaBasePlugin *plugin_ : plugins) {
         if (plugin_->name() == plugin->name()) {
           pluginNameExists = true;
           break;

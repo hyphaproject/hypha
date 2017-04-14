@@ -1,7 +1,7 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 #pragma once
 
-#include <hypha/plugin/hyphaplugin.h>
+#include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/plugin/plugin_api.h>
 #include <string>
 
@@ -21,7 +21,7 @@ class PLUGIN_API PluginFactory {
                          hypha::plugin::PluginLoader *loader);
   ~PluginFactory();
 
-  HyphaPlugin *loadPlugin(std::string id);
+  HyphaBasePlugin *loadPlugin(std::string id);
 
   void setId(std::string id);
   void setHost(std::string host);
@@ -33,7 +33,7 @@ class PLUGIN_API PluginFactory {
   std::string id;
   std::string host;
   std::string config;
-  HyphaPlugin *create();
+  HyphaBasePlugin *create();
   hypha::settings::PluginSettings *settings;
   hypha::plugin::PluginLoader *loader;
 };

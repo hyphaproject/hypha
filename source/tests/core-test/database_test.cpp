@@ -1,8 +1,8 @@
 // Copyright (c) 2016 Hypha
 
 #include <hypha/core/database/database.h>
-#include <hypha/core/database/userdatabase.h>
 #include <hypha/core/database/databasegenerator.h>
+#include <hypha/core/database/userdatabase.h>
 #include <hypha/core/exceptions/configfilenotfound.h>
 #include <hypha/core/settings/configgenerator.h>
 #include <hypha/core/settings/databasesettings.h>
@@ -54,7 +54,8 @@ TEST_F(database_test, CheckHyphaUserDatabase) {
   db.connect();
 
   hypha::settings::UserDatabaseSettings udbs(&hs);
-  hypha::database::UserDatabase* udb = hypha::database::UserDatabase::factoreInstance(&udbs);
+  hypha::database::UserDatabase *udb =
+      hypha::database::UserDatabase::factoreInstance(&udbs);
   udb->connect();
 
   hypha::database::DatabaseGenerator dbg;
@@ -73,7 +74,7 @@ TEST_F(database_test, CheckHyphaUserDatabase) {
 
   ASSERT_TRUE(boost::filesystem::exists(configFile));
 
-  //ASSERT_TRUE(udb->getUsers().size() > 0);
+  // ASSERT_TRUE(udb->getUsers().size() > 0);
 
   delete udb;
 }

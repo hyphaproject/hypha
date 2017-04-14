@@ -1,8 +1,8 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 #pragma once
 
 #include <hypha/core/settings/pluginsettings.h>
-#include <hypha/plugin/hyphaplugin.h>
+#include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/plugin/plugin_api.h>
 #include <list>
 #include <map>
@@ -23,17 +23,17 @@ class PLUGIN_API PluginLoader {
   void loadAllInstances();
   void loadPlugins(std::string dir);
 
-  HyphaPlugin *getPlugin(std::string name);
-  std::list<HyphaPlugin *> getPlugins();
+  HyphaBasePlugin *getPlugin(std::string name);
+  std::list<HyphaBasePlugin *> getPlugins();
 
-  std::list<HyphaPlugin *> getInstances();
-  HyphaPlugin *getPluginInstance(std::string id);
+  std::list<HyphaBasePlugin *> getInstances();
+  HyphaBasePlugin *getPluginInstance(std::string id);
 
  protected:
   static PluginLoader *singleton;
 
-  std::list<HyphaPlugin *> plugins;
-  std::map<std::string, HyphaPlugin *> pluginInstances;
+  std::list<HyphaBasePlugin *> plugins;
+  std::map<std::string, HyphaBasePlugin *> pluginInstances;
 
   hypha::settings::PluginSettings *settings;
   hypha::plugin::PluginFactory *factory;

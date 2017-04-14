@@ -1,11 +1,11 @@
-// Copyright (c) 2015-2016 Hypha
-
-#include <hypha/plugin/pluginfactory.h>
-#include <mutex>
+// Copyright (c) 2015-2017 Hypha
 
 #include <hypha/core/settings/pluginsettings.h>
+#include <hypha/plugin/pluginfactory.h>
 #include <hypha/plugin/pluginloader.h>
 #include <hypha/utils/logger.h>
+
+#include <mutex>
 
 using namespace hypha::plugin;
 using namespace hypha::settings;
@@ -20,10 +20,10 @@ PluginFactory::PluginFactory(hypha::settings::PluginSettings *settings,
 
 PluginFactory::~PluginFactory() {}
 
-HyphaPlugin *PluginFactory::create() {
-  HyphaPlugin *p = loader->getPlugin(settings->getName(id));
+HyphaBasePlugin *PluginFactory::create() {
+  HyphaBasePlugin *p = loader->getPlugin(settings->getName(id));
   if (p) {
-    HyphaPlugin *plugin = p->getInstance(id);
+    HyphaBasePlugin *plugin = p->getInstance(id);
     plugin->setHost(host);
     try {
       plugin->loadConfig(config);
@@ -52,7 +52,7 @@ PluginFactory *PluginFactory::instance() {
   return singleton;
 }
 
-HyphaPlugin *PluginFactory::loadPlugin(std::string id) {
+HyphaBasePlugin *PluginFactory::loadPlugin(std::string id) {
   if (!settings->exists(id)) return 0;
   setId(id);
   setHost(settings->getHost(id));

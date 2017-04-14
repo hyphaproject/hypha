@@ -25,6 +25,7 @@ class CORE_API PluginSettings {
   std::string getName(std::string id);
   std::string getHost(std::string id);
   std::string getConfig(std::string id);
+  std::list<std::string> getConnectedPlugins(std::string pluginId);
   bool exists(std::string id);
 
  protected:

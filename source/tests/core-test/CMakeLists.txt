@@ -17,6 +17,7 @@ set(sources
     cache_test.cpp
     core_test.cpp
     database_test.cpp
+    plugins_test.cpp
     settings_test.cpp
 )
 
