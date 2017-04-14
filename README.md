@@ -1,4 +1,8 @@
-# Hypha libraries [![Build Status] [travis-image] ] [travis] [![Coverage_Status] [coveralls-image] ] [coveralls]  [![Documentation] [codedocs-image] ] [codedocs] [![Gitter] [gitter-image] ] [gitter]
+# Hypha libraries
+[![Build Status][travis-image]][travis]
+[![Coverage_Status][coveralls-image]][coveralls]
+[![Documentation][codedocs-image]][codedocs]
+[![Gitter][gitter-image]][gitter]
 
 [travis-image]: https://travis-ci.org/hyphaproject/hypha.png?branch=master
 [travis]: http://travis-ci.org/hyphaproject/hypha
@@ -19,12 +23,12 @@ First install CMake, Poco, Boost
 Then build and run.
 
 ```sh
-git clone {hypha}
+git clone https://github.com/hyphaproject/hypha
 cd hypha
 mkdir build
 cd build
 cmake ..
-make
+cmake --build .
 ```
 
 ## For Developer
@@ -55,4 +59,4 @@ make hypha_coverage
 open coverate/index.html
 
 -------------------------------
-![Logo](/deploy/images/logo.png) Icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com)
+[Logo](/deploy/images/logo.png) Icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com)
