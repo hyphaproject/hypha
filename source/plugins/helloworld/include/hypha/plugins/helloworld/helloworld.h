@@ -3,6 +3,7 @@
 #ifndef HELLOWORLD_H
 #define HELLOWORLD_H
 
+#include <hypha/plugin/hyphaactor.h>
 #include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/plugin/hyphasensor.h>
 #include <string>
@@ -10,7 +11,7 @@
 namespace hypha {
 namespace plugin {
 namespace helloworld {
-class HelloWorld : public HyphaSensor {
+class HelloWorld : public HyphaSensor, public HyphaActor {
  public:
   void doWork();
   void setup();
@@ -26,6 +27,7 @@ class HelloWorld : public HyphaSensor {
   HyphaBasePlugin *getInstance(std::string id);
 
   std::string communicate(std::string /*message*/);
+  virtual void receiveMessage(std::string message);
 
  protected:
   std::string config;

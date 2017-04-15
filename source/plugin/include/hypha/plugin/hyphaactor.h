@@ -2,18 +2,16 @@
 #pragma once
 
 #include <hypha/plugin/hyphabaseplugin.h>
-#include <hypha/plugin/receiverinterface.h>
 #include <hypha/plugin/plugin_api.h>
+#include <hypha/plugin/receiverinterface.h>
 
 namespace hypha {
 namespace plugin {
 
-class PLUGIN_API HyphaActor : public HyphaBasePlugin, public ReceiverInterface {
+class PLUGIN_API HyphaActor : virtual public HyphaBasePlugin,
+                              virtual public ReceiverInterface {
  public:
-  virtual void setup() = 0;
-  virtual void receiveMessage(std::string message) = 0;
-  virtual std::string communicate(std::string message) = 0;
-  virtual HyphaSensor *getInstance(std::string id) = 0;
+  virtual ~HyphaActor() {}
 };
 }
 }

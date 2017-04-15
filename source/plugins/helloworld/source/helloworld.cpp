@@ -1,17 +1,16 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2017 Hypha
 
 #include "hypha/plugins/helloworld/helloworld.h"
-
 
 #include <iostream>
 
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-#include "Poco/Timestamp.h"
-#include "Poco/DateTimeFormatter.h"
-#include "Poco/DateTimeFormat.h"
 #include <Poco/ClassLibrary.h>
+#include <Poco/DateTimeFormat.h>
+#include <Poco/DateTimeFormatter.h>
+#include <Poco/Timestamp.h>
 
 #include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/utils/logger.h>
@@ -24,7 +23,8 @@ using Poco::DateTimeFormat;
 
 std::string timeJson() {
   Poco::Timestamp now;
-  std::string nowStr = DateTimeFormatter::format(now, DateTimeFormat::SORTABLE_FORMAT);
+  std::string nowStr =
+      DateTimeFormatter::format(now, DateTimeFormat::SORTABLE_FORMAT);
 
   boost::property_tree::ptree sendobject;
   sendobject.put("time", nowStr);
@@ -41,6 +41,11 @@ void HelloWorld::setup() {}
 std::string HelloWorld::communicate(std::string /*message*/) {
   std::string ret;
   return ret;
+}
+
+void HelloWorld::receiveMessage(std::string message) {
+  std::cout << "Message received by " << this->id << ": " << message
+            << std::endl;
 }
 
 void HelloWorld::loadConfig(std::string json) { this->config = json; }

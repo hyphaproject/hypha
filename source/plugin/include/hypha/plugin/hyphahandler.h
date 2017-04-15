@@ -1,15 +1,18 @@
-// Copyright (c) 2015-2017 Hypha
+// Copyright (c) 2017 Hypha
 #pragma once
 
 #include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/plugin/plugin_api.h>
-#include <boost/signals2.hpp>
+#include <hypha/plugin/receiverinterface.h>
+#include <hypha/plugin/senderinterface.h>
 
 namespace hypha {
-namespace handler {
-class PLUGIN_API HyphaHandler : public hypha::plugin::HyphaBasePlugin {
+namespace plugin {
+class PLUGIN_API HyphaHandler : virtual public HyphaBasePlugin,
+                                virtual public ReceiverInterface,
+                                virtual public SenderInterface {
  public:
-  virtual HyphaHandler *getInstance(std::string id) = 0;
+  virtual ~HyphaHandler() {}
 };
 }
 }

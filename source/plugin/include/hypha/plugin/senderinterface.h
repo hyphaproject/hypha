@@ -9,6 +9,7 @@ namespace plugin {
 
 class PLUGIN_API SenderInterface {
  public:
+  virtual ~SenderInterface() {}
   typedef boost::signals2::signal<void(std::string)> SendMessage;
   typedef SendMessage::slot_type SendMessageSlotType;
 

@@ -20,3 +20,5 @@ TEST_F(plugins_test, printPluginsFolder) {
     }
   }
 }
+
+TEST_F(plugins_test, helloWorldReceive) {}

@@ -82,7 +82,7 @@ class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
    */
   virtual std::string getConfig() = 0;
   std::string getId() { return id; }
-  void setId(std::string id) { this->id = id; }
+  virtual void setId(std::string id) { this->id = id; }
   std::string getHost() { return host; }
   void setHost(std::string host) { this->host = host; }
 
