@@ -47,6 +47,7 @@ class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
   }
 
   virtual void doWork() = 0;
+  virtual void setup(){}
   virtual const std::string name() = 0;
   virtual const std::string getTitle() = 0;
   virtual const std::string getVersion() = 0;

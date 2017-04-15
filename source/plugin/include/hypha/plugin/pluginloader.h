@@ -29,6 +29,8 @@ class PLUGIN_API PluginLoader {
   std::list<HyphaBasePlugin *> getInstances();
   HyphaBasePlugin *getPluginInstance(std::string id);
 
+
+
  protected:
   static PluginLoader *singleton;
 

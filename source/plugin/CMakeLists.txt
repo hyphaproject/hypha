@@ -33,16 +33,18 @@ set(headers
 ${include_path}/hyphabaseplugin.h
 ${include_path}/hyphaactor.h
 ${include_path}/hyphahandler.h
+${include_path}/hyphareceiver.h
+${include_path}/hyphasender.h
 ${include_path}/hyphasensor.h
 ${include_path}/pluginfactory.h
 ${include_path}/pluginloader.h
-${include_path}/receiverinterface.h
-${include_path}/senderinterface.h
+${include_path}/pluginutil.h
 )
 
 set(sources
 ${source_path}/pluginfactory.cpp
 ${source_path}/pluginloader.cpp
+${source_path}/pluginutil.cpp
 )
 
 # Group source files

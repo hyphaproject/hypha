@@ -7,9 +7,12 @@
 namespace hypha {
 namespace plugin {
 
-class PLUGIN_API SenderInterface {
+/**
+ * @brief The HyphaSender class
+ */
+class PLUGIN_API HyphaSender {
  public:
-  virtual ~SenderInterface() {}
+  virtual ~HyphaSender() {}
   typedef boost::signals2::signal<void(std::string)> SendMessage;
   typedef SendMessage::slot_type SendMessageSlotType;
 

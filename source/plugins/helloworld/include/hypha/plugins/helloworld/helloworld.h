@@ -13,21 +13,21 @@ namespace plugin {
 namespace helloworld {
 class HelloWorld : public HyphaSensor, public HyphaActor {
  public:
-  void doWork();
-  void setup();
-  const std::string name() { return "helloworld"; }
-  const std::string getTitle() { return "Hello World Plugin"; }
-  const std::string getVersion() { return "0.1"; }
-  const std::string getDescription() {
+  virtual void doWork() override;
+  virtual void setup() override;
+  const std::string name() override { return "helloworld"; }
+  const std::string getTitle() override { return "Hello World Plugin"; }
+  const std::string getVersion() override { return "0.1"; }
+  const std::string getDescription() override {
     return "Sensor for time and actor for printing hello world to std out";
   }
-  const std::string getConfigDescription() { return "{}"; }
-  void loadConfig(std::string json);
-  std::string getConfig();
-  HyphaBasePlugin *getInstance(std::string id);
+  const std::string getConfigDescription() override { return "{}"; }
+  void loadConfig(std::string json) override;
+  std::string getConfig() override;
+  HyphaBasePlugin *getInstance(std::string id) override;
 
-  std::string communicate(std::string /*message*/);
-  virtual void receiveMessage(std::string message);
+  std::string communicate(std::string /*message*/) override;
+  virtual void receiveMessage(std::string message) override;
 
  protected:
   std::string config;

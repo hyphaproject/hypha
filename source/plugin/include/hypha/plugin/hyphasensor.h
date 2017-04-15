@@ -3,13 +3,13 @@
 
 #include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/plugin/plugin_api.h>
-#include <hypha/plugin/senderinterface.h>
+#include <hypha/plugin/hyphasender.h>
 
 namespace hypha {
 namespace plugin {
 
 class PLUGIN_API HyphaSensor : virtual public HyphaBasePlugin,
-                               virtual public SenderInterface {
+                               virtual public HyphaSender {
  public:
   virtual ~HyphaSensor() {}
 };

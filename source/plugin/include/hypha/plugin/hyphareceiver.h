@@ -6,11 +6,11 @@
 namespace hypha {
 namespace plugin {
 /**
- * @brief The ReceiverInterface class
+ * @brief The HyphaReceiver class
  */
-class PLUGIN_API ReceiverInterface {
+class PLUGIN_API HyphaReceiver {
  public:
-  virtual ~ReceiverInterface() {}
+  virtual ~HyphaReceiver() {}
   virtual void receiveMessage(std::string message) = 0;
 };
 }
