@@ -22,14 +22,18 @@ class PLUGIN_API PluginLoader {
   void loadLocalInstances();
   void loadAllInstances();
   void loadPlugins(std::string dir);
+  /**
+   * @brief listPlugins
+   * @param dir
+   * @return a list of plugins
+   */
+  static std::list<HyphaBasePlugin *> listPlugins(std::string dir);
 
   HyphaBasePlugin *getPlugin(std::string name);
   std::list<HyphaBasePlugin *> getPlugins();
 
   std::list<HyphaBasePlugin *> getInstances();
   HyphaBasePlugin *getPluginInstance(std::string id);
-
-
 
  protected:
   static PluginLoader *singleton;

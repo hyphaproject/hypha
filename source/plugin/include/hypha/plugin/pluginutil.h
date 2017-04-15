@@ -11,41 +11,40 @@ namespace plugin {
  */
 class PLUGIN_API PluginUtil {
  public:
-    /**
-   * @brief isHandler
-   * @param plugin The Plugin to test
-   * @return if plugin is instance of HyphaHandler
-   */
-  static bool isHandler(HyphaBasePlugin * plugin);
+  /**
+ * @brief isHandler
+ * @param plugin The Plugin to test
+ * @return if plugin is instance of HyphaHandler
+ */
+  static bool isHandler(HyphaBasePlugin* plugin);
 
   /**
    * @brief isActor
    * @param plugin The Plugin to test
    * @return if plugin is instance of HyphaActor
    */
-  static bool isActor(HyphaBasePlugin * plugin);
+  static bool isActor(HyphaBasePlugin* plugin);
 
   /**
    * @brief isSensor
    * @param plugin The Plugin to test
    * @return if plugin is instance of HyphaSensor
    */
-  static bool isSensor(HyphaBasePlugin * plugin);
+  static bool isSensor(HyphaBasePlugin* plugin);
 
   /**
    * @brief isReceiver
    * @param plugin The Plugin to test
    * @return if plugin is instance of HyphaReceiver
    */
-  static bool isReceiver(HyphaBasePlugin * plugin);
+  static bool isReceiver(HyphaBasePlugin* plugin);
 
   /**
    * @brief isSender
    * @param plugin The Plugin to test
    * @return if plugin is instance of HyphaSender
    */
-  static bool isSender(HyphaBasePlugin * plugin);
-
+  static bool isSender(HyphaBasePlugin* plugin);
 };
 }
 }

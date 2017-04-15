@@ -84,38 +84,48 @@ HyphaBasePlugin *PluginLoader::getPluginInstance(std::string id) {
 }
 
 void PluginLoader::loadPlugins(std::string dir) {
-  boost::filesystem::path pluginsDir(dir);
-  if (!boost::filesystem::exists(pluginsDir)) return;
-  PLoader loader;
-
-  boost::filesystem::directory_iterator dit(pluginsDir), eod;
-  BOOST_FOREACH (boost::filesystem::path const &p, std::make_pair(dit, eod)) {
-    if (boost::filesystem::is_regular_file(p)) {
-      std::string fileName = boost::filesystem::absolute(p).string();
-      try {
-        loader.loadLibrary(fileName);
-        Logger::info(fileName);
-      } catch (Poco::Exception &e) {
-        Logger::warning(e.message());
-      }
-    }
+    plugins.clear();
+  for(HyphaBasePlugin * plugin: listPlugins(dir)){
+      plugins.insert(plugins.end(), plugin);
   }
+}
 
-  PLoader::Iterator it(loader.begin());
-  PLoader::Iterator end(loader.end());
-  for (; it != end; ++it) {
-    PManifest::Iterator itMan(it->second->begin());
-    PManifest::Iterator endMan(it->second->end());
-    for (; itMan != endMan; ++itMan) {
-      HyphaBasePlugin *plugin = itMan->create();
-      bool pluginNameExists = false;
-      for (HyphaBasePlugin *plugin_ : plugins) {
-        if (plugin_->name() == plugin->name()) {
-          pluginNameExists = true;
-          break;
+std::list<HyphaBasePlugin *> PluginLoader::listPlugins(std::string dir)
+{
+    std::list<HyphaBasePlugin *> plugins;
+    boost::filesystem::path pluginsDir(dir);
+    if (!boost::filesystem::exists(pluginsDir)) return plugins;
+    PLoader loader;
+
+    boost::filesystem::directory_iterator dit(pluginsDir), eod;
+    BOOST_FOREACH (boost::filesystem::path const &p, std::make_pair(dit, eod)) {
+      if (boost::filesystem::is_regular_file(p)) {
+        std::string fileName = boost::filesystem::absolute(p).string();
+        try {
+          loader.loadLibrary(fileName);
+          Logger::info(fileName);
+        } catch (Poco::Exception &e) {
+          Logger::warning(e.message());
         }
       }
-      if (!pluginNameExists) this->plugins.insert(this->plugins.end(), plugin);
     }
-  }
+
+    PLoader::Iterator it(loader.begin());
+    PLoader::Iterator end(loader.end());
+    for (; it != end; ++it) {
+      PManifest::Iterator itMan(it->second->begin());
+      PManifest::Iterator endMan(it->second->end());
+      for (; itMan != endMan; ++itMan) {
+        HyphaBasePlugin *plugin = itMan->create();
+        bool pluginNameExists = false;
+        for (HyphaBasePlugin *plugin_ : plugins) {
+          if (plugin_->name() == plugin->name()) {
+            pluginNameExists = true;
+            break;
+          }
+        }
+        if (!pluginNameExists) plugins.insert(plugins.end(), plugin);
+      }
+    }
+    return plugins;
 }

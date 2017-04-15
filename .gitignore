@@ -1,2 +1,3 @@
+source/plugins
 build/
 CMakeLists.txt.user
