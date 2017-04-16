@@ -134,7 +134,6 @@ target_link_libraries(${target}
     PRIVATE
     ${META_PROJECT_NAME}::core
     ${META_PROJECT_NAME}::utils
-    ${META_PROJECT_NAME}::handler
     ${META_PROJECT_NAME}::plugin
     PUBLIC
     ${DEFAULT_LIBRARIES}

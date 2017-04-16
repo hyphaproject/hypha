@@ -59,5 +59,4 @@ hypha::plugin::HyphaBasePlugin *HelloWorld::getInstance(std::string id) {
 }
 
 PLUGIN_API POCO_BEGIN_MANIFEST(HyphaBasePlugin)
-POCO_EXPORT_CLASS(HelloWorld)
-POCO_END_MANIFEST
+    POCO_EXPORT_CLASS(HelloWorld) POCO_END_MANIFEST

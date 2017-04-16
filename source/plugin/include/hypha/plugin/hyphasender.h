@@ -10,7 +10,7 @@ namespace plugin {
 /**
  * @brief The HyphaSender class
  */
-class PLUGIN_API HyphaSender{
+class PLUGIN_API HyphaSender {
  public:
   virtual ~HyphaSender() {}
   typedef boost::signals2::signal<void(std::string)> SendMessage;

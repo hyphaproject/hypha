@@ -8,7 +8,7 @@ namespace plugin {
 /**
  * @brief The HyphaReceiver class
  */
-class PLUGIN_API HyphaReceiver{
+class PLUGIN_API HyphaReceiver {
  public:
   virtual ~HyphaReceiver() {}
   virtual void receiveMessage(std::string message) = 0;
