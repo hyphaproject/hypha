@@ -130,10 +130,11 @@ target_include_directories(${target}
 
 target_link_libraries(${target}
     PRIVATE
+
+    PUBLIC
     ${META_PROJECT_NAME}::core
     ${META_PROJECT_NAME}::utils
     ${META_PROJECT_NAME}::plugin
-    PUBLIC
     ${DEFAULT_LIBRARIES}
     INTERFACE
 )

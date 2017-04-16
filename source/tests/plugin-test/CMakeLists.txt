@@ -4,7 +4,7 @@
 # 
 
 # Target name
-set(target hyphacore-test)
+set(target hyphaplugin-test)
 message(STATUS "Test ${target}")
 
 
@@ -14,10 +14,7 @@ message(STATUS "Test ${target}")
 
 set(sources
     main.cpp
-    cache_test.cpp
-    core_test.cpp
-    database_test.cpp
-    settings_test.cpp
+    plugins_test.cpp
 )
 
 
@@ -70,6 +67,7 @@ target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
     ${META_PROJECT_NAME}::core
+    ${META_PROJECT_NAME}::plugin
     libgmock
     ${libgcov}
 )

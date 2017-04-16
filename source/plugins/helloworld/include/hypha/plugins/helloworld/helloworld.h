@@ -11,8 +11,9 @@
 namespace hypha {
 namespace plugin {
 namespace helloworld {
-class HelloWorld : public HyphaSensor, public HyphaActor {
+class HelloWorld : public HyphaActor, public HyphaSensor {
  public:
+  ~HelloWorld(){}
   virtual void doWork() override;
   virtual void setup() override;
   const std::string name() override { return "helloworld"; }
@@ -27,7 +28,7 @@ class HelloWorld : public HyphaSensor, public HyphaActor {
   HyphaBasePlugin *getInstance(std::string id) override;
 
   std::string communicate(std::string /*message*/) override;
-  virtual void receiveMessage(std::string message) override;
+  virtual void receiveMessage(std::string message) ;
 
  protected:
   std::string config;

@@ -152,6 +152,6 @@ void PythonPlugin::receiveMessage(std::string message) {
   }
 }
 
-POCO_BEGIN_MANIFEST(HyphaBasePlugin)
+PLUGIN_API POCO_BEGIN_MANIFEST(HyphaBasePlugin)
 POCO_EXPORT_CLASS(PythonPlugin)
 POCO_END_MANIFEST
