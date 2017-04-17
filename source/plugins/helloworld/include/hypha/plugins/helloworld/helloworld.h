@@ -22,7 +22,11 @@ class HelloWorld : public HyphaActor, public HyphaSensor {
   const std::string getDescription() override {
     return "Sensor for time and actor for printing hello world to std out";
   }
-  const std::string getConfigDescription() override { return "{}"; }
+  const std::string getConfigDescription() override {
+    return "{"
+           "\"confdesc\":["
+           "]}";
+  }
   void loadConfig(std::string json) override;
   std::string getConfig() override;
   HyphaBasePlugin *getInstance(std::string id) override;
