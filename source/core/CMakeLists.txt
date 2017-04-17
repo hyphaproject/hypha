@@ -48,7 +48,6 @@ ${include_path}/exceptions/hyphaexception.h
 ${include_path}/exceptions/configfilenotfound.h
 
 ${include_path}/settings/databasesettings.h
-${include_path}/settings/handlersettings.h
 ${include_path}/settings/hyphasettings.h
 ${include_path}/settings/pluginsettings.h
 ${include_path}/settings/userdatabasesettings.h
@@ -63,7 +62,6 @@ ${source_path}/database/userdatabase.cpp
 ${source_path}/database/userdbsql.cpp
 ${source_path}/database/ldap/userdbldap.cpp
 ${source_path}/settings/databasesettings.cpp
-${source_path}/settings/handlersettings.cpp
 ${source_path}/settings/hyphasettings.cpp
 ${source_path}/settings/pluginsettings.cpp
 ${source_path}/settings/userdatabasesettings.cpp

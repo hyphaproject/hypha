@@ -34,6 +34,10 @@ std::string timeJson() {
 
 void HelloWorld::doWork() {
   std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  std::string text = "{\"say\":\"Hello World!\"}";
+  sendMessage(text);
+  std::this_thread::sleep_for(std::chrono::milliseconds(5));
+  sendMessage(timeJson());
 }
 
 void HelloWorld::setup() {}

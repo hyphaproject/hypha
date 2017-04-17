@@ -21,7 +21,7 @@ TEST_F(plugins_test, printPluginsFolder) {
 
     for (auto& entry : boost::make_iterator_range(
              boost::filesystem::directory_iterator(p), {})) {
-      // std::cout << entry << "\n";
+      std::cout << entry << "\n";
     }
   }
 }
@@ -31,5 +31,15 @@ TEST_F(plugins_test, printPlugins) {
   for (hypha::plugin::HyphaBasePlugin* plugin :
        hypha::plugin::PluginLoader::listPlugins("plugins")) {
     std::cout << plugin->name() << std::endl;
+  }
+}
+
+TEST_F(plugins_test, espeak) {
+  boost::filesystem::path p("plugins");
+  for (hypha::plugin::HyphaBasePlugin* plugin :
+       hypha::plugin::PluginLoader::listPlugins("plugins")) {
+    if (plugin->name() == "espeak") {
+      plugin->setup();
+    }
   }
 }

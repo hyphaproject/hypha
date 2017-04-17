@@ -1,8 +1,9 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 #pragma once
 
 #include <hypha/core/core_api.h>
 #include <hypha/core/settings/userdatabasesettings.h>
+
 #include <list>
 
 namespace hypha {
@@ -10,7 +11,7 @@ namespace database {
 class CORE_API UserDatabase {
  public:
   explicit UserDatabase(hypha::settings::UserDatabaseSettings *settings);
-  ~UserDatabase();
+  virtual ~UserDatabase();
   static UserDatabase *factoreInstance(
       hypha::settings::UserDatabaseSettings *settings);
   static UserDatabase *instance();

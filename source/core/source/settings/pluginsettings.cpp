@@ -33,9 +33,15 @@ PluginSettings *PluginSettings::instance() {
 
 std::list<std::string> PluginSettings::getAllPluginIds() {
   std::list<std::string> plugins;
+  plugins.splice(plugins.end(), getAllSenderIds());
+  plugins.splice(plugins.end(), getAllReceiverIds());
+  return plugins;
+}
 
+std::list<std::string> PluginSettings::getAllIds(std::string table) {
+  std::list<std::string> plugins;
   Poco::Data::Statement statement = database->getStatement();
-  statement << "SELECT id FROM plugins";
+  statement << "SELECT id FROM " + table + ";";
   statement.execute();
   Poco::Data::RecordSet rs(statement);
   bool more = rs.moveFirst();
@@ -46,10 +52,25 @@ std::list<std::string> PluginSettings::getAllPluginIds() {
   return plugins;
 }
 
+std::list<std::string> PluginSettings::getAllSenderIds() {
+  return getAllIds("sender");
+}
+
+std::list<std::string> PluginSettings::getAllReceiverIds() {
+  return getAllIds("receiver");
+}
+
 std::list<std::string> PluginSettings::getLocalPluginIds() {
   std::list<std::string> plugins;
+  plugins.splice(plugins.end(), getLocalSenderIds());
+  plugins.splice(plugins.end(), getLocalReceiverIds());
+  return plugins;
+}
+
+std::list<std::string> PluginSettings::getLocalIds(std::string table) {
+  std::list<std::string> plugins;
   Poco::Data::Statement statement = database->getStatement();
-  statement << "SELECT id FROM plugins WHERE host='" +
+  statement << "SELECT id FROM " + table + " WHERE host='" +
                    Poco::Net::DNS::hostName() + "' OR host='localhost';";
   statement.execute();
   Poco::Data::RecordSet rs(statement);
@@ -60,6 +81,14 @@ std::list<std::string> PluginSettings::getLocalPluginIds() {
     more = rs.moveNext();
   }
   return plugins;
+}
+
+std::list<std::string> PluginSettings::getLocalSenderIds() {
+  return getLocalIds("sender");
+}
+
+std::list<std::string> PluginSettings::getLocalReceiverIds() {
+  return getLocalIds("receiver");
 }
 
 std::string PluginSettings::getName(std::string id) {
@@ -87,20 +116,20 @@ std::string PluginSettings::getConfig(std::string id) {
   return retValue;
 }
 
-std::list<std::string> PluginSettings::getConnectedPlugins(
-    std::string pluginId) {
+std::list<std::string> PluginSettings::getConnectedReceiver(
+    std::string senderId) {
   std::list<std::string> plugins;
-  /*Poco::Data::Statement statement = database->getStatement();
-  statement << "SELECT id,handler_id,plugin_id  FROM connection WHERE "
-               "handler_id = '" +
-                   handlerId + "';";
+  Poco::Data::Statement statement = database->getStatement();
+  statement << "SELECT id,sender_id,receiver_id  FROM connection WHERE "
+               "sender_id = '" +
+                   senderId + "';";
   statement.execute();
   Poco::Data::RecordSet rs(statement);
   bool more = rs.moveFirst();
   while (more) {
     plugins.insert(plugins.end(), rs[2].convert<std::string>());
     more = rs.moveNext();
-  }*/
+  }
   return plugins;
 }
 

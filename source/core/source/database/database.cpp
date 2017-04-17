@@ -38,7 +38,7 @@ void Database::createMySQLTables() {
          ") DEFAULT CHARSET=utf8;",
       Poco::Data::Keywords::now;
 
-  session << "CREATE TABLE IF NOT EXISTS `handler` ("
+  session << "CREATE TABLE IF NOT EXISTS `sender` ("
              "`id` varchar(32) NOT NULL,"
              "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
              "`type` varchar(32) NOT NULL,"
@@ -47,7 +47,7 @@ void Database::createMySQLTables() {
              ") DEFAULT CHARSET=utf8;",
       Poco::Data::Keywords::now;
 
-  session << "CREATE TABLE IF NOT EXISTS `plugins` ("
+  session << "CREATE TABLE IF NOT EXISTS `receiver` ("
              "`id` varchar(32) NOT NULL,"
              "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
              "`type` varchar(32) NOT NULL,"
@@ -58,8 +58,8 @@ void Database::createMySQLTables() {
 
   session << "CREATE TABLE IF NOT EXISTS `connection` ("
              "`id` int(11) NOT NULL AUTO_INCREMENT,"
-             "`handler_id` varchar(32) NOT NULL,"
-             "`plugin_id` varchar(32) NOT NULL,"
+             "`sender_id` varchar(32) NOT NULL,"
+             "`receiver_id` varchar(32) NOT NULL,"
              "PRIMARY KEY (`id`)"
              ") DEFAULT CHARSET=utf8;",
       Poco::Data::Keywords::now;
@@ -84,7 +84,7 @@ void Database::createSQLiteTables() {
              ");",
       Poco::Data::Keywords::now;
 
-  session << "CREATE TABLE IF NOT EXISTS `handler` ("
+  session << "CREATE TABLE IF NOT EXISTS `sender` ("
              "`id` varchar(32) NOT NULL,"
              "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
              "`type` varchar(32) NOT NULL,"
@@ -93,7 +93,7 @@ void Database::createSQLiteTables() {
              ");",
       Poco::Data::Keywords::now;
 
-  session << "CREATE TABLE IF NOT EXISTS `plugins` ("
+  session << "CREATE TABLE IF NOT EXISTS `receiver` ("
              "`id` varchar(32) NOT NULL,"
              "`host` varchar(128) NOT NULL DEFAULT 'localhost',"
              "`type` varchar(32) NOT NULL,"
