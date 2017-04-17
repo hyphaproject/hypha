@@ -26,7 +26,7 @@ void DatabaseGenerator::generateExampleDatabase(
     hypha::utils::Logger::error(e.what());
   }
   database.getSession()
-      << "INSERT INTO `receiver`(`id`,`host`,`type`,`config`) VALUES('"
+      << "INSERT INTO `plugins`(`id`,`host`,`type`,`config`) VALUES('"
       << "espeak"
       << "','"
       << "localhost"
@@ -35,17 +35,17 @@ void DatabaseGenerator::generateExampleDatabase(
       << "','');",
       Poco::Data::Keywords::now;
   database.getSession()
-      << "INSERT INTO `sender`(`id`,`host`,`type`,`config`) values('"
-      << "testhandler"
+      << "INSERT INTO `plugins`(`id`,`host`,`type`,`config`) values('"
+      << "helloworld"
       << "','"
       << "localhost"
       << "','"
-      << "testhandler"
+      << "helloworld"
       << "','{\"message\":\"Hello World!\"}');",
       Poco::Data::Keywords::now;
   database.getSession()
       << "INSERT INTO `connection`(`sender_id`,`receiver_id`) VALUES('"
-      << "testhandler"
+      << "helloworld"
       << "','"
       << "espeak"
       << "');",

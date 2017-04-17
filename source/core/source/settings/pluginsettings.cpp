@@ -33,15 +33,8 @@ PluginSettings *PluginSettings::instance() {
 
 std::list<std::string> PluginSettings::getAllPluginIds() {
   std::list<std::string> plugins;
-  plugins.splice(plugins.end(), getAllSenderIds());
-  plugins.splice(plugins.end(), getAllReceiverIds());
-  return plugins;
-}
-
-std::list<std::string> PluginSettings::getAllIds(std::string table) {
-  std::list<std::string> plugins;
   Poco::Data::Statement statement = database->getStatement();
-  statement << "SELECT id FROM " + table + ";";
+  statement << "SELECT id FROM plugins;";
   statement.execute();
   Poco::Data::RecordSet rs(statement);
   bool more = rs.moveFirst();
@@ -52,25 +45,10 @@ std::list<std::string> PluginSettings::getAllIds(std::string table) {
   return plugins;
 }
 
-std::list<std::string> PluginSettings::getAllSenderIds() {
-  return getAllIds("sender");
-}
-
-std::list<std::string> PluginSettings::getAllReceiverIds() {
-  return getAllIds("receiver");
-}
-
 std::list<std::string> PluginSettings::getLocalPluginIds() {
   std::list<std::string> plugins;
-  plugins.splice(plugins.end(), getLocalSenderIds());
-  plugins.splice(plugins.end(), getLocalReceiverIds());
-  return plugins;
-}
-
-std::list<std::string> PluginSettings::getLocalIds(std::string table) {
-  std::list<std::string> plugins;
   Poco::Data::Statement statement = database->getStatement();
-  statement << "SELECT id FROM " + table + " WHERE host='" +
+  statement << "SELECT id FROM plugins WHERE host='" +
                    Poco::Net::DNS::hostName() + "' OR host='localhost';";
   statement.execute();
   Poco::Data::RecordSet rs(statement);
@@ -81,14 +59,6 @@ std::list<std::string> PluginSettings::getLocalIds(std::string table) {
     more = rs.moveNext();
   }
   return plugins;
-}
-
-std::list<std::string> PluginSettings::getLocalSenderIds() {
-  return getLocalIds("sender");
-}
-
-std::list<std::string> PluginSettings::getLocalReceiverIds() {
-  return getLocalIds("receiver");
 }
 
 std::string PluginSettings::getName(std::string id) {

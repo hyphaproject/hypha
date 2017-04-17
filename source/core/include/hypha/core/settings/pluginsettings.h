@@ -1,8 +1,9 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 #pragma once
 
 #include <hypha/core/core_api.h>
 #include <hypha/core/database/database.h>
+
 #include <list>
 #include <string>
 
@@ -25,18 +26,12 @@ class CORE_API PluginSettings {
    * @return
    */
   std::list<std::string> getAllPluginIds();
-  std::list<std::string> getAllIds(std::string table);
-  std::list<std::string> getAllSenderIds();
-  std::list<std::string> getAllReceiverIds();
 
   /**
    * @brief getLocalPluginIds get sender and receiver running on localhost
    * @return
    */
   std::list<std::string> getLocalPluginIds();
-  std::list<std::string> getLocalIds(std::string table);
-  std::list<std::string> getLocalSenderIds();
-  std::list<std::string> getLocalReceiverIds();
 
   std::string getName(std::string id);
   std::string getHost(std::string id);

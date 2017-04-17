@@ -19,7 +19,7 @@ class CONTROLLER_API Connection {
  public:
   Connection(hypha::database::Database *database);
 
-  void create(std::string handlerId, std::string pluginId);
+  void create(std::string senderId, std::string receiverId);
 
   /**
    * @brief remove removes connection from database
