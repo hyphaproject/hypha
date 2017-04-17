@@ -7,11 +7,16 @@
 
 #include <gmock/gmock.h>
 
+#include <hypha/plugin/hyphasender.h>
 #include <hypha/plugin/pluginloader.h>
 #include <hypha/plugin/pluginutil.h>
 
 class plugins_test : public testing::Test {
  public:
+  static std::string senderFunction(std::string id, std::string message) {
+    std::cout << id << " " << message << std::endl;
+    return "";
+  }
 };
 
 TEST_F(plugins_test, printPluginsFolder) {
@@ -40,6 +45,19 @@ TEST_F(plugins_test, espeak) {
        hypha::plugin::PluginLoader::listPlugins("plugins")) {
     if (plugin->name() == "espeak") {
       plugin->setup();
+    }
+  }
+}
+
+TEST_F(plugins_test, setSenderFunction) {
+  boost::filesystem::path p("plugins");
+  for (hypha::plugin::HyphaBasePlugin* plugin :
+       hypha::plugin::PluginLoader::listPlugins("plugins")) {
+    if (plugin->name() == "helloworld") {
+      ((hypha::plugin::HyphaSender*)plugin)
+          ->setCallMessageFunction(plugins_test::senderFunction);
+      //((hypha::plugin::HyphaSender *)plugin)->sendMessage("the message");
+      ((hypha::plugin::HyphaSender*)plugin)->callMessage("id", "blalba");
     }
   }
 }

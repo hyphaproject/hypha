@@ -30,6 +30,7 @@ set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${META_PROJECT_NAME}/${tar
 set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
+${include_path}/connection.h
 ${include_path}/hyphabaseplugin.h
 ${include_path}/hyphaactor.h
 ${include_path}/hyphahandler.h

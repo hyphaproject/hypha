@@ -28,12 +28,16 @@ std::string timeJson() {
 
   boost::property_tree::ptree sendobject;
   sendobject.put("time", nowStr);
+  sendobject.put("say", "Time is: " + nowStr);
   std::stringstream sstream;
+  boost::property_tree::write_json(sstream, sendobject);
   return sstream.str();
 }
 
+HelloWorld::HelloWorld() : HyphaBasePlugin(), HyphaSender() {}
+
 void HelloWorld::doWork() {
-  std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  std::this_thread::sleep_for(std::chrono::milliseconds(5));
   std::string text = "{\"say\":\"Hello World!\"}";
   sendMessage(text);
   std::this_thread::sleep_for(std::chrono::milliseconds(5));

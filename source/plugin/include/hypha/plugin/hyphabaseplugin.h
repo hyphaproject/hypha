@@ -1,8 +1,7 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 #pragma once
 
 #include <chrono>
-#include <functional>
 #include <string>
 #include <thread>
 
@@ -13,7 +12,6 @@
 #include <Poco/Runnable.h>
 #include <Poco/Thread.h>
 #include <hypha/plugin/plugin_api.h>
-#include <boost/signals2.hpp>
 
 #ifdef UNUSED
 #elif defined(__GNUC__)
@@ -34,6 +32,7 @@ namespace plugin {
  */
 class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
  public:
+  HyphaBasePlugin() {}
   virtual ~HyphaBasePlugin() {}
 
   void run() {
@@ -109,7 +108,7 @@ class PLUGIN_API HyphaBasePlugin : public Poco::Runnable {
    */
   std::string host;
 
-  bool running = true;
+  bool running = false;
   Poco::Thread thread;
 };
 }

@@ -13,6 +13,7 @@ namespace plugin {
 namespace helloworld {
 class HelloWorld : public HyphaActor, public HyphaSensor {
  public:
+  HelloWorld();
   ~HelloWorld() {}
   virtual void doWork() override;
   virtual void setup() override;

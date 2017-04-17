@@ -11,6 +11,7 @@ namespace plugin {
 class PLUGIN_API HyphaActor : virtual public HyphaBasePlugin,
                               virtual public HyphaReceiver {
  public:
+  HyphaActor() {}
   virtual ~HyphaActor() {}
 };
 }

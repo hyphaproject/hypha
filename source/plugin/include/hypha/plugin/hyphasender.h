@@ -1,8 +1,13 @@
 // Copyright (c) 2017 Hypha
 #pragma once
 
+#include <functional>
+#include <iostream>
+#include <memory>
+#include <vector>
+
+#include <hypha/plugin/connection.h>
 #include <hypha/plugin/plugin_api.h>
-#include <boost/signals2.hpp>
 
 namespace hypha {
 namespace plugin {
@@ -12,25 +17,31 @@ namespace plugin {
  */
 class PLUGIN_API HyphaSender {
  public:
+  HyphaSender() {}
   virtual ~HyphaSender() {}
-  typedef boost::signals2::signal<void(std::string)> SendMessage;
-  typedef SendMessage::slot_type SendMessageSlotType;
 
   std::string callMessage(std::string id, std::string message) {
     return callMessageFunction(id, message);
   }
 
-  void setCallMessageFunction(
+  virtual void setCallMessageFunction(
       std::function<std::string(std::string, std::string)> f) {
     callMessageFunction = f;
   }
-  boost::signals2::connection connect(const SendMessageSlotType &slot) {
-    return sendMessage.connect(slot);
+
+  void addListener(std::shared_ptr<Connection> connection) {
+    connections.push_back((connection));
+  }
+
+  void sendMessage(std::string message) {
+    for (std::shared_ptr<Connection> connection : connections) {
+      connection->sendMessage(message);
+    }
   }
 
  protected:
-  SendMessage sendMessage;
   std::function<std::string(std::string, std::string)> callMessageFunction;
+  std::vector<std::shared_ptr<Connection>> connections;
 };
 }
 }
