@@ -9,7 +9,6 @@
 set(MODULE_NAMES
     controller
     core
-    handler
     plugin
     utils
 )
