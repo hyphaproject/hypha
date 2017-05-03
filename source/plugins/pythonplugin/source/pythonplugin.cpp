@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 
 #include "hypha/plugins/pythonplugin/pythonplugin.h"
 
@@ -33,11 +33,12 @@ void PythonPlugin::doWork() {
 
 void PythonPlugin::setup() {
   try {
+    hypha::utils::Logger::info("Python Module: " + pythonmodule);
     Py_Initialize();
 
     main = import("__main__");
     global = main.attr("__dict__");
-    std::string file = "../plugins/" + pythonmodule + ".py";
+    std::string file = "plugins/" + pythonmodule + ".py";
     result = exec_file(file.c_str(), global, global);
     result = exec("import sys", global, global);
     result = exec("sys.path.append(\"../plugins/\")", global, global);

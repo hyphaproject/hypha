@@ -49,6 +49,16 @@ TEST_F(plugins_test, espeak) {
   }
 }
 
+TEST_F(plugins_test, pythonplugin) {
+  boost::filesystem::path p("plugins");
+  for (hypha::plugin::HyphaBasePlugin* plugin :
+       hypha::plugin::PluginLoader::listPlugins("plugins")) {
+    if (plugin->name() == "pythonplugin") {
+      plugin->setup();
+    }
+  }
+}
+
 TEST_F(plugins_test, setSenderFunction) {
   boost::filesystem::path p("plugins");
   for (hypha::plugin::HyphaBasePlugin* plugin :

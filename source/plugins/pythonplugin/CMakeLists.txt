@@ -6,6 +6,7 @@
 # find_package(THIRDPARTY REQUIRED)
 
 find_package( PythonLibs 2.7 REQUIRED )
+find_package(Boost COMPONENTS python REQUIRED)
 
 #
 # Library name and options
@@ -41,6 +42,10 @@ set(sources
 ${source_path}/${target}.cpp
 )
 
+set(pyfiles
+    ${source_path}/${target}.py
+)
+
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
@@ -58,6 +63,7 @@ source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
 add_library(${target}
     ${sources}
     ${headers}
+    ${pyfiles}
 )
 
 # Create namespaced alias
@@ -119,6 +125,7 @@ target_include_directories(${target}
     PUBLIC
     ${DEFAULT_INCLUDE_DIRECTORIES}
     ${PYTHON_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIR}
 
     INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -139,6 +146,7 @@ target_link_libraries(${target}
     PUBLIC
     ${DEFAULT_LIBRARIES}
     ${PYTHON_LIBRARIES}
+    ${Boost_LIBRARIES}
     INTERFACE
 )
 
@@ -185,6 +193,13 @@ target_link_libraries(${target}
     INTERFACE
 )
 
+# copy python files to binary dir
+add_custom_command(TARGET ${target} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${pyfiles}
+    ${CMAKE_BINARY_DIR}/plugins
+    COMMENT "Copying python files for ${target} to '${CMAKE_BINARY_DIR}/plugins'"
+)
 
 #
 # Deployment
@@ -216,3 +231,6 @@ install(EXPORT ${target}-export
     DESTINATION ${INSTALL_CMAKE}/${target}
     COMPONENT   dev
 )
+
+# Python files
+install(FILES ${pyfiles} DESTINATION ${INSTALL_DATA}/plugins COMPONENT runtime)
