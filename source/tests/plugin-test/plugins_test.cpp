@@ -54,7 +54,18 @@ TEST_F(plugins_test, pythonplugin) {
   for (hypha::plugin::HyphaBasePlugin* plugin :
        hypha::plugin::PluginLoader::listPlugins("plugins")) {
     if (plugin->name() == "pythonplugin") {
+      // plugin->setup();
+    }
+  }
+}
+
+TEST_F(plugins_test, javascriptplugin) {
+  boost::filesystem::path p("plugins");
+  for (hypha::plugin::HyphaBasePlugin* plugin :
+       hypha::plugin::PluginLoader::listPlugins("plugins")) {
+    if (plugin->name() == "javascriptplugin") {
       plugin->setup();
+      plugin->doWork();
     }
   }
 }

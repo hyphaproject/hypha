@@ -16,6 +16,7 @@ using namespace hypha::plugin;
 using namespace hypha::plugin::javascriptplugin;
 
 JavascriptPlugin::JavascriptPlugin() {
+  v8::HandleScope handle_scope;
   v8::Handle<v8::ObjectTemplate> global = v8::ObjectTemplate::New();
   global->Set(v8::String::New("log"), v8::FunctionTemplate::New(LogCallback));
   context_ = v8::Context::New(NULL, global);
@@ -23,19 +24,10 @@ JavascriptPlugin::JavascriptPlugin() {
 
 JavascriptPlugin::~JavascriptPlugin() {}
 
-static v8::Handle<v8::Value> LogCallback(const v8::Arguments &args) {
-  if (args.Length() < 1) return v8::Undefined();
-  v8::HandleScope scope;
-  v8::Handle<v8::Value> arg = args[0];
-  v8::String::Utf8Value value(arg);
-
-  hypha::utils::Logger::info(std::string((const char *)*value));
-  return v8::Undefined();
-}
-
 void JavascriptPlugin::doWork() {
   std::this_thread::sleep_for(std::chrono::milliseconds(1));
   try {
+    v8::HandleScope handle_scope;
     v8::Context::Scope context_scope(context_);
     v8::Handle<v8::Value> result =
         this->function_doWork->Call(context_->Global(), 0, {});
@@ -72,10 +64,12 @@ bool JavascriptPlugin::ExecuteScript(v8::Handle<v8::String> script) {
 }
 
 void JavascriptPlugin::setup() {
-  v8::V8::Initialize();
+  // v8::V8::Initialize();
 
   try {
-    std::string scriptjs("function doWork(){ log('hello world!');}");
+    v8::HandleScope handle_scope;
+    v8::Context::Scope context_scope(context_);
+    std::string scriptjs("function doWork(){ log(\"hello world!\"); }");
     this->script_ = v8::String::New(scriptjs.c_str());
 
     if (!ExecuteScript(script_)) return;
@@ -101,6 +95,16 @@ std::string JavascriptPlugin::communicate(std::string message) {
   } catch (...) {
   }
   return ret;
+}
+
+v8::Handle<v8::Value> JavascriptPlugin::LogCallback(const v8::Arguments &args) {
+  if (args.Length() < 1) return v8::Undefined();
+  v8::HandleScope scope;
+  v8::Handle<v8::Value> arg = args[0];
+  v8::String::Utf8Value value(arg);
+
+  hypha::utils::Logger::info(std::string((const char *)*value));
+  return v8::Undefined();
 }
 
 void JavascriptPlugin::loadConfig(std::string json) {
