@@ -67,7 +67,8 @@ TEST_F(plugins_test, javascriptplugin) {
     if (plugin->name() == "javascriptplugin") {
       plugin->setup();
       plugin->doWork();
-      hypha::utils::Logger::info(plugin->communicate("{ \"tell\":\"hello world!\" }"));
+      hypha::utils::Logger::info(
+          plugin->communicate("{ \"tell\":\"hello world!\" }"));
     }
   }
 }

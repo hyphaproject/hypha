@@ -6,15 +6,17 @@
 #include <string>
 
 #include <hypha/plugin/hyphaactor.h>
-#include <hypha/plugin/hyphahandler.h>
 #include <hypha/plugin/hyphabaseplugin.h>
+#include <hypha/plugin/hyphahandler.h>
 #include <hypha/plugin/hyphasensor.h>
 #include <v8.h>
 
 namespace hypha {
 namespace plugin {
 namespace javascriptplugin {
-class JavascriptPlugin : public HyphaActor, public HyphaHandler, public HyphaSensor {
+class JavascriptPlugin : public HyphaActor,
+                         public HyphaHandler,
+                         public HyphaSensor {
  public:
   JavascriptPlugin();
   ~JavascriptPlugin();
@@ -27,7 +29,14 @@ class JavascriptPlugin : public HyphaActor, public HyphaHandler, public HyphaSen
   const std::string getDescription() override {
     return "Plugin to use Javascript code.";
   }
-  const std::string getConfigDescription() override { return "{}"; }
+  const std::string getConfigDescription() override {
+    return "{"
+           "\"confdesc\":["
+           "{\"name\":\"javascriptfile\", "
+           "\"type\":\"string\",\"value\":\"plugins/"
+           "javascriptplugin.js\",\"description\":\"The javascript file.\"}"
+           "]}";
+  }
   void loadConfig(std::string json) override;
   std::string getConfig() override;
   HyphaBasePlugin* getInstance(std::string id) override;
@@ -35,7 +44,8 @@ class JavascriptPlugin : public HyphaActor, public HyphaHandler, public HyphaSen
   void receiveMessage(std::string message) override;
   std::string communicate(std::string message) override;
 
-  static v8::Handle<v8::Value> LogCallback(const v8::Arguments& args);
+  static v8::Handle<v8::Value> logCallback(const v8::Arguments& args);
+  v8::Handle<v8::Value> sendMessageCallback(const v8::Arguments& args);
 
  protected:
   bool ExecuteScript(v8::Handle<v8::String> script);
@@ -45,6 +55,8 @@ class JavascriptPlugin : public HyphaActor, public HyphaHandler, public HyphaSen
 
   v8::Persistent<v8::Function> function_doWork;
   v8::Persistent<v8::Function> function_communicate;
+  v8::Persistent<v8::Function> function_loadConfig;
+  v8::Persistent<v8::Function> function_receiveMessage;
 
   std::string config;
   std::string javascriptfile = "plugins/javascriptplugin.js";

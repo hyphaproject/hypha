@@ -20,7 +20,9 @@ using namespace hypha::plugin::javascriptplugin;
 JavascriptPlugin::JavascriptPlugin() {
   v8::HandleScope handle_scope;
   v8::Handle<v8::ObjectTemplate> global = v8::ObjectTemplate::New();
-  global->Set(v8::String::New("log"), v8::FunctionTemplate::New(LogCallback));
+  global->Set(v8::String::New("log"), v8::FunctionTemplate::New(logCallback));
+  // global->Set(v8::String::New("sendMessage"),
+  // v8::FunctionTemplate::New(sendMessageCallback)); TODO: non static
   context_ = v8::Context::New(NULL, global);
 }
 
@@ -58,7 +60,6 @@ bool JavascriptPlugin::ExecuteScript(v8::Handle<v8::String> script) {
 }
 
 void JavascriptPlugin::setup() {
-
   try {
     std::ifstream stream(this->javascriptfile);
     std::string scriptjs((std::istreambuf_iterator<char>(stream)),
@@ -94,6 +95,26 @@ void JavascriptPlugin::setup() {
           v8::Handle<v8::Function>::Cast(function_val));
     }
 
+    // loadConfig
+    function_name = v8::String::New("loadConfig");
+    function_val = context_->Global()->Get(function_name);
+    if (!function_val->IsFunction()) {
+      hypha::utils::Logger::error("loadConfig function not found!");
+    } else {
+      function_loadConfig = v8::Persistent<v8::Function>::New(
+          v8::Handle<v8::Function>::Cast(function_val));
+    }
+
+    // receiveMessage
+    function_name = v8::String::New("receiveMessage");
+    function_val = context_->Global()->Get(function_name);
+    if (!function_val->IsFunction()) {
+      hypha::utils::Logger::error("receiveMessage function not found!");
+    } else {
+      function_receiveMessage = v8::Persistent<v8::Function>::New(
+          v8::Handle<v8::Function>::Cast(function_val));
+    }
+
   } catch (std::exception &e) {
     hypha::utils::Logger::error(e.what());
   } catch (...) {
@@ -116,14 +137,22 @@ std::string JavascriptPlugin::communicate(std::string message) {
   return ret;
 }
 
-v8::Handle<v8::Value> JavascriptPlugin::LogCallback(const v8::Arguments &args) {
+v8::Handle<v8::Value> JavascriptPlugin::logCallback(const v8::Arguments &args) {
   if (args.Length() < 1) return v8::Undefined();
   v8::HandleScope scope;
   v8::Handle<v8::Value> arg = args[0];
   v8::String::Utf8Value value(arg);
 
-  hypha::utils::Logger::info(std::string((const char *)*value));
+  hypha::utils::Logger::info(std::string(*value));
   return v8::Undefined();
+}
+
+v8::Handle<v8::Value> JavascriptPlugin::sendMessageCallback(
+    const v8::Arguments &args) {
+  v8::HandleScope scope;
+  v8::Handle<v8::Value> arg = args[0];
+  v8::String::Utf8Value value(arg);
+  sendMessage(std::string(*value));
 }
 
 void JavascriptPlugin::loadConfig(std::string json) {
@@ -137,6 +166,15 @@ void JavascriptPlugin::loadConfig(std::string json) {
   }
 
   this->config = json;
+  try {
+    v8::HandleScope handle_scope;
+    v8::Context::Scope context_scope(context_);
+    const int argc = 1;
+    v8::Handle<v8::Value> argv[argc] = {v8::String::New(this->config.c_str())};
+    v8::Handle<v8::Value> result =
+        this->function_loadConfig->Call(context_->Global(), argc, argv);
+  } catch (...) {
+  }
 }
 
 std::string JavascriptPlugin::getConfig() { return "{}"; }
@@ -149,6 +187,12 @@ hypha::plugin::HyphaBasePlugin *JavascriptPlugin::getInstance(std::string id) {
 
 void JavascriptPlugin::receiveMessage(std::string message) {
   try {
+    v8::HandleScope handle_scope;
+    v8::Context::Scope context_scope(context_);
+    const int argc = 1;
+    v8::Handle<v8::Value> argv[argc] = {v8::String::New(message.c_str())};
+    v8::Handle<v8::Value> result =
+        this->function_receiveMessage->Call(context_->Global(), argc, argv);
   } catch (...) {
   }
 }
