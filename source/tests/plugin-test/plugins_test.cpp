@@ -10,6 +10,7 @@
 #include <hypha/plugin/hyphasender.h>
 #include <hypha/plugin/pluginloader.h>
 #include <hypha/plugin/pluginutil.h>
+#include <hypha/utils/logger.h>
 
 class plugins_test : public testing::Test {
  public:
@@ -66,6 +67,7 @@ TEST_F(plugins_test, javascriptplugin) {
     if (plugin->name() == "javascriptplugin") {
       plugin->setup();
       plugin->doWork();
+      hypha::utils::Logger::info(plugin->communicate("{ \"tell\":\"hello world!\" }"));
     }
   }
 }

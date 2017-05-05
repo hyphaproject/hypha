@@ -68,6 +68,7 @@ target_link_libraries(${target}
     ${DEFAULT_LIBRARIES}
     ${META_PROJECT_NAME}::core
     ${META_PROJECT_NAME}::plugin
+    ${META_PROJECT_NAME}::utils
     libgmock
     ${libgcov}
 )

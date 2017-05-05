@@ -6,6 +6,7 @@
 #include <string>
 
 #include <hypha/plugin/hyphaactor.h>
+#include <hypha/plugin/hyphahandler.h>
 #include <hypha/plugin/hyphabaseplugin.h>
 #include <hypha/plugin/hyphasensor.h>
 #include <v8.h>
@@ -13,7 +14,7 @@
 namespace hypha {
 namespace plugin {
 namespace javascriptplugin {
-class JavascriptPlugin : public HyphaBasePlugin {
+class JavascriptPlugin : public HyphaActor, public HyphaHandler, public HyphaSensor {
  public:
   JavascriptPlugin();
   ~JavascriptPlugin();
@@ -31,9 +32,8 @@ class JavascriptPlugin : public HyphaBasePlugin {
   std::string getConfig() override;
   HyphaBasePlugin* getInstance(std::string id) override;
 
-  void receiveMessage(std::string message);
+  void receiveMessage(std::string message) override;
   std::string communicate(std::string message) override;
-  std::string parse_python_exception();
 
   static v8::Handle<v8::Value> LogCallback(const v8::Arguments& args);
 
@@ -44,10 +44,10 @@ class JavascriptPlugin : public HyphaBasePlugin {
   v8::Persistent<v8::Context> context_;
 
   v8::Persistent<v8::Function> function_doWork;
+  v8::Persistent<v8::Function> function_communicate;
 
   std::string config;
-  std::string javascriptmodule = "javascriptplugin";
-  std::string javascriptclass = "javascriptplugin";
+  std::string javascriptfile = "plugins/javascriptplugin.js";
 };
 }
 }

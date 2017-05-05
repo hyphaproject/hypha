@@ -2,7 +2,9 @@
 
 #include "hypha/plugins/javascriptplugin/javascriptplugin.h"
 
+#include <fstream>
 #include <iostream>
+#include <streambuf>
 
 #include <Poco/ClassLibrary.h>
 #include <boost/filesystem.hpp>
@@ -37,49 +39,58 @@ void JavascriptPlugin::doWork() {
 
 bool JavascriptPlugin::ExecuteScript(v8::Handle<v8::String> script) {
   v8::HandleScope handle_scope;
-
-  // We're just about to compile the script; set up an error handler to
-  // catch any exceptions the script might throw.
   v8::TryCatch try_catch;
 
-  // Compile the script and check for errors.
   v8::Handle<v8::Script> compiled_script = v8::Script::Compile(script);
   if (compiled_script.IsEmpty()) {
     v8::String::Utf8Value error(try_catch.Exception());
     hypha::utils::Logger::error(std::string(*error));
-    // The script failed to compile; bail out.
     return false;
   }
 
-  // Run the script!
   v8::Handle<v8::Value> result = compiled_script->Run();
   if (result.IsEmpty()) {
-    // The TryCatch above is still in effect and will have caught the error.
     v8::String::Utf8Value error(try_catch.Exception());
     hypha::utils::Logger::error(std::string(*error));
-    // Running the script failed; bail out.
     return false;
   }
   return true;
 }
 
 void JavascriptPlugin::setup() {
-  // v8::V8::Initialize();
 
   try {
+    std::ifstream stream(this->javascriptfile);
+    std::string scriptjs((std::istreambuf_iterator<char>(stream)),
+                         std::istreambuf_iterator<char>());
     v8::HandleScope handle_scope;
     v8::Context::Scope context_scope(context_);
-    std::string scriptjs("function doWork(){ log(\"hello world!\"); }");
+    // std::string scriptjs("function doWork(){ log(\"hello world!\"); }");
     this->script_ = v8::String::New(scriptjs.c_str());
 
-    if (!ExecuteScript(script_)) return;
+    if (!ExecuteScript(script_)) {
+      hypha::utils::Logger::error("Error in Script file: " +
+                                  this->javascriptfile);
+      return;
+    }
 
+    // doWork
     v8::Handle<v8::String> function_name = v8::String::New("doWork");
     v8::Handle<v8::Value> function_val = context_->Global()->Get(function_name);
     if (!function_val->IsFunction()) {
       hypha::utils::Logger::error("doWork function not found!");
     } else {
       function_doWork = v8::Persistent<v8::Function>::New(
+          v8::Handle<v8::Function>::Cast(function_val));
+    }
+
+    // communicate
+    function_name = v8::String::New("communicate");
+    function_val = context_->Global()->Get(function_name);
+    if (!function_val->IsFunction()) {
+      hypha::utils::Logger::error("communicate function not found!");
+    } else {
+      function_communicate = v8::Persistent<v8::Function>::New(
           v8::Handle<v8::Function>::Cast(function_val));
     }
 
@@ -92,6 +103,14 @@ void JavascriptPlugin::setup() {
 std::string JavascriptPlugin::communicate(std::string message) {
   std::string ret;
   try {
+    v8::HandleScope handle_scope;
+    v8::Context::Scope context_scope(context_);
+    const int argc = 1;
+    v8::Handle<v8::Value> argv[argc] = {v8::String::New(message.c_str())};
+    v8::Handle<v8::Value> result =
+        this->function_communicate->Call(context_->Global(), argc, argv);
+    v8::String::Utf8Value res(result);
+    ret = std::string(*res);
   } catch (...) {
   }
   return ret;
@@ -111,15 +130,10 @@ void JavascriptPlugin::loadConfig(std::string json) {
   boost::property_tree::ptree pt;
   std::stringstream ss(json);
   boost::property_tree::read_json(ss, pt);
-  if (pt.get_optional<std::string>("javascriptmodule")) {
-    javascriptmodule = pt.get<std::string>("javascriptmodule");
+  if (pt.get_optional<std::string>("javascriptfile")) {
+    javascriptfile = pt.get<std::string>("javascriptfile");
   } else {
-    javascriptmodule = "javascriptplugin";
-  }
-  if (pt.get_optional<std::string>("javascriptclass")) {
-    javascriptclass = pt.get<std::string>("javascriptclass");
-  } else {
-    javascriptclass = "javascriptplugin";
+    javascriptfile = "javascriptplugin";
   }
 
   this->config = json;

@@ -1,6 +1,7 @@
+// Copyright (c) 2015-2017 Hypha
 
 function doWork(){
-    text = '"doWork"';
+    log("doWork()");
 }
 
 function setup(){
@@ -9,18 +10,20 @@ function setup(){
 }
 
 function communicate(message){
-
+    var obj = JSON.parse(message);
+    log("communicate()");
+    log(obj.tell);
     return message;
 }
 
 function loadConfig(json){
-
-    text = json;
-    print(text+"\n\n");
+    var obj = JSON.parse(json);
+    log("loadConfig()");
 }
 
 function getConfig(){
-    return "{}";
+    var obj = { "log":true };
+    return JSON.stringify(obj);
 }
 
 function receiveMessage(message){
