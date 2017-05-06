@@ -98,6 +98,8 @@ std::list<HyphaBasePlugin *> PluginLoader::listPlugins(std::string dir) {
   boost::filesystem::directory_iterator dit(pluginsDir), eod;
   BOOST_FOREACH (boost::filesystem::path const &p, std::make_pair(dit, eod)) {
     if (boost::filesystem::is_regular_file(p)) {
+      // filter out javascript and python files
+      if (p.extension() == ".js" || p.extension() == ".py") continue;
       std::string fileName = boost::filesystem::absolute(p).string();
       try {
         loader.loadLibrary(fileName);
