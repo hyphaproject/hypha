@@ -60,7 +60,6 @@ TEST_F(database_test, CheckHyphaUserDatabase) {
 
     hypha::database::DatabaseGenerator dbg;
     try {
-      dbg.generateExampleDatabase(&dbs);
       dbg.generateExampleUserDatabase(&udbs);
     } catch (std::exception &e) {
       std::cout << e.what() << std::endl;

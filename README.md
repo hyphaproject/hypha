@@ -53,7 +53,7 @@ make clang-tidy
 run coverage:
 ```sh
 cmake -DOPTION_BUILD_TESTS=1 -DCMAKE_BUILD_TYPE=Coverage ..
-make hypha_coverage
+make hyphacore-test_coverage
 ```
 
 open coverate/index.html
