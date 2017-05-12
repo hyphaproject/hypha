@@ -29,6 +29,13 @@ class PLUGIN_API PluginLoader {
    */
   static std::list<HyphaBasePlugin *> listPlugins(std::string dir);
 
+  /**
+   * @brief getPluginStyle
+   * @param name the type of plugin
+   * @return string of stylesheet loaded from pluginname css file.
+   */
+  std::string getPluginStyle(std::string name);
+
   HyphaBasePlugin *getPlugin(std::string name);
   std::list<HyphaBasePlugin *> getPlugins();
 
@@ -36,10 +43,19 @@ class PLUGIN_API PluginLoader {
   HyphaBasePlugin *getPluginInstance(std::string id);
 
  protected:
+  /**
+   * @brief loadPluginStyle
+   * @param name the type of plugin
+   * @param dir the plugins directory
+   * @return string of css style sheet file content
+   */
+  std::string loadPluginStyle(std::string name, std::string dir);
+
   static PluginLoader *singleton;
 
   std::list<HyphaBasePlugin *> plugins;
   std::map<std::string, HyphaBasePlugin *> pluginInstances;
+  std::map<std::string, std::string> styles;
 
   hypha::settings::PluginSettings *settings;
   hypha::plugin::PluginFactory *factory;

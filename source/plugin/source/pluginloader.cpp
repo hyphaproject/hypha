@@ -1,12 +1,15 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 
 #include <hypha/plugin/pluginloader.h>
+
+#include <fstream>
+#include <mutex>
+#include <sstream>
 
 #include <Poco/ClassLoader.h>
 #include <Poco/Manifest.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
-#include <mutex>
 
 #include <hypha/core/settings/pluginsettings.h>
 #include <hypha/plugin/pluginfactory.h>
@@ -24,8 +27,6 @@ PluginLoader *PluginLoader::singleton = 0;
 PluginLoader::PluginLoader(hypha::settings::PluginSettings *settings) {
   this->settings = settings;
   this->factory = new hypha::plugin::PluginFactory(settings, this);
-  // loadPlugins(boost::filesystem::path(boost::filesystem::current_path())
-  //                .generic_string() + "/../plugins");
 }
 
 PluginLoader::~PluginLoader() {}
@@ -86,6 +87,7 @@ HyphaBasePlugin *PluginLoader::getPluginInstance(std::string id) {
 void PluginLoader::loadPlugins(std::string dir) {
   for (HyphaBasePlugin *plugin : listPlugins(dir)) {
     plugins.insert(plugins.end(), plugin);
+    styles[plugin->name()] = loadPluginStyle(plugin->name(), dir);
   }
 }
 
@@ -99,7 +101,9 @@ std::list<HyphaBasePlugin *> PluginLoader::listPlugins(std::string dir) {
   BOOST_FOREACH (boost::filesystem::path const &p, std::make_pair(dit, eod)) {
     if (boost::filesystem::is_regular_file(p)) {
       // filter out javascript and python files
-      if (p.extension() == ".js" || p.extension() == ".py") continue;
+      if (p.extension() == ".css" || p.extension() == ".js" ||
+          p.extension() == ".py")
+        continue;
       std::string fileName = boost::filesystem::absolute(p).string();
       try {
         loader.loadLibrary(fileName);
@@ -128,4 +132,17 @@ std::list<HyphaBasePlugin *> PluginLoader::listPlugins(std::string dir) {
     }
   }
   return plugins;
+}
+
+std::string PluginLoader::getPluginStyle(std::string name) {
+  return this->styles[name];
+}
+
+std::string PluginLoader::loadPluginStyle(std::string name, std::string dir) {
+  boost::filesystem::path styleFile(dir + "/" + name + ".css");
+  if (!boost::filesystem::exists(styleFile)) return "";
+  std::ifstream ifile(boost::filesystem::absolute(styleFile).string());
+  std::stringstream istream;
+  istream << ifile.rdbuf();
+  return istream.str();
 }
