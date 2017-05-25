@@ -28,11 +28,17 @@ void Connection::remove(std::string id) {
   statement.execute();
 }
 
+void Connection::removeConnections(std::string pluginId) {
+  for (std::string id : getConnections(pluginId)) {
+    remove(id);
+  }
+}
+
 std::list<std::tuple<std::string, std::string, std::string> >
 Connection::getConnections() {
   std::list<std::tuple<std::string, std::string, std::string> > connectionList;
   Poco::Data::Statement statement = database->getStatement();
-  statement << "SELECT `id`,`sender_id`,`receiver_id` FROM `connection`";
+  statement << "SELECT `id`,`sender_id`,`receiver_id` FROM `connection`;";
   statement.execute();
   Poco::Data::RecordSet rs(statement);
   bool more = rs.moveFirst();
@@ -44,6 +50,27 @@ Connection::getConnections() {
       connectionList.push_back(
           std::tuple<std::string, std::string, std::string>(id, senderId,
                                                             receiverId));
+    } catch (std::exception &ex) {
+      Logger::error(ex.what());
+    }
+    more = rs.moveNext();
+  }
+  return connectionList;
+}
+
+std::list<std::string> Connection::getConnections(std::string pluginId) {
+  std::list<std::string> connectionList;
+  Poco::Data::Statement statement = database->getStatement();
+  statement << "SELECT `id` FROM `connection` WHERE `sender_id` = ? OR "
+               "`receiver_id = ?`",
+      Poco::Data::Keywords::use(pluginId), Poco::Data::Keywords::use(pluginId);
+  statement.execute();
+  Poco::Data::RecordSet rs(statement);
+  bool more = rs.moveFirst();
+  while (more) {
+    try {
+      std::string id = rs[0].convert<std::string>();
+      connectionList.push_back(id);
     } catch (std::exception &ex) {
       Logger::error(ex.what());
     }

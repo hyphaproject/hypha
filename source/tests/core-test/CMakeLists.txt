@@ -15,6 +15,7 @@ message(STATUS "Test ${target}")
 set(sources
     main.cpp
     cache_test.cpp
+    controller_test.cpp
     core_test.cpp
     database_test.cpp
     settings_test.cpp
@@ -69,6 +70,7 @@ endif()
 target_link_libraries(${target}
     PRIVATE
     ${DEFAULT_LIBRARIES}
+    ${META_PROJECT_NAME}::controller
     ${META_PROJECT_NAME}::core
     libgmock
     ${libgcov}

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 #pragma once
 
 #include <list>
@@ -26,7 +26,27 @@ class CONTROLLER_API Connection {
    * @param id The ID of the connection
    */
   void remove(std::string id);
+
+  /**
+   * @brief removeConnections
+   * removes all connections of a plugin instance
+   * @param pluginId the id of plugin to remove all connections of.
+   */
+  void removeConnections(std::string pluginId);
+
+  /**
+   * @brief getConnections
+   * @return list of tuples containing connectionId, senderId and receiverId
+   */
   std::list<std::tuple<std::string, std::string, std::string>> getConnections();
+
+  /**
+   * @brief getConnections
+   * get all connections of plugin
+   * @param pluginId the plugins instance id
+   * @return list of plugin ids
+   */
+  std::list<std::string> getConnections(std::string pluginId);
 
  protected:
   hypha::database::Database *database = nullptr;

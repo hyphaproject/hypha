@@ -31,7 +31,13 @@ class CONTROLLER_API Plugin {
   void add(std::string id, std::string host, std::string type,
            std::string config);
 
+  /**
+   * @brief remove
+   * removes plugin instance from database
+   * @param id the plugin instance to remove
+   */
   void remove(std::string id);
+
   void updateConfig(std::string id, std::string config);
 
   template <typename Type>
