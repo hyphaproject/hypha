@@ -62,7 +62,7 @@ std::list<std::string> Connection::getConnections(std::string pluginId) {
   std::list<std::string> connectionList;
   Poco::Data::Statement statement = database->getStatement();
   statement << "SELECT `id` FROM `connection` WHERE `sender_id` = ? OR "
-               "`receiver_id = ?`",
+               "`receiver_id` = ?;",
       Poco::Data::Keywords::use(pluginId), Poco::Data::Keywords::use(pluginId);
   statement.execute();
   Poco::Data::RecordSet rs(statement);

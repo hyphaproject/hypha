@@ -21,6 +21,7 @@ class PLUGIN_API PluginLoader {
 
   void loadLocalInstances();
   void loadAllInstances();
+  void reloadAllInstances();
   void loadPlugins(std::string dir);
   /**
    * @brief listPlugins

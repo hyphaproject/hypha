@@ -61,6 +61,11 @@ void PluginLoader::loadAllInstances() {
   }
 }
 
+void PluginLoader::reloadAllInstances() {
+  pluginInstances.clear();
+  loadAllInstances();
+}
+
 HyphaBasePlugin *PluginLoader::getPlugin(std::string name) {
   for (HyphaBasePlugin *plugin : plugins) {
     if (plugin->name() == name) return plugin;
