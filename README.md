@@ -1,6 +1,7 @@
 # Hypha libraries
 [![Build Status][travis-image]][travis]
 [![Coverage_Status][coveralls-image]][coveralls]
+[![Coverity Scan Build Status][coverity-image]][coverity]
 [![Documentation][codedocs-image]][codedocs]
 [![Gitter][gitter-image]][gitter]
 
@@ -9,6 +10,9 @@
 
 [coveralls-image]: https://img.shields.io/coveralls/hyphaproject/hypha.svg?label=Coverage
 [coveralls]: https://coveralls.io/github/hyphaproject/hypha
+
+[coverity-image]: https://img.shields.io/coverity/scan/12794.svg
+[coverity]: https://scan.coverity.com/projects/hyphaproject-hypha
 
 [codedocs-image]: https://codedocs.xyz/hyphaproject/hypha.svg
 [codedocs]: https://codedocs.xyz/hyphaproject/hypha
