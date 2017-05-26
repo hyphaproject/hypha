@@ -9,7 +9,23 @@ compiler:
      - gcc
      - clang
 
+env:
+ global:
+  # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+  #   via the "travis encrypt" command using the project repo's public key
+  - secure: "PUY/SRJDZlnuJ6OUt+HpBpvRvUmpNPxqQeQZIUPKgSbSPQmLu7Llnz4yf7Plgkjcj5mKFhtTfiiQWV3eJulBliaWCxsgr6uzlaWd8gQ48a5EFYaoyI1oag8Dn9mlx7x++6a3F/RxS1mKxfaTbn3+Pfc+jYjzmpqXgTGy85H7b8xyPaCqBE34wR1gaQfFcLP/BhBm1q7pD20BgTKQ3XoyXq3Kod+PpSs829vuFnqhCpNZYt1GAx5q7p665SVVJcfVESwJK7ww3TayXvJuJGdwGzHisaQobqwOn//MJfMWwN9qZ3/NWeDHA6K4MW5Fa4BgD5zI17ZBoVKpYXdDBsBf/pKPlwQ2mnylzypO6GS/GXb3lS9HRgtwQtLuj0qD+p849TQtfA38pL+hLTSxg71a5QfSzdjTcAUALLhPjak8Jn1Cd/aJGdPEuCMlgCnoz7CInp/caVvdU5d/bSxq9uf31wZrCcVdLrGTkDDXMqNL7koWt9o3c/5Zx7gT4m/EW6mUyQmhxZ8qovlCLQCrWGfCWKWnMh9mtJ4d0WA1XZhautrNKlZwJdpm5ISc7KcoAvUawl0A1ITCizLwOf+vWm2Y26WYtYeBrJzqUM2zWWS61amjIQbxU44q8tTVKk8IkDr6Z6GIshF9SQ23Ec82DMc4yY64yu2pSMe09iO1mneRWCs="
+
+
 addons:
+ coverity_scan:
+    project:
+      name: "hyphaproject/hypha"
+      description: "Build submitted via Travis CI"
+    notification_email: chriamue@gmail.com
+    build_command_prepend: "cmake -DOPTION_BUILD_TESTS=1 -DCMAKE_BUILD_TYPE=Debug ."
+    build_command:   "cmake --build ."
+    branch_pattern: coverity_scan
+
  apt:
   sources:
    - ubuntu-toolchain-r-test
@@ -35,6 +51,9 @@ addons:
    - dvipng
    - texlive-latex-recommended
    - texlive-full
+
+before_install:
+ - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install:
  - sudo pip install cpp-coveralls
