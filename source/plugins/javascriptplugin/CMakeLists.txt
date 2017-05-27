@@ -202,6 +202,16 @@ add_custom_command(TARGET ${target} POST_BUILD
 )
 
 #
+# Target Health
+#
+
+perform_health_checks(
+    ${target}
+    ${sources}
+    ${headers}
+)
+
+#
 # Deployment
 #
 
