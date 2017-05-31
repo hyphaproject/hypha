@@ -19,6 +19,7 @@ void ConfigGenerator::generateConfigFile(std::string filename) {
   settings->setString("database.database", dbDatabase);
   settings->setString("database.driver", dbDriver);
   settings->setString("database.host", dbHost);
+  settings->setInt("database.port", dbPort);
   settings->setString("database.username", dbUsername);
   settings->setString("database.password", dbPassword);
 
@@ -26,6 +27,7 @@ void ConfigGenerator::generateConfigFile(std::string filename) {
   settings->setString("userdatabase.database", udbDatabase);
   settings->setString("userdatabase.driver", udbDriver);
   settings->setString("userdatabase.host", udbHost);
+  settings->setInt("userdatabase.port", udbPort);
   settings->setString("userdatabase.username", udbUsername);
   settings->setString("userdatabase.password", udbPassword);
   settings->setString("userdatabase.table", udbTable);

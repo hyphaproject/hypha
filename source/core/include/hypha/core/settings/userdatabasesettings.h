@@ -23,6 +23,7 @@ class CORE_API UserDatabaseSettings {
 
   std::string getDriver();
   std::string getHost();
+  int getPort();
   std::string getDatabase();
   std::string getUser();
   std::string getPassword();

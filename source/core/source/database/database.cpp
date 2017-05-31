@@ -122,10 +122,12 @@ bool Database::connect() {
   DatabaseSettings *dbs = databaseSettings;
 
   if (dbs->getDriver() == "MySQL") {
-    std::string connectStr = "host=" + dbs->getHost() + ";user=" +
-                             dbs->getUser() + ";password=" +
-                             dbs->getPassword() + ";db=" + dbs->getDatabase() +
-                             ";auto-reconnect=true";
+    std::string connectStr =
+        "host=" + dbs->getHost() +
+        ((dbs->getPort() == 0) ? ""
+                               : (";port=" + std::to_string(dbs->getPort()))) +
+        ";user=" + dbs->getUser() + ";password=" + dbs->getPassword() + ";db=" +
+        dbs->getDatabase() + ";auto-reconnect=true";
     pool = new Poco::Data::SessionPool(dbs->getDriver(), connectStr);
 
   } else if (dbs->getDriver() == "SQLite") {

@@ -44,6 +44,8 @@ std::string DatabaseSettings::getHost() {
   return getString("host", "localhost");
 }
 
+int DatabaseSettings::getPort() { return getInt("port", 0); }
+
 std::string DatabaseSettings::getDatabase() {
   return getString("database", ":memory:");
 }

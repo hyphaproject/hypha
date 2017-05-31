@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Hypha
+// Copyright (c) 2015-2017 Hypha
 #pragma once
 
 #include <hypha/core/core_api.h>
@@ -15,6 +15,7 @@ class CORE_API ConfigGenerator {
   std::string dbDatabase = "hypha.db";
   std::string dbDriver = "SQLite";
   std::string dbHost = "localhost";
+  int dbPort = 0;
   std::string dbPassword = "password";
   std::string dbUsername = "hypha";
 
@@ -27,6 +28,7 @@ class CORE_API ConfigGenerator {
   std::string udbDatabase = "hypha.db";
   std::string udbDriver = "SQLite";
   std::string udbHost = "localhost";
+  int udbPort = 0;
   std::string udbPassword = "password";
   std::string udbTable = "user";
   std::string udbUsername = "hypha";

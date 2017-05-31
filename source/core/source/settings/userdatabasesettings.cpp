@@ -48,6 +48,8 @@ std::string UserDatabaseSettings::getHost() {
   return getString("host", "localhost");
 }
 
+int UserDatabaseSettings::getPort() { return getInt("port", 0); }
+
 std::string UserDatabaseSettings::getDatabase() {
   return getString("database", "dc=blechuhr");
 }

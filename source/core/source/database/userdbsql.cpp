@@ -30,10 +30,14 @@ bool UserDBSql::connect() {
   Poco::Data::SQLite::Connector::registerConnector();
 
   if (settings->getDriver() == "MySQL") {
-    std::string connectStr = "host=" + settings->getHost() + ";user=" +
-                             settings->getUser() + ";password=" +
-                             settings->getPassword() + ";db=" +
-                             settings->getDatabase() + ";auto-reconnect=true";
+    std::string connectStr =
+        "host=" + settings->getHost() +
+        ((settings->getPort() == 0)
+             ? ""
+             : (";port=" + std::to_string(settings->getPort()))) +
+        ";user=" + settings->getUser() + ";password=" +
+        settings->getPassword() + ";db=" + settings->getDatabase() +
+        ";auto-reconnect=true";
     pool = new Poco::Data::SessionPool(settings->getDriver(), connectStr);
 
   } else if (settings->getDriver() == "SQLite") {
