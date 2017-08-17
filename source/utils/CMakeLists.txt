@@ -34,11 +34,13 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
 ${include_path}/email.h
 ${include_path}/logger.h
+${include_path}/namesystem.h
 )
 
 set(sources
 ${source_path}/email.cpp
 ${source_path}/logger.cpp
+${source_path}/namesystem.cpp
 )
 
 # Group source files
