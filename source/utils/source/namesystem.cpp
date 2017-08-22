@@ -32,6 +32,11 @@ void NameSystem::start() {
 
 void NameSystem::stop() { running = false; }
 
+std::string NameSystem::toIP(std::string &str)
+{
+    return hostnameToIP(str);
+}
+
 std::string NameSystem::hostnameToIP(std::string hostname) {
   if (ipCache.find(hostname) == ipCache.end()) {
     Poco::Net::IPAddress address = Poco::Net::DNS::resolveOne(hostname);

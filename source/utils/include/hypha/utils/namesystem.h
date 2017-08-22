@@ -39,6 +39,15 @@ class UTILS_API NameSystem : public Poco::Runnable {
   void stop();
 
   /**
+   * @brief toIP
+   * Looks up hostname or publicKey and returns an ip.
+   * @param str
+   * @return
+   * ip as string
+   */
+  std::string toIP(std::string &str);
+
+  /**
    * @brief hostnameToIP
    * gets ip by hostname
    * @param hostname
