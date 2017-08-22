@@ -45,7 +45,7 @@ class UTILS_API NameSystem : public Poco::Runnable {
    * @return
    * ip as string
    */
-  std::string toIP(std::string &str);
+  std::string toIP(std::string str);
 
   /**
    * @brief hostnameToIP

@@ -32,7 +32,7 @@ void NameSystem::start() {
 
 void NameSystem::stop() { running = false; }
 
-std::string NameSystem::toIP(std::string &str)
+std::string NameSystem::toIP(std::string str)
 {
     return hostnameToIP(str);
 }
